@@ -3,6 +3,8 @@
 ## Contract Address
 `0x3EE8376AC2Ce744D37d9035d492c9b34CED4eDAe`  
 Flare Coston2 Explorer: https://coston2-explorer.flare.network/address/0x3EE8376AC2Ce744D37d9035d492c9b34CED4eDAe
+<img width="1511" height="859" alt="Screenshot 2025-11-28 at 1 50 36 PM" src="https://github.com/user-attachments/assets/5577468a-e606-4308-8c9c-f5857d8bb42e" />
+
 
 ---
 
