@@ -1,0 +1,15455 @@
+(globalThis.TURBOPACK || (globalThis.TURBOPACK = [])).push([typeof document === "object" ? document.currentScript : undefined,
+"[project]/giftpicker/node_modules/viem/_esm/utils/unit/formatUnits.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/**
+ *  Divides a number by a given exponent of base 10 (10exponent), and formats it into a string representation of the number..
+ *
+ * - Docs: https://viem.sh/docs/utilities/formatUnits
+ *
+ * @example
+ * import { formatUnits } from 'viem'
+ *
+ * formatUnits(420000000000n, 9)
+ * // '420'
+ */ __turbopack_context__.s([
+    "formatUnits",
+    ()=>formatUnits
+]);
+function formatUnits(value, decimals) {
+    let display = value.toString();
+    const negative = display.startsWith('-');
+    if (negative) display = display.slice(1);
+    display = display.padStart(decimals, '0');
+    let [integer, fraction] = [
+        display.slice(0, display.length - decimals),
+        display.slice(display.length - decimals)
+    ];
+    fraction = fraction.replace(/(0+)$/, '');
+    return "".concat(negative ? '-' : '').concat(integer || '0').concat(fraction ? ".".concat(fraction) : '');
+} //# sourceMappingURL=formatUnits.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/version.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "version",
+    ()=>version
+]);
+const version = '2.40.3'; //# sourceMappingURL=version.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "BaseError",
+    ()=>BaseError,
+    "setErrorConfig",
+    ()=>setErrorConfig
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$version$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/version.js [app-client] (ecmascript)");
+;
+let errorConfig = {
+    getDocsUrl: (param)=>{
+        let { docsBaseUrl, docsPath = '', docsSlug } = param;
+        return docsPath ? "".concat(docsBaseUrl !== null && docsBaseUrl !== void 0 ? docsBaseUrl : 'https://viem.sh').concat(docsPath).concat(docsSlug ? "#".concat(docsSlug) : '') : undefined;
+    },
+    version: "viem@".concat(__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$version$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["version"])
+};
+function setErrorConfig(config) {
+    errorConfig = config;
+}
+class BaseError extends Error {
+    walk(fn) {
+        return walk(this, fn);
+    }
+    constructor(shortMessage, args = {}){
+        var _errorConfig_getDocsUrl;
+        const details = (()=>{
+            var _args_cause;
+            if (args.cause instanceof BaseError) return args.cause.details;
+            if ((_args_cause = args.cause) === null || _args_cause === void 0 ? void 0 : _args_cause.message) return args.cause.message;
+            return args.details;
+        })();
+        const docsPath = (()=>{
+            if (args.cause instanceof BaseError) return args.cause.docsPath || args.docsPath;
+            return args.docsPath;
+        })();
+        const docsUrl = (_errorConfig_getDocsUrl = errorConfig.getDocsUrl) === null || _errorConfig_getDocsUrl === void 0 ? void 0 : _errorConfig_getDocsUrl.call(errorConfig, {
+            ...args,
+            docsPath
+        });
+        const message = [
+            shortMessage || 'An error occurred.',
+            '',
+            ...args.metaMessages ? [
+                ...args.metaMessages,
+                ''
+            ] : [],
+            ...docsUrl ? [
+                "Docs: ".concat(docsUrl)
+            ] : [],
+            ...details ? [
+                "Details: ".concat(details)
+            ] : [],
+            ...errorConfig.version ? [
+                "Version: ".concat(errorConfig.version)
+            ] : []
+        ].join('\n');
+        super(message, args.cause ? {
+            cause: args.cause
+        } : undefined);
+        Object.defineProperty(this, "details", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "docsPath", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "metaMessages", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "shortMessage", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "version", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "name", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 'BaseError'
+        });
+        this.details = details;
+        this.docsPath = docsPath;
+        this.metaMessages = args.metaMessages;
+        var _args_name;
+        this.name = (_args_name = args.name) !== null && _args_name !== void 0 ? _args_name : this.name;
+        this.shortMessage = shortMessage;
+        this.version = __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$version$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["version"];
+    }
+}
+function walk(err, fn) {
+    if (fn === null || fn === void 0 ? void 0 : fn(err)) return err;
+    if (err && typeof err === 'object' && 'cause' in err && err.cause !== undefined) return walk(err.cause, fn);
+    return fn ? null : err;
+} //# sourceMappingURL=base.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/encoding.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "IntegerOutOfRangeError",
+    ()=>IntegerOutOfRangeError,
+    "InvalidBytesBooleanError",
+    ()=>InvalidBytesBooleanError,
+    "InvalidHexBooleanError",
+    ()=>InvalidHexBooleanError,
+    "InvalidHexValueError",
+    ()=>InvalidHexValueError,
+    "SizeOverflowError",
+    ()=>SizeOverflowError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+class IntegerOutOfRangeError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ max, min, signed, size, value }){
+        super('Number "'.concat(value, '" is not in safe ').concat(size ? "".concat(size * 8, "-bit ").concat(signed ? 'signed' : 'unsigned', " ") : '', "integer range ").concat(max ? "(".concat(min, " to ").concat(max, ")") : "(above ".concat(min, ")")), {
+            name: 'IntegerOutOfRangeError'
+        });
+    }
+}
+class InvalidBytesBooleanError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(bytes){
+        super('Bytes value "'.concat(bytes, '" is not a valid boolean. The bytes array must contain a single byte of either a 0 or 1 value.'), {
+            name: 'InvalidBytesBooleanError'
+        });
+    }
+}
+class InvalidHexBooleanError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(hex){
+        super('Hex value "'.concat(hex, '" is not a valid boolean. The hex value must be "0x0" (false) or "0x1" (true).'), {
+            name: 'InvalidHexBooleanError'
+        });
+    }
+}
+class InvalidHexValueError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(value){
+        super('Hex value "'.concat(value, '" is an odd length (').concat(value.length, "). It must be an even length."), {
+            name: 'InvalidHexValueError'
+        });
+    }
+}
+class SizeOverflowError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ givenSize, maxSize }){
+        super("Size cannot exceed ".concat(maxSize, " bytes. Given size: ").concat(givenSize, " bytes."), {
+            name: 'SizeOverflowError'
+        });
+    }
+} //# sourceMappingURL=encoding.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/data/isHex.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "isHex",
+    ()=>isHex
+]);
+function isHex(value) {
+    let { strict = true } = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    if (!value) return false;
+    if (typeof value !== 'string') return false;
+    return strict ? /^0x[0-9a-fA-F]*$/.test(value) : value.startsWith('0x');
+} //# sourceMappingURL=isHex.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/data/size.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "size",
+    ()=>size
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/isHex.js [app-client] (ecmascript)");
+;
+function size(value) {
+    if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isHex"])(value, {
+        strict: false
+    })) return Math.ceil((value.length - 2) / 2);
+    return value.length;
+} //# sourceMappingURL=size.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/data/trim.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "trim",
+    ()=>trim
+]);
+function trim(hexOrBytes) {
+    let { dir = 'left' } = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    let data = typeof hexOrBytes === 'string' ? hexOrBytes.replace('0x', '') : hexOrBytes;
+    let sliceLength = 0;
+    for(let i = 0; i < data.length - 1; i++){
+        if (data[dir === 'left' ? i : data.length - i - 1].toString() === '0') sliceLength++;
+        else break;
+    }
+    data = dir === 'left' ? data.slice(sliceLength) : data.slice(0, data.length - sliceLength);
+    if (typeof hexOrBytes === 'string') {
+        if (data.length === 1 && dir === 'right') data = "".concat(data, "0");
+        return "0x".concat(data.length % 2 === 1 ? "0".concat(data) : data);
+    }
+    return data;
+} //# sourceMappingURL=trim.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/data.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "InvalidBytesLengthError",
+    ()=>InvalidBytesLengthError,
+    "SizeExceedsPaddingSizeError",
+    ()=>SizeExceedsPaddingSizeError,
+    "SliceOffsetOutOfBoundsError",
+    ()=>SliceOffsetOutOfBoundsError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+class SliceOffsetOutOfBoundsError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ offset, position, size }){
+        super("Slice ".concat(position === 'start' ? 'starting' : 'ending', ' at offset "').concat(offset, '" is out-of-bounds (size: ').concat(size, ")."), {
+            name: 'SliceOffsetOutOfBoundsError'
+        });
+    }
+}
+class SizeExceedsPaddingSizeError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ size, targetSize, type }){
+        super("".concat(type.charAt(0).toUpperCase()).concat(type.slice(1).toLowerCase(), " size (").concat(size, ") exceeds padding size (").concat(targetSize, ")."), {
+            name: 'SizeExceedsPaddingSizeError'
+        });
+    }
+}
+class InvalidBytesLengthError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ size, targetSize, type }){
+        super("".concat(type.charAt(0).toUpperCase()).concat(type.slice(1).toLowerCase(), " is expected to be ").concat(targetSize, " ").concat(type, " long, but is ").concat(size, " ").concat(type, " long."), {
+            name: 'InvalidBytesLengthError'
+        });
+    }
+} //# sourceMappingURL=data.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/data/pad.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "pad",
+    ()=>pad,
+    "padBytes",
+    ()=>padBytes,
+    "padHex",
+    ()=>padHex
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$data$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/data.js [app-client] (ecmascript)");
+;
+function pad(hexOrBytes) {
+    let { dir, size = 32 } = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    if (typeof hexOrBytes === 'string') return padHex(hexOrBytes, {
+        dir,
+        size
+    });
+    return padBytes(hexOrBytes, {
+        dir,
+        size
+    });
+}
+function padHex(hex_) {
+    let { dir, size = 32 } = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    if (size === null) return hex_;
+    const hex = hex_.replace('0x', '');
+    if (hex.length > size * 2) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$data$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SizeExceedsPaddingSizeError"]({
+        size: Math.ceil(hex.length / 2),
+        targetSize: size,
+        type: 'hex'
+    });
+    return "0x".concat(hex[dir === 'right' ? 'padEnd' : 'padStart'](size * 2, '0'));
+}
+function padBytes(bytes) {
+    let { dir, size = 32 } = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    if (size === null) return bytes;
+    if (bytes.length > size) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$data$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SizeExceedsPaddingSizeError"]({
+        size: bytes.length,
+        targetSize: size,
+        type: 'bytes'
+    });
+    const paddedBytes = new Uint8Array(size);
+    for(let i = 0; i < size; i++){
+        const padEnd = dir === 'right';
+        paddedBytes[padEnd ? i : size - i - 1] = bytes[padEnd ? i : bytes.length - i - 1];
+    }
+    return paddedBytes;
+} //# sourceMappingURL=pad.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "boolToHex",
+    ()=>boolToHex,
+    "bytesToHex",
+    ()=>bytesToHex,
+    "numberToHex",
+    ()=>numberToHex,
+    "stringToHex",
+    ()=>stringToHex,
+    "toHex",
+    ()=>toHex
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$encoding$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/encoding.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$pad$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/pad.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/fromHex.js [app-client] (ecmascript)");
+;
+;
+;
+const hexes = /*#__PURE__*/ Array.from({
+    length: 256
+}, (_v, i)=>i.toString(16).padStart(2, '0'));
+function toHex(value) {
+    let opts = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    if (typeof value === 'number' || typeof value === 'bigint') return numberToHex(value, opts);
+    if (typeof value === 'string') {
+        return stringToHex(value, opts);
+    }
+    if (typeof value === 'boolean') return boolToHex(value, opts);
+    return bytesToHex(value, opts);
+}
+function boolToHex(value) {
+    let opts = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    const hex = "0x".concat(Number(value));
+    if (typeof opts.size === 'number') {
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assertSize"])(hex, {
+            size: opts.size
+        });
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$pad$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["pad"])(hex, {
+            size: opts.size
+        });
+    }
+    return hex;
+}
+function bytesToHex(value) {
+    let opts = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    let string = '';
+    for(let i = 0; i < value.length; i++){
+        string += hexes[value[i]];
+    }
+    const hex = "0x".concat(string);
+    if (typeof opts.size === 'number') {
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assertSize"])(hex, {
+            size: opts.size
+        });
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$pad$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["pad"])(hex, {
+            dir: 'right',
+            size: opts.size
+        });
+    }
+    return hex;
+}
+function numberToHex(value_) {
+    let opts = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    const { signed, size } = opts;
+    const value = BigInt(value_);
+    let maxValue;
+    if (size) {
+        if (signed) maxValue = (1n << BigInt(size) * 8n - 1n) - 1n;
+        else maxValue = 2n ** (BigInt(size) * 8n) - 1n;
+    } else if (typeof value_ === 'number') {
+        maxValue = BigInt(Number.MAX_SAFE_INTEGER);
+    }
+    const minValue = typeof maxValue === 'bigint' && signed ? -maxValue - 1n : 0;
+    if (maxValue && value > maxValue || value < minValue) {
+        const suffix = typeof value_ === 'bigint' ? 'n' : '';
+        throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$encoding$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["IntegerOutOfRangeError"]({
+            max: maxValue ? "".concat(maxValue).concat(suffix) : undefined,
+            min: "".concat(minValue).concat(suffix),
+            signed,
+            size,
+            value: "".concat(value_).concat(suffix)
+        });
+    }
+    const hex = "0x".concat((signed && value < 0 ? (1n << BigInt(size * 8)) + BigInt(value) : value).toString(16));
+    if (size) return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$pad$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["pad"])(hex, {
+        size
+    });
+    return hex;
+}
+const encoder = /*#__PURE__*/ new TextEncoder();
+function stringToHex(value_) {
+    let opts = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    const value = encoder.encode(value_);
+    return bytesToHex(value, opts);
+} //# sourceMappingURL=toHex.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toBytes.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "boolToBytes",
+    ()=>boolToBytes,
+    "hexToBytes",
+    ()=>hexToBytes,
+    "numberToBytes",
+    ()=>numberToBytes,
+    "stringToBytes",
+    ()=>stringToBytes,
+    "toBytes",
+    ()=>toBytes
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/isHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$pad$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/pad.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/fromHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+const encoder = /*#__PURE__*/ new TextEncoder();
+function toBytes(value) {
+    let opts = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    if (typeof value === 'number' || typeof value === 'bigint') return numberToBytes(value, opts);
+    if (typeof value === 'boolean') return boolToBytes(value, opts);
+    if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isHex"])(value)) return hexToBytes(value, opts);
+    return stringToBytes(value, opts);
+}
+function boolToBytes(value) {
+    let opts = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    const bytes = new Uint8Array(1);
+    bytes[0] = Number(value);
+    if (typeof opts.size === 'number') {
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assertSize"])(bytes, {
+            size: opts.size
+        });
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$pad$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["pad"])(bytes, {
+            size: opts.size
+        });
+    }
+    return bytes;
+}
+// We use very optimized technique to convert hex string to byte array
+const charCodeMap = {
+    zero: 48,
+    nine: 57,
+    A: 65,
+    F: 70,
+    a: 97,
+    f: 102
+};
+function charCodeToBase16(char) {
+    if (char >= charCodeMap.zero && char <= charCodeMap.nine) return char - charCodeMap.zero;
+    if (char >= charCodeMap.A && char <= charCodeMap.F) return char - (charCodeMap.A - 10);
+    if (char >= charCodeMap.a && char <= charCodeMap.f) return char - (charCodeMap.a - 10);
+    return undefined;
+}
+function hexToBytes(hex_) {
+    let opts = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    let hex = hex_;
+    if (opts.size) {
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assertSize"])(hex, {
+            size: opts.size
+        });
+        hex = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$pad$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["pad"])(hex, {
+            dir: 'right',
+            size: opts.size
+        });
+    }
+    let hexString = hex.slice(2);
+    if (hexString.length % 2) hexString = "0".concat(hexString);
+    const length = hexString.length / 2;
+    const bytes = new Uint8Array(length);
+    for(let index = 0, j = 0; index < length; index++){
+        const nibbleLeft = charCodeToBase16(hexString.charCodeAt(j++));
+        const nibbleRight = charCodeToBase16(hexString.charCodeAt(j++));
+        if (nibbleLeft === undefined || nibbleRight === undefined) {
+            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"]('Invalid byte sequence ("'.concat(hexString[j - 2]).concat(hexString[j - 1], '" in "').concat(hexString, '").'));
+        }
+        bytes[index] = nibbleLeft * 16 + nibbleRight;
+    }
+    return bytes;
+}
+function numberToBytes(value, opts) {
+    const hex = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(value, opts);
+    return hexToBytes(hex);
+}
+function stringToBytes(value) {
+    let opts = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    const bytes = encoder.encode(value);
+    if (typeof opts.size === 'number') {
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assertSize"])(bytes, {
+            size: opts.size
+        });
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$pad$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["pad"])(bytes, {
+            dir: 'right',
+            size: opts.size
+        });
+    }
+    return bytes;
+} //# sourceMappingURL=toBytes.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/encoding/fromHex.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "assertSize",
+    ()=>assertSize,
+    "fromHex",
+    ()=>fromHex,
+    "hexToBigInt",
+    ()=>hexToBigInt,
+    "hexToBool",
+    ()=>hexToBool,
+    "hexToNumber",
+    ()=>hexToNumber,
+    "hexToString",
+    ()=>hexToString
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$encoding$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/encoding.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/size.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$trim$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/trim.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toBytes.js [app-client] (ecmascript)");
+;
+;
+;
+;
+function assertSize(hexOrBytes, param) {
+    let { size } = param;
+    if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(hexOrBytes) > size) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$encoding$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SizeOverflowError"]({
+        givenSize: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(hexOrBytes),
+        maxSize: size
+    });
+}
+function fromHex(hex, toOrOpts) {
+    const opts = typeof toOrOpts === 'string' ? {
+        to: toOrOpts
+    } : toOrOpts;
+    const to = opts.to;
+    if (to === 'number') return hexToNumber(hex, opts);
+    if (to === 'bigint') return hexToBigInt(hex, opts);
+    if (to === 'string') return hexToString(hex, opts);
+    if (to === 'boolean') return hexToBool(hex, opts);
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBytes"])(hex, opts);
+}
+function hexToBigInt(hex) {
+    let opts = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    const { signed } = opts;
+    if (opts.size) assertSize(hex, {
+        size: opts.size
+    });
+    const value = BigInt(hex);
+    if (!signed) return value;
+    const size = (hex.length - 2) / 2;
+    const max = (1n << BigInt(size) * 8n - 1n) - 1n;
+    if (value <= max) return value;
+    return value - BigInt("0x".concat('f'.padStart(size * 2, 'f'))) - 1n;
+}
+function hexToBool(hex_) {
+    let opts = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    let hex = hex_;
+    if (opts.size) {
+        assertSize(hex, {
+            size: opts.size
+        });
+        hex = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$trim$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["trim"])(hex);
+    }
+    if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$trim$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["trim"])(hex) === '0x00') return false;
+    if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$trim$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["trim"])(hex) === '0x01') return true;
+    throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$encoding$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidHexBooleanError"](hex);
+}
+function hexToNumber(hex) {
+    let opts = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    return Number(hexToBigInt(hex, opts));
+}
+function hexToString(hex) {
+    let opts = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    let bytes = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBytes"])(hex);
+    if (opts.size) {
+        assertSize(bytes, {
+            size: opts.size
+        });
+        bytes = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$trim$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["trim"])(bytes, {
+            dir: 'right'
+        });
+    }
+    return new TextDecoder().decode(bytes);
+} //# sourceMappingURL=fromHex.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getBalance.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getBalance",
+    ()=>getBalance
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+;
+var _client_experimental_blockTag;
+async function getBalance(client, param) {
+    let { address, blockNumber, blockTag = (_client_experimental_blockTag = client.experimental_blockTag) !== null && _client_experimental_blockTag !== void 0 ? _client_experimental_blockTag : 'latest' } = param;
+    const blockNumberHex = typeof blockNumber === 'bigint' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(blockNumber) : undefined;
+    const balance = await client.request({
+        method: 'eth_getBalance',
+        params: [
+            address,
+            blockNumberHex || blockTag
+        ]
+    });
+    return BigInt(balance);
+} //# sourceMappingURL=getBalance.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/constants/unit.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "etherUnits",
+    ()=>etherUnits,
+    "gweiUnits",
+    ()=>gweiUnits,
+    "weiUnits",
+    ()=>weiUnits
+]);
+const etherUnits = {
+    gwei: 9,
+    wei: 18
+};
+const gweiUnits = {
+    ether: -9,
+    wei: 9
+};
+const weiUnits = {
+    ether: -18,
+    gwei: -9
+}; //# sourceMappingURL=unit.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/accounts/utils/parseAccount.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "parseAccount",
+    ()=>parseAccount
+]);
+function parseAccount(account) {
+    if (typeof account === 'string') return {
+        address: account,
+        type: 'json-rpc'
+    };
+    return account;
+} //# sourceMappingURL=parseAccount.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/constants/solidity.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+// https://docs.soliditylang.org/en/v0.8.16/control-structures.html#panic-via-assert-and-error-via-require
+__turbopack_context__.s([
+    "panicReasons",
+    ()=>panicReasons,
+    "solidityError",
+    ()=>solidityError,
+    "solidityPanic",
+    ()=>solidityPanic
+]);
+const panicReasons = {
+    1: 'An `assert` condition failed.',
+    17: 'Arithmetic operation resulted in underflow or overflow.',
+    18: 'Division or modulo by zero (e.g. `5 / 0` or `23 % 0`).',
+    33: 'Attempted to convert to an invalid type.',
+    34: 'Attempted to access a storage byte array that is incorrectly encoded.',
+    49: 'Performed `.pop()` on an empty array',
+    50: 'Array index is out of bounds.',
+    65: 'Allocated too much memory or created an array which is too large.',
+    81: 'Attempted to call a zero-initialized variable of internal function type.'
+};
+const solidityError = {
+    inputs: [
+        {
+            name: 'message',
+            type: 'string'
+        }
+    ],
+    name: 'Error',
+    type: 'error'
+};
+const solidityPanic = {
+    inputs: [
+        {
+            name: 'reason',
+            type: 'uint256'
+        }
+    ],
+    name: 'Panic',
+    type: 'error'
+}; //# sourceMappingURL=solidity.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/abi/formatAbiItem.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "formatAbiItem",
+    ()=>formatAbiItem,
+    "formatAbiParams",
+    ()=>formatAbiParams
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+;
+function formatAbiItem(abiItem) {
+    let { includeName = false } = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    if (abiItem.type !== 'function' && abiItem.type !== 'event' && abiItem.type !== 'error') throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidDefinitionTypeError"](abiItem.type);
+    return "".concat(abiItem.name, "(").concat(formatAbiParams(abiItem.inputs, {
+        includeName
+    }), ")");
+}
+function formatAbiParams(params) {
+    let { includeName = false } = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    if (!params) return '';
+    return params.map((param)=>formatAbiParam(param, {
+            includeName
+        })).join(includeName ? ', ' : ',');
+}
+function formatAbiParam(param, param1) {
+    let { includeName } = param1;
+    if (param.type.startsWith('tuple')) {
+        return "(".concat(formatAbiParams(param.components, {
+            includeName
+        }), ")").concat(param.type.slice('tuple'.length));
+    }
+    return param.type + (includeName && param.name ? " ".concat(param.name) : '');
+} //# sourceMappingURL=formatAbiItem.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "AbiConstructorNotFoundError",
+    ()=>AbiConstructorNotFoundError,
+    "AbiConstructorParamsNotFoundError",
+    ()=>AbiConstructorParamsNotFoundError,
+    "AbiDecodingDataSizeInvalidError",
+    ()=>AbiDecodingDataSizeInvalidError,
+    "AbiDecodingDataSizeTooSmallError",
+    ()=>AbiDecodingDataSizeTooSmallError,
+    "AbiDecodingZeroDataError",
+    ()=>AbiDecodingZeroDataError,
+    "AbiEncodingArrayLengthMismatchError",
+    ()=>AbiEncodingArrayLengthMismatchError,
+    "AbiEncodingBytesSizeMismatchError",
+    ()=>AbiEncodingBytesSizeMismatchError,
+    "AbiEncodingLengthMismatchError",
+    ()=>AbiEncodingLengthMismatchError,
+    "AbiErrorInputsNotFoundError",
+    ()=>AbiErrorInputsNotFoundError,
+    "AbiErrorNotFoundError",
+    ()=>AbiErrorNotFoundError,
+    "AbiErrorSignatureNotFoundError",
+    ()=>AbiErrorSignatureNotFoundError,
+    "AbiEventNotFoundError",
+    ()=>AbiEventNotFoundError,
+    "AbiEventSignatureEmptyTopicsError",
+    ()=>AbiEventSignatureEmptyTopicsError,
+    "AbiEventSignatureNotFoundError",
+    ()=>AbiEventSignatureNotFoundError,
+    "AbiFunctionNotFoundError",
+    ()=>AbiFunctionNotFoundError,
+    "AbiFunctionOutputsNotFoundError",
+    ()=>AbiFunctionOutputsNotFoundError,
+    "AbiFunctionSignatureNotFoundError",
+    ()=>AbiFunctionSignatureNotFoundError,
+    "AbiItemAmbiguityError",
+    ()=>AbiItemAmbiguityError,
+    "BytesSizeMismatchError",
+    ()=>BytesSizeMismatchError,
+    "DecodeLogDataMismatch",
+    ()=>DecodeLogDataMismatch,
+    "DecodeLogTopicsMismatch",
+    ()=>DecodeLogTopicsMismatch,
+    "InvalidAbiDecodingTypeError",
+    ()=>InvalidAbiDecodingTypeError,
+    "InvalidAbiEncodingTypeError",
+    ()=>InvalidAbiEncodingTypeError,
+    "InvalidArrayError",
+    ()=>InvalidArrayError,
+    "InvalidDefinitionTypeError",
+    ()=>InvalidDefinitionTypeError,
+    "UnsupportedPackedAbiType",
+    ()=>UnsupportedPackedAbiType
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/formatAbiItem.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/size.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+;
+;
+class AbiConstructorNotFoundError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ docsPath }){
+        super([
+            'A constructor was not found on the ABI.',
+            'Make sure you are using the correct ABI and that the constructor exists on it.'
+        ].join('\n'), {
+            docsPath,
+            name: 'AbiConstructorNotFoundError'
+        });
+    }
+}
+class AbiConstructorParamsNotFoundError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ docsPath }){
+        super([
+            'Constructor arguments were provided (`args`), but a constructor parameters (`inputs`) were not found on the ABI.',
+            'Make sure you are using the correct ABI, and that the `inputs` attribute on the constructor exists.'
+        ].join('\n'), {
+            docsPath,
+            name: 'AbiConstructorParamsNotFoundError'
+        });
+    }
+}
+class AbiDecodingDataSizeInvalidError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ data, size }){
+        super([
+            "Data size of ".concat(size, " bytes is invalid."),
+            'Size must be in increments of 32 bytes (size % 32 === 0).'
+        ].join('\n'), {
+            metaMessages: [
+                "Data: ".concat(data, " (").concat(size, " bytes)")
+            ],
+            name: 'AbiDecodingDataSizeInvalidError'
+        });
+    }
+}
+class AbiDecodingDataSizeTooSmallError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ data, params, size }){
+        super([
+            "Data size of ".concat(size, " bytes is too small for given parameters.")
+        ].join('\n'), {
+            metaMessages: [
+                "Params: (".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatAbiParams"])(params, {
+                    includeName: true
+                }), ")"),
+                "Data:   ".concat(data, " (").concat(size, " bytes)")
+            ],
+            name: 'AbiDecodingDataSizeTooSmallError'
+        });
+        Object.defineProperty(this, "data", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "params", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "size", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.data = data;
+        this.params = params;
+        this.size = size;
+    }
+}
+class AbiDecodingZeroDataError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(){
+        super('Cannot decode zero data ("0x") with ABI parameters.', {
+            name: 'AbiDecodingZeroDataError'
+        });
+    }
+}
+class AbiEncodingArrayLengthMismatchError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ expectedLength, givenLength, type }){
+        super([
+            "ABI encoding array length mismatch for type ".concat(type, "."),
+            "Expected length: ".concat(expectedLength),
+            "Given length: ".concat(givenLength)
+        ].join('\n'), {
+            name: 'AbiEncodingArrayLengthMismatchError'
+        });
+    }
+}
+class AbiEncodingBytesSizeMismatchError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ expectedSize, value }){
+        super('Size of bytes "'.concat(value, '" (bytes').concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(value), ") does not match expected size (bytes").concat(expectedSize, ")."), {
+            name: 'AbiEncodingBytesSizeMismatchError'
+        });
+    }
+}
+class AbiEncodingLengthMismatchError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ expectedLength, givenLength }){
+        super([
+            'ABI encoding params/values length mismatch.',
+            "Expected length (params): ".concat(expectedLength),
+            "Given length (values): ".concat(givenLength)
+        ].join('\n'), {
+            name: 'AbiEncodingLengthMismatchError'
+        });
+    }
+}
+class AbiErrorInputsNotFoundError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(errorName, { docsPath }){
+        super([
+            'Arguments (`args`) were provided to "'.concat(errorName, '", but "').concat(errorName, '" on the ABI does not contain any parameters (`inputs`).'),
+            'Cannot encode error result without knowing what the parameter types are.',
+            'Make sure you are using the correct ABI and that the inputs exist on it.'
+        ].join('\n'), {
+            docsPath,
+            name: 'AbiErrorInputsNotFoundError'
+        });
+    }
+}
+class AbiErrorNotFoundError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(errorName, { docsPath } = {}){
+        super([
+            "Error ".concat(errorName ? '"'.concat(errorName, '" ') : '', "not found on ABI."),
+            'Make sure you are using the correct ABI and that the error exists on it.'
+        ].join('\n'), {
+            docsPath,
+            name: 'AbiErrorNotFoundError'
+        });
+    }
+}
+class AbiErrorSignatureNotFoundError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(signature, { docsPath }){
+        super([
+            'Encoded error signature "'.concat(signature, '" not found on ABI.'),
+            'Make sure you are using the correct ABI and that the error exists on it.',
+            "You can look up the decoded signature here: https://openchain.xyz/signatures?query=".concat(signature, ".")
+        ].join('\n'), {
+            docsPath,
+            name: 'AbiErrorSignatureNotFoundError'
+        });
+        Object.defineProperty(this, "signature", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.signature = signature;
+    }
+}
+class AbiEventSignatureEmptyTopicsError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ docsPath }){
+        super('Cannot extract event signature from empty topics.', {
+            docsPath,
+            name: 'AbiEventSignatureEmptyTopicsError'
+        });
+    }
+}
+class AbiEventSignatureNotFoundError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(signature, { docsPath }){
+        super([
+            'Encoded event signature "'.concat(signature, '" not found on ABI.'),
+            'Make sure you are using the correct ABI and that the event exists on it.',
+            "You can look up the signature here: https://openchain.xyz/signatures?query=".concat(signature, ".")
+        ].join('\n'), {
+            docsPath,
+            name: 'AbiEventSignatureNotFoundError'
+        });
+    }
+}
+class AbiEventNotFoundError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(eventName, { docsPath } = {}){
+        super([
+            "Event ".concat(eventName ? '"'.concat(eventName, '" ') : '', "not found on ABI."),
+            'Make sure you are using the correct ABI and that the event exists on it.'
+        ].join('\n'), {
+            docsPath,
+            name: 'AbiEventNotFoundError'
+        });
+    }
+}
+class AbiFunctionNotFoundError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(functionName, { docsPath } = {}){
+        super([
+            "Function ".concat(functionName ? '"'.concat(functionName, '" ') : '', "not found on ABI."),
+            'Make sure you are using the correct ABI and that the function exists on it.'
+        ].join('\n'), {
+            docsPath,
+            name: 'AbiFunctionNotFoundError'
+        });
+    }
+}
+class AbiFunctionOutputsNotFoundError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(functionName, { docsPath }){
+        super([
+            'Function "'.concat(functionName, '" does not contain any `outputs` on ABI.'),
+            'Cannot decode function result without knowing what the parameter types are.',
+            'Make sure you are using the correct ABI and that the function exists on it.'
+        ].join('\n'), {
+            docsPath,
+            name: 'AbiFunctionOutputsNotFoundError'
+        });
+    }
+}
+class AbiFunctionSignatureNotFoundError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(signature, { docsPath }){
+        super([
+            'Encoded function signature "'.concat(signature, '" not found on ABI.'),
+            'Make sure you are using the correct ABI and that the function exists on it.',
+            "You can look up the signature here: https://openchain.xyz/signatures?query=".concat(signature, ".")
+        ].join('\n'), {
+            docsPath,
+            name: 'AbiFunctionSignatureNotFoundError'
+        });
+    }
+}
+class AbiItemAmbiguityError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(x, y){
+        super('Found ambiguous types in overloaded ABI items.', {
+            metaMessages: [
+                "`".concat(x.type, "` in `").concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatAbiItem"])(x.abiItem), "`, and"),
+                "`".concat(y.type, "` in `").concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatAbiItem"])(y.abiItem), "`"),
+                '',
+                'These types encode differently and cannot be distinguished at runtime.',
+                'Remove one of the ambiguous items in the ABI.'
+            ],
+            name: 'AbiItemAmbiguityError'
+        });
+    }
+}
+class BytesSizeMismatchError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ expectedSize, givenSize }){
+        super("Expected bytes".concat(expectedSize, ", got bytes").concat(givenSize, "."), {
+            name: 'BytesSizeMismatchError'
+        });
+    }
+}
+class DecodeLogDataMismatch extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ abiItem, data, params, size }){
+        super([
+            "Data size of ".concat(size, " bytes is too small for non-indexed event parameters.")
+        ].join('\n'), {
+            metaMessages: [
+                "Params: (".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatAbiParams"])(params, {
+                    includeName: true
+                }), ")"),
+                "Data:   ".concat(data, " (").concat(size, " bytes)")
+            ],
+            name: 'DecodeLogDataMismatch'
+        });
+        Object.defineProperty(this, "abiItem", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "data", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "params", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "size", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.abiItem = abiItem;
+        this.data = data;
+        this.params = params;
+        this.size = size;
+    }
+}
+class DecodeLogTopicsMismatch extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ abiItem, param }){
+        super([
+            "Expected a topic for indexed event parameter".concat(param.name ? ' "'.concat(param.name, '"') : '', ' on event "').concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatAbiItem"])(abiItem, {
+                includeName: true
+            }), '".')
+        ].join('\n'), {
+            name: 'DecodeLogTopicsMismatch'
+        });
+        Object.defineProperty(this, "abiItem", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.abiItem = abiItem;
+    }
+}
+class InvalidAbiEncodingTypeError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(type, { docsPath }){
+        super([
+            'Type "'.concat(type, '" is not a valid encoding type.'),
+            'Please provide a valid ABI type.'
+        ].join('\n'), {
+            docsPath,
+            name: 'InvalidAbiEncodingType'
+        });
+    }
+}
+class InvalidAbiDecodingTypeError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(type, { docsPath }){
+        super([
+            'Type "'.concat(type, '" is not a valid decoding type.'),
+            'Please provide a valid ABI type.'
+        ].join('\n'), {
+            docsPath,
+            name: 'InvalidAbiDecodingType'
+        });
+    }
+}
+class InvalidArrayError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(value){
+        super([
+            'Value "'.concat(value, '" is not a valid array.')
+        ].join('\n'), {
+            name: 'InvalidArrayError'
+        });
+    }
+}
+class InvalidDefinitionTypeError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(type){
+        super([
+            '"'.concat(type, '" is not a valid definition type.'),
+            'Valid types: "function", "event", "error"'
+        ].join('\n'), {
+            name: 'InvalidDefinitionTypeError'
+        });
+    }
+}
+class UnsupportedPackedAbiType extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(type){
+        super('Type "'.concat(type, '" is not supported for packed encoding.'), {
+            name: 'UnsupportedPackedAbiType'
+        });
+    }
+} //# sourceMappingURL=abi.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/data/slice.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "slice",
+    ()=>slice,
+    "sliceBytes",
+    ()=>sliceBytes,
+    "sliceHex",
+    ()=>sliceHex
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$data$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/data.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/isHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/size.js [app-client] (ecmascript)");
+;
+;
+;
+function slice(value, start, end) {
+    let { strict } = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : {};
+    if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isHex"])(value, {
+        strict: false
+    })) return sliceHex(value, start, end, {
+        strict
+    });
+    return sliceBytes(value, start, end, {
+        strict
+    });
+}
+function assertStartOffset(value, start) {
+    if (typeof start === 'number' && start > 0 && start > (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(value) - 1) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$data$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SliceOffsetOutOfBoundsError"]({
+        offset: start,
+        position: 'start',
+        size: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(value)
+    });
+}
+function assertEndOffset(value, start, end) {
+    if (typeof start === 'number' && typeof end === 'number' && (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(value) !== end - start) {
+        throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$data$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SliceOffsetOutOfBoundsError"]({
+            offset: end,
+            position: 'end',
+            size: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(value)
+        });
+    }
+}
+function sliceBytes(value_, start, end) {
+    let { strict } = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : {};
+    assertStartOffset(value_, start);
+    const value = value_.slice(start, end);
+    if (strict) assertEndOffset(value, start, end);
+    return value;
+}
+function sliceHex(value_, start, end) {
+    let { strict } = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : {};
+    assertStartOffset(value_, start);
+    const value = "0x".concat(value_.replace('0x', '').slice((start !== null && start !== void 0 ? start : 0) * 2, (end !== null && end !== void 0 ? end : value_.length) * 2));
+    if (strict) assertEndOffset(value, start, end);
+    return value;
+} //# sourceMappingURL=slice.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/hash/keccak256.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "keccak256",
+    ()=>keccak256
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f40$noble$2f$hashes$2f$esm$2f$sha3$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/@noble/hashes/esm/sha3.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/isHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+;
+;
+;
+;
+function keccak256(value, to_) {
+    const to = to_ || 'hex';
+    const bytes = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f40$noble$2f$hashes$2f$esm$2f$sha3$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["keccak_256"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isHex"])(value, {
+        strict: false
+    }) ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toBytes"])(value) : value);
+    if (to === 'bytes') return bytes;
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toHex"])(bytes);
+} //# sourceMappingURL=keccak256.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/hash/hashSignature.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "hashSignature",
+    ()=>hashSignature
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/keccak256.js [app-client] (ecmascript)");
+;
+;
+const hash = (value)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["keccak256"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toBytes"])(value));
+function hashSignature(sig) {
+    return hash(sig);
+} //# sourceMappingURL=hashSignature.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/hash/normalizeSignature.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "normalizeSignature",
+    ()=>normalizeSignature
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+function normalizeSignature(signature) {
+    let active = true;
+    let current = '';
+    let level = 0;
+    let result = '';
+    let valid = false;
+    for(let i = 0; i < signature.length; i++){
+        const char = signature[i];
+        // If the character is a separator, we want to reactivate.
+        if ([
+            '(',
+            ')',
+            ','
+        ].includes(char)) active = true;
+        // If the character is a "level" token, we want to increment/decrement.
+        if (char === '(') level++;
+        if (char === ')') level--;
+        // If we aren't active, we don't want to mutate the result.
+        if (!active) continue;
+        // If level === 0, we are at the definition level.
+        if (level === 0) {
+            if (char === ' ' && [
+                'event',
+                'function',
+                ''
+            ].includes(result)) result = '';
+            else {
+                result += char;
+                // If we are at the end of the definition, we must be finished.
+                if (char === ')') {
+                    valid = true;
+                    break;
+                }
+            }
+            continue;
+        }
+        // Ignore spaces
+        if (char === ' ') {
+            // If the previous character is a separator, and the current section isn't empty, we want to deactivate.
+            if (signature[i - 1] !== ',' && current !== ',' && current !== ',(') {
+                current = '';
+                active = false;
+            }
+            continue;
+        }
+        result += char;
+        current += char;
+    }
+    if (!valid) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"]('Unable to normalize signature.');
+    return result;
+} //# sourceMappingURL=normalizeSignature.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/hash/toSignature.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "toSignature",
+    ()=>toSignature
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$abitype$2f$dist$2f$esm$2f$human$2d$readable$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/abitype/dist/esm/human-readable/formatAbiItem.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$normalizeSignature$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/normalizeSignature.js [app-client] (ecmascript)");
+;
+;
+const toSignature = (def)=>{
+    const def_ = (()=>{
+        if (typeof def === 'string') return def;
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$abitype$2f$dist$2f$esm$2f$human$2d$readable$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatAbiItem"])(def);
+    })();
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$normalizeSignature$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["normalizeSignature"])(def_);
+}; //# sourceMappingURL=toSignature.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/hash/toSignatureHash.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "toSignatureHash",
+    ()=>toSignatureHash
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$hashSignature$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/hashSignature.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toSignature$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/toSignature.js [app-client] (ecmascript)");
+;
+;
+function toSignatureHash(fn) {
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$hashSignature$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hashSignature"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toSignature$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toSignature"])(fn));
+} //# sourceMappingURL=toSignatureHash.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/hash/toFunctionSelector.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "toFunctionSelector",
+    ()=>toFunctionSelector
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$slice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/slice.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toSignatureHash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/toSignatureHash.js [app-client] (ecmascript)");
+;
+;
+const toFunctionSelector = (fn)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$slice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["slice"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toSignatureHash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toSignatureHash"])(fn), 0, 4); //# sourceMappingURL=toFunctionSelector.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/address.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "InvalidAddressError",
+    ()=>InvalidAddressError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+class InvalidAddressError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ address }){
+        super('Address "'.concat(address, '" is invalid.'), {
+            metaMessages: [
+                '- Address must be a hex value of 20 bytes (40 hex characters).',
+                '- Address must match its checksum counterpart.'
+            ],
+            name: 'InvalidAddressError'
+        });
+    }
+} //# sourceMappingURL=address.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/lru.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/**
+ * Map with a LRU (Least recently used) policy.
+ *
+ * @link https://en.wikipedia.org/wiki/Cache_replacement_policies#LRU
+ */ __turbopack_context__.s([
+    "LruMap",
+    ()=>LruMap
+]);
+class LruMap extends Map {
+    get(key) {
+        const value = super.get(key);
+        if (super.has(key) && value !== undefined) {
+            this.delete(key);
+            super.set(key, value);
+        }
+        return value;
+    }
+    set(key, value) {
+        super.set(key, value);
+        if (this.maxSize && this.size > this.maxSize) {
+            const firstKey = this.keys().next().value;
+            if (firstKey) this.delete(firstKey);
+        }
+        return this;
+    }
+    constructor(size){
+        super();
+        Object.defineProperty(this, "maxSize", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.maxSize = size;
+    }
+} //# sourceMappingURL=lru.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/address/isAddress.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "isAddress",
+    ()=>isAddress,
+    "isAddressCache",
+    ()=>isAddressCache
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$lru$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/lru.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$getAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/address/getAddress.js [app-client] (ecmascript)");
+;
+;
+const addressRegex = /^0x[a-fA-F0-9]{40}$/;
+const isAddressCache = /*#__PURE__*/ new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$lru$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LruMap"](8192);
+function isAddress(address, options) {
+    const { strict = true } = options !== null && options !== void 0 ? options : {};
+    const cacheKey = "".concat(address, ".").concat(strict);
+    if (isAddressCache.has(cacheKey)) return isAddressCache.get(cacheKey);
+    const result = (()=>{
+        if (!addressRegex.test(address)) return false;
+        if (address.toLowerCase() === address) return true;
+        if (strict) return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$getAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["checksumAddress"])(address) === address;
+        return true;
+    })();
+    isAddressCache.set(cacheKey, result);
+    return result;
+} //# sourceMappingURL=isAddress.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/address/getAddress.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "checksumAddress",
+    ()=>checksumAddress,
+    "getAddress",
+    ()=>getAddress
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/address.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/keccak256.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$lru$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/lru.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/address/isAddress.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+const checksumAddressCache = /*#__PURE__*/ new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$lru$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LruMap"](8192);
+function checksumAddress(address_, /**
+ * Warning: EIP-1191 checksum addresses are generally not backwards compatible with the
+ * wider Ethereum ecosystem, meaning it will break when validated against an application/tool
+ * that relies on EIP-55 checksum encoding (checksum without chainId).
+ *
+ * It is highly recommended to not use this feature unless you
+ * know what you are doing.
+ *
+ * See more: https://github.com/ethereum/EIPs/issues/1121
+ */ chainId) {
+    if (checksumAddressCache.has("".concat(address_, ".").concat(chainId))) return checksumAddressCache.get("".concat(address_, ".").concat(chainId));
+    const hexAddress = chainId ? "".concat(chainId).concat(address_.toLowerCase()) : address_.substring(2).toLowerCase();
+    const hash = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["keccak256"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringToBytes"])(hexAddress), 'bytes');
+    const address = (chainId ? hexAddress.substring("".concat(chainId, "0x").length) : hexAddress).split('');
+    for(let i = 0; i < 40; i += 2){
+        if (hash[i >> 1] >> 4 >= 8 && address[i]) {
+            address[i] = address[i].toUpperCase();
+        }
+        if ((hash[i >> 1] & 0x0f) >= 8 && address[i + 1]) {
+            address[i + 1] = address[i + 1].toUpperCase();
+        }
+    }
+    const result = "0x".concat(address.join(''));
+    checksumAddressCache.set("".concat(address_, ".").concat(chainId), result);
+    return result;
+}
+function getAddress(address, /**
+ * Warning: EIP-1191 checksum addresses are generally not backwards compatible with the
+ * wider Ethereum ecosystem, meaning it will break when validated against an application/tool
+ * that relies on EIP-55 checksum encoding (checksum without chainId).
+ *
+ * It is highly recommended to not use this feature unless you
+ * know what you are doing.
+ *
+ * See more: https://github.com/ethereum/EIPs/issues/1121
+ */ chainId) {
+    if (!(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isAddress"])(address, {
+        strict: false
+    })) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidAddressError"]({
+        address
+    });
+    return checksumAddress(address, chainId);
+} //# sourceMappingURL=getAddress.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/cursor.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "NegativeOffsetError",
+    ()=>NegativeOffsetError,
+    "PositionOutOfBoundsError",
+    ()=>PositionOutOfBoundsError,
+    "RecursiveReadLimitExceededError",
+    ()=>RecursiveReadLimitExceededError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+class NegativeOffsetError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ offset }){
+        super("Offset `".concat(offset, "` cannot be negative."), {
+            name: 'NegativeOffsetError'
+        });
+    }
+}
+class PositionOutOfBoundsError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ length, position }){
+        super("Position `".concat(position, "` is out of bounds (`0 < position < ").concat(length, "`)."), {
+            name: 'PositionOutOfBoundsError'
+        });
+    }
+}
+class RecursiveReadLimitExceededError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ count, limit }){
+        super("Recursive read limit of `".concat(limit, "` exceeded (recursive read count: `").concat(count, "`)."), {
+            name: 'RecursiveReadLimitExceededError'
+        });
+    }
+} //# sourceMappingURL=cursor.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/cursor.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "createCursor",
+    ()=>createCursor
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$cursor$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/cursor.js [app-client] (ecmascript)");
+;
+const staticCursor = {
+    bytes: new Uint8Array(),
+    dataView: new DataView(new ArrayBuffer(0)),
+    position: 0,
+    positionReadCount: new Map(),
+    recursiveReadCount: 0,
+    recursiveReadLimit: Number.POSITIVE_INFINITY,
+    assertReadLimit () {
+        if (this.recursiveReadCount >= this.recursiveReadLimit) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$cursor$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RecursiveReadLimitExceededError"]({
+            count: this.recursiveReadCount + 1,
+            limit: this.recursiveReadLimit
+        });
+    },
+    assertPosition (position) {
+        if (position < 0 || position > this.bytes.length - 1) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$cursor$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["PositionOutOfBoundsError"]({
+            length: this.bytes.length,
+            position
+        });
+    },
+    decrementPosition (offset) {
+        if (offset < 0) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$cursor$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["NegativeOffsetError"]({
+            offset
+        });
+        const position = this.position - offset;
+        this.assertPosition(position);
+        this.position = position;
+    },
+    getReadCount (position) {
+        return this.positionReadCount.get(position || this.position) || 0;
+    },
+    incrementPosition (offset) {
+        if (offset < 0) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$cursor$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["NegativeOffsetError"]({
+            offset
+        });
+        const position = this.position + offset;
+        this.assertPosition(position);
+        this.position = position;
+    },
+    inspectByte (position_) {
+        const position = position_ !== null && position_ !== void 0 ? position_ : this.position;
+        this.assertPosition(position);
+        return this.bytes[position];
+    },
+    inspectBytes (length, position_) {
+        const position = position_ !== null && position_ !== void 0 ? position_ : this.position;
+        this.assertPosition(position + length - 1);
+        return this.bytes.subarray(position, position + length);
+    },
+    inspectUint8 (position_) {
+        const position = position_ !== null && position_ !== void 0 ? position_ : this.position;
+        this.assertPosition(position);
+        return this.bytes[position];
+    },
+    inspectUint16 (position_) {
+        const position = position_ !== null && position_ !== void 0 ? position_ : this.position;
+        this.assertPosition(position + 1);
+        return this.dataView.getUint16(position);
+    },
+    inspectUint24 (position_) {
+        const position = position_ !== null && position_ !== void 0 ? position_ : this.position;
+        this.assertPosition(position + 2);
+        return (this.dataView.getUint16(position) << 8) + this.dataView.getUint8(position + 2);
+    },
+    inspectUint32 (position_) {
+        const position = position_ !== null && position_ !== void 0 ? position_ : this.position;
+        this.assertPosition(position + 3);
+        return this.dataView.getUint32(position);
+    },
+    pushByte (byte) {
+        this.assertPosition(this.position);
+        this.bytes[this.position] = byte;
+        this.position++;
+    },
+    pushBytes (bytes) {
+        this.assertPosition(this.position + bytes.length - 1);
+        this.bytes.set(bytes, this.position);
+        this.position += bytes.length;
+    },
+    pushUint8 (value) {
+        this.assertPosition(this.position);
+        this.bytes[this.position] = value;
+        this.position++;
+    },
+    pushUint16 (value) {
+        this.assertPosition(this.position + 1);
+        this.dataView.setUint16(this.position, value);
+        this.position += 2;
+    },
+    pushUint24 (value) {
+        this.assertPosition(this.position + 2);
+        this.dataView.setUint16(this.position, value >> 8);
+        this.dataView.setUint8(this.position + 2, value & ~4294967040);
+        this.position += 3;
+    },
+    pushUint32 (value) {
+        this.assertPosition(this.position + 3);
+        this.dataView.setUint32(this.position, value);
+        this.position += 4;
+    },
+    readByte () {
+        this.assertReadLimit();
+        this._touch();
+        const value = this.inspectByte();
+        this.position++;
+        return value;
+    },
+    readBytes (length, size) {
+        this.assertReadLimit();
+        this._touch();
+        const value = this.inspectBytes(length);
+        this.position += size !== null && size !== void 0 ? size : length;
+        return value;
+    },
+    readUint8 () {
+        this.assertReadLimit();
+        this._touch();
+        const value = this.inspectUint8();
+        this.position += 1;
+        return value;
+    },
+    readUint16 () {
+        this.assertReadLimit();
+        this._touch();
+        const value = this.inspectUint16();
+        this.position += 2;
+        return value;
+    },
+    readUint24 () {
+        this.assertReadLimit();
+        this._touch();
+        const value = this.inspectUint24();
+        this.position += 3;
+        return value;
+    },
+    readUint32 () {
+        this.assertReadLimit();
+        this._touch();
+        const value = this.inspectUint32();
+        this.position += 4;
+        return value;
+    },
+    get remaining () {
+        return this.bytes.length - this.position;
+    },
+    setPosition (position) {
+        const oldPosition = this.position;
+        this.assertPosition(position);
+        this.position = position;
+        return ()=>this.position = oldPosition;
+    },
+    _touch () {
+        if (this.recursiveReadLimit === Number.POSITIVE_INFINITY) return;
+        const count = this.getReadCount();
+        this.positionReadCount.set(this.position, count + 1);
+        if (count > 0) this.recursiveReadCount++;
+    }
+};
+function createCursor(bytes) {
+    let { recursiveReadLimit = 8_192 } = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    const cursor = Object.create(staticCursor);
+    cursor.bytes = bytes;
+    cursor.dataView = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+    cursor.positionReadCount = new Map();
+    cursor.recursiveReadLimit = recursiveReadLimit;
+    return cursor;
+} //# sourceMappingURL=cursor.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/encoding/fromBytes.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "bytesToBigInt",
+    ()=>bytesToBigInt,
+    "bytesToBool",
+    ()=>bytesToBool,
+    "bytesToNumber",
+    ()=>bytesToNumber,
+    "bytesToString",
+    ()=>bytesToString,
+    "fromBytes",
+    ()=>fromBytes
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$encoding$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/encoding.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$trim$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/trim.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/fromHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+;
+;
+;
+;
+function fromBytes(bytes, toOrOpts) {
+    const opts = typeof toOrOpts === 'string' ? {
+        to: toOrOpts
+    } : toOrOpts;
+    const to = opts.to;
+    if (to === 'number') return bytesToNumber(bytes, opts);
+    if (to === 'bigint') return bytesToBigInt(bytes, opts);
+    if (to === 'boolean') return bytesToBool(bytes, opts);
+    if (to === 'string') return bytesToString(bytes, opts);
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToHex"])(bytes, opts);
+}
+function bytesToBigInt(bytes) {
+    let opts = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    if (typeof opts.size !== 'undefined') (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assertSize"])(bytes, {
+        size: opts.size
+    });
+    const hex = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToHex"])(bytes, opts);
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBigInt"])(hex, opts);
+}
+function bytesToBool(bytes_) {
+    let opts = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    let bytes = bytes_;
+    if (typeof opts.size !== 'undefined') {
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assertSize"])(bytes, {
+            size: opts.size
+        });
+        bytes = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$trim$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["trim"])(bytes);
+    }
+    if (bytes.length > 1 || bytes[0] > 1) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$encoding$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidBytesBooleanError"](bytes);
+    return Boolean(bytes[0]);
+}
+function bytesToNumber(bytes) {
+    let opts = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    if (typeof opts.size !== 'undefined') (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assertSize"])(bytes, {
+        size: opts.size
+    });
+    const hex = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToHex"])(bytes, opts);
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToNumber"])(hex, opts);
+}
+function bytesToString(bytes_) {
+    let opts = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    let bytes = bytes_;
+    if (typeof opts.size !== 'undefined') {
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assertSize"])(bytes, {
+            size: opts.size
+        });
+        bytes = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$trim$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["trim"])(bytes, {
+            dir: 'right'
+        });
+    }
+    return new TextDecoder().decode(bytes);
+} //# sourceMappingURL=fromBytes.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/data/concat.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "concat",
+    ()=>concat,
+    "concatBytes",
+    ()=>concatBytes,
+    "concatHex",
+    ()=>concatHex
+]);
+function concat(values) {
+    if (typeof values[0] === 'string') return concatHex(values);
+    return concatBytes(values);
+}
+function concatBytes(values) {
+    let length = 0;
+    for (const arr of values){
+        length += arr.length;
+    }
+    const result = new Uint8Array(length);
+    let offset = 0;
+    for (const arr of values){
+        result.set(arr, offset);
+        offset += arr.length;
+    }
+    return result;
+}
+function concatHex(values) {
+    return "0x".concat(values.reduce((acc, x)=>acc + x.replace('0x', ''), ''));
+} //# sourceMappingURL=concat.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/regex.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "arrayRegex",
+    ()=>arrayRegex,
+    "bytesRegex",
+    ()=>bytesRegex,
+    "integerRegex",
+    ()=>integerRegex
+]);
+const arrayRegex = /^(.*)\[([0-9]*)\]$/;
+const bytesRegex = /^bytes([1-9]|1[0-9]|2[0-9]|3[0-2])?$/;
+const integerRegex = /^(u?int)(8|16|24|32|40|48|56|64|72|80|88|96|104|112|120|128|136|144|152|160|168|176|184|192|200|208|216|224|232|240|248|256)?$/; //# sourceMappingURL=regex.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeAbiParameters.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "encodeAbiParameters",
+    ()=>encodeAbiParameters,
+    "getArrayComponents",
+    ()=>getArrayComponents
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/address.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$encoding$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/encoding.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/address/isAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/concat.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$pad$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/pad.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/size.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$slice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/slice.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$regex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/regex.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+function encodeAbiParameters(params, values) {
+    if (params.length !== values.length) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiEncodingLengthMismatchError"]({
+        expectedLength: params.length,
+        givenLength: values.length
+    });
+    // Prepare the parameters to determine dynamic types to encode.
+    const preparedParams = prepareParams({
+        params: params,
+        values: values
+    });
+    const data = encodeParams(preparedParams);
+    if (data.length === 0) return '0x';
+    return data;
+}
+function prepareParams(param) {
+    let { params, values } = param;
+    const preparedParams = [];
+    for(let i = 0; i < params.length; i++){
+        preparedParams.push(prepareParam({
+            param: params[i],
+            value: values[i]
+        }));
+    }
+    return preparedParams;
+}
+function prepareParam(param) {
+    let { param: param1, value } = param;
+    const arrayComponents = getArrayComponents(param1.type);
+    if (arrayComponents) {
+        const [length, type] = arrayComponents;
+        return encodeArray(value, {
+            length,
+            param: {
+                ...param1,
+                type
+            }
+        });
+    }
+    if (param1.type === 'tuple') {
+        return encodeTuple(value, {
+            param: param1
+        });
+    }
+    if (param1.type === 'address') {
+        return encodeAddress(value);
+    }
+    if (param1.type === 'bool') {
+        return encodeBool(value);
+    }
+    if (param1.type.startsWith('uint') || param1.type.startsWith('int')) {
+        const signed = param1.type.startsWith('int');
+        var _integerRegex_exec;
+        const [, , size = '256'] = (_integerRegex_exec = __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$regex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["integerRegex"].exec(param1.type)) !== null && _integerRegex_exec !== void 0 ? _integerRegex_exec : [];
+        return encodeNumber(value, {
+            signed,
+            size: Number(size)
+        });
+    }
+    if (param1.type.startsWith('bytes')) {
+        return encodeBytes(value, {
+            param: param1
+        });
+    }
+    if (param1.type === 'string') {
+        return encodeString(value);
+    }
+    throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidAbiEncodingTypeError"](param1.type, {
+        docsPath: '/docs/contract/encodeAbiParameters'
+    });
+}
+function encodeParams(preparedParams) {
+    // 1. Compute the size of the static part of the parameters.
+    let staticSize = 0;
+    for(let i = 0; i < preparedParams.length; i++){
+        const { dynamic, encoded } = preparedParams[i];
+        if (dynamic) staticSize += 32;
+        else staticSize += (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(encoded);
+    }
+    // 2. Split the parameters into static and dynamic parts.
+    const staticParams = [];
+    const dynamicParams = [];
+    let dynamicSize = 0;
+    for(let i = 0; i < preparedParams.length; i++){
+        const { dynamic, encoded } = preparedParams[i];
+        if (dynamic) {
+            staticParams.push((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(staticSize + dynamicSize, {
+                size: 32
+            }));
+            dynamicParams.push(encoded);
+            dynamicSize += (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(encoded);
+        } else {
+            staticParams.push(encoded);
+        }
+    }
+    // 3. Concatenate static and dynamic parts.
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["concat"])([
+        ...staticParams,
+        ...dynamicParams
+    ]);
+}
+function encodeAddress(value) {
+    if (!(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isAddress"])(value)) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidAddressError"]({
+        address: value
+    });
+    return {
+        dynamic: false,
+        encoded: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$pad$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["padHex"])(value.toLowerCase())
+    };
+}
+function encodeArray(value, param) {
+    let { length, param: param1 } = param;
+    const dynamic = length === null;
+    if (!Array.isArray(value)) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidArrayError"](value);
+    if (!dynamic && value.length !== length) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiEncodingArrayLengthMismatchError"]({
+        expectedLength: length,
+        givenLength: value.length,
+        type: "".concat(param1.type, "[").concat(length, "]")
+    });
+    let dynamicChild = false;
+    const preparedParams = [];
+    for(let i = 0; i < value.length; i++){
+        const preparedParam = prepareParam({
+            param: param1,
+            value: value[i]
+        });
+        if (preparedParam.dynamic) dynamicChild = true;
+        preparedParams.push(preparedParam);
+    }
+    if (dynamic || dynamicChild) {
+        const data = encodeParams(preparedParams);
+        if (dynamic) {
+            const length = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(preparedParams.length, {
+                size: 32
+            });
+            return {
+                dynamic: true,
+                encoded: preparedParams.length > 0 ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["concat"])([
+                    length,
+                    data
+                ]) : length
+            };
+        }
+        if (dynamicChild) return {
+            dynamic: true,
+            encoded: data
+        };
+    }
+    return {
+        dynamic: false,
+        encoded: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["concat"])(preparedParams.map((param)=>{
+            let { encoded } = param;
+            return encoded;
+        }))
+    };
+}
+function encodeBytes(value, param) {
+    let { param: param1 } = param;
+    const [, paramSize] = param1.type.split('bytes');
+    const bytesSize = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(value);
+    if (!paramSize) {
+        let value_ = value;
+        // If the size is not divisible by 32 bytes, pad the end
+        // with empty bytes to the ceiling 32 bytes.
+        if (bytesSize % 32 !== 0) value_ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$pad$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["padHex"])(value_, {
+            dir: 'right',
+            size: Math.ceil((value.length - 2) / 2 / 32) * 32
+        });
+        return {
+            dynamic: true,
+            encoded: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["concat"])([
+                (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$pad$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["padHex"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(bytesSize, {
+                    size: 32
+                })),
+                value_
+            ])
+        };
+    }
+    if (bytesSize !== Number.parseInt(paramSize, 10)) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiEncodingBytesSizeMismatchError"]({
+        expectedSize: Number.parseInt(paramSize, 10),
+        value
+    });
+    return {
+        dynamic: false,
+        encoded: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$pad$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["padHex"])(value, {
+            dir: 'right'
+        })
+    };
+}
+function encodeBool(value) {
+    if (typeof value !== 'boolean') throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"]('Invalid boolean value: "'.concat(value, '" (type: ').concat(typeof value, "). Expected: `true` or `false`."));
+    return {
+        dynamic: false,
+        encoded: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$pad$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["padHex"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["boolToHex"])(value))
+    };
+}
+function encodeNumber(value, param) {
+    let { signed, size = 256 } = param;
+    if (typeof size === 'number') {
+        const max = 2n ** (BigInt(size) - (signed ? 1n : 0n)) - 1n;
+        const min = signed ? -max - 1n : 0n;
+        if (value > max || value < min) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$encoding$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["IntegerOutOfRangeError"]({
+            max: max.toString(),
+            min: min.toString(),
+            signed,
+            size: size / 8,
+            value: value.toString()
+        });
+    }
+    return {
+        dynamic: false,
+        encoded: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(value, {
+            size: 32,
+            signed
+        })
+    };
+}
+function encodeString(value) {
+    const hexValue = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringToHex"])(value);
+    const partsLength = Math.ceil((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(hexValue) / 32);
+    const parts = [];
+    for(let i = 0; i < partsLength; i++){
+        parts.push((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$pad$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["padHex"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$slice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["slice"])(hexValue, i * 32, (i + 1) * 32), {
+            dir: 'right'
+        }));
+    }
+    return {
+        dynamic: true,
+        encoded: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["concat"])([
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$pad$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["padHex"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(hexValue), {
+                size: 32
+            })),
+            ...parts
+        ])
+    };
+}
+function encodeTuple(value, param) {
+    let { param: param1 } = param;
+    let dynamic = false;
+    const preparedParams = [];
+    for(let i = 0; i < param1.components.length; i++){
+        const param_ = param1.components[i];
+        const index = Array.isArray(value) ? i : param_.name;
+        const preparedParam = prepareParam({
+            param: param_,
+            value: value[index]
+        });
+        preparedParams.push(preparedParam);
+        if (preparedParam.dynamic) dynamic = true;
+    }
+    return {
+        dynamic,
+        encoded: dynamic ? encodeParams(preparedParams) : (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["concat"])(preparedParams.map((param)=>{
+            let { encoded } = param;
+            return encoded;
+        }))
+    };
+}
+function getArrayComponents(type) {
+    const matches = type.match(/^(.*)\[(\d+)?\]$/);
+    return matches ? [
+        matches[2] ? Number(matches[2]) : null,
+        matches[1]
+    ] : undefined;
+} //# sourceMappingURL=encodeAbiParameters.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeAbiParameters.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "decodeAbiParameters",
+    ()=>decodeAbiParameters
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$getAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/address/getAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$cursor$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/cursor.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/size.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$slice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/slice.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$trim$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/trim.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/fromBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeAbiParameters.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+function decodeAbiParameters(params, data) {
+    const bytes = typeof data === 'string' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBytes"])(data) : data;
+    const cursor = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$cursor$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createCursor"])(bytes);
+    if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(bytes) === 0 && params.length > 0) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiDecodingZeroDataError"]();
+    if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(data) && (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(data) < 32) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiDecodingDataSizeTooSmallError"]({
+        data: typeof data === 'string' ? data : (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToHex"])(data),
+        params: params,
+        size: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(data)
+    });
+    let consumed = 0;
+    const values = [];
+    for(let i = 0; i < params.length; ++i){
+        const param = params[i];
+        cursor.setPosition(consumed);
+        const [data, consumed_] = decodeParameter(cursor, param, {
+            staticPosition: 0
+        });
+        consumed += consumed_;
+        values.push(data);
+    }
+    return values;
+}
+function decodeParameter(cursor, param, param1) {
+    let { staticPosition } = param1;
+    const arrayComponents = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getArrayComponents"])(param.type);
+    if (arrayComponents) {
+        const [length, type] = arrayComponents;
+        return decodeArray(cursor, {
+            ...param,
+            type
+        }, {
+            length,
+            staticPosition
+        });
+    }
+    if (param.type === 'tuple') return decodeTuple(cursor, param, {
+        staticPosition
+    });
+    if (param.type === 'address') return decodeAddress(cursor);
+    if (param.type === 'bool') return decodeBool(cursor);
+    if (param.type.startsWith('bytes')) return decodeBytes(cursor, param, {
+        staticPosition
+    });
+    if (param.type.startsWith('uint') || param.type.startsWith('int')) return decodeNumber(cursor, param);
+    if (param.type === 'string') return decodeString(cursor, {
+        staticPosition
+    });
+    throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidAbiDecodingTypeError"](param.type, {
+        docsPath: '/docs/contract/decodeAbiParameters'
+    });
+}
+////////////////////////////////////////////////////////////////////
+// Type Decoders
+const sizeOfLength = 32;
+const sizeOfOffset = 32;
+function decodeAddress(cursor) {
+    const value = cursor.readBytes(32);
+    return [
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$getAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["checksumAddress"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToHex"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$slice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["sliceBytes"])(value, -20))),
+        32
+    ];
+}
+function decodeArray(cursor, param, param1) {
+    let { length, staticPosition } = param1;
+    // If the length of the array is not known in advance (dynamic array),
+    // this means we will need to wonder off to the pointer and decode.
+    if (!length) {
+        // Dealing with a dynamic type, so get the offset of the array data.
+        const offset = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToNumber"])(cursor.readBytes(sizeOfOffset));
+        // Start is the static position of current slot + offset.
+        const start = staticPosition + offset;
+        const startOfData = start + sizeOfLength;
+        // Get the length of the array from the offset.
+        cursor.setPosition(start);
+        const length = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToNumber"])(cursor.readBytes(sizeOfLength));
+        // Check if the array has any dynamic children.
+        const dynamicChild = hasDynamicChild(param);
+        let consumed = 0;
+        const value = [];
+        for(let i = 0; i < length; ++i){
+            // If any of the children is dynamic, then all elements will be offset pointer, thus size of one slot (32 bytes).
+            // Otherwise, elements will be the size of their encoding (consumed bytes).
+            cursor.setPosition(startOfData + (dynamicChild ? i * 32 : consumed));
+            const [data, consumed_] = decodeParameter(cursor, param, {
+                staticPosition: startOfData
+            });
+            consumed += consumed_;
+            value.push(data);
+        }
+        // As we have gone wondering, restore to the original position + next slot.
+        cursor.setPosition(staticPosition + 32);
+        return [
+            value,
+            32
+        ];
+    }
+    // If the length of the array is known in advance,
+    // and the length of an element deeply nested in the array is not known,
+    // we need to decode the offset of the array data.
+    if (hasDynamicChild(param)) {
+        // Dealing with dynamic types, so get the offset of the array data.
+        const offset = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToNumber"])(cursor.readBytes(sizeOfOffset));
+        // Start is the static position of current slot + offset.
+        const start = staticPosition + offset;
+        const value = [];
+        for(let i = 0; i < length; ++i){
+            // Move cursor along to the next slot (next offset pointer).
+            cursor.setPosition(start + i * 32);
+            const [data] = decodeParameter(cursor, param, {
+                staticPosition: start
+            });
+            value.push(data);
+        }
+        // As we have gone wondering, restore to the original position + next slot.
+        cursor.setPosition(staticPosition + 32);
+        return [
+            value,
+            32
+        ];
+    }
+    // If the length of the array is known in advance and the array is deeply static,
+    // then we can just decode each element in sequence.
+    let consumed = 0;
+    const value = [];
+    for(let i = 0; i < length; ++i){
+        const [data, consumed_] = decodeParameter(cursor, param, {
+            staticPosition: staticPosition + consumed
+        });
+        consumed += consumed_;
+        value.push(data);
+    }
+    return [
+        value,
+        consumed
+    ];
+}
+function decodeBool(cursor) {
+    return [
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToBool"])(cursor.readBytes(32), {
+            size: 32
+        }),
+        32
+    ];
+}
+function decodeBytes(cursor, param, param1) {
+    let { staticPosition } = param1;
+    const [_, size] = param.type.split('bytes');
+    if (!size) {
+        // Dealing with dynamic types, so get the offset of the bytes data.
+        const offset = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToNumber"])(cursor.readBytes(32));
+        // Set position of the cursor to start of bytes data.
+        cursor.setPosition(staticPosition + offset);
+        const length = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToNumber"])(cursor.readBytes(32));
+        // If there is no length, we have zero data.
+        if (length === 0) {
+            // As we have gone wondering, restore to the original position + next slot.
+            cursor.setPosition(staticPosition + 32);
+            return [
+                '0x',
+                32
+            ];
+        }
+        const data = cursor.readBytes(length);
+        // As we have gone wondering, restore to the original position + next slot.
+        cursor.setPosition(staticPosition + 32);
+        return [
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToHex"])(data),
+            32
+        ];
+    }
+    const value = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToHex"])(cursor.readBytes(Number.parseInt(size, 10), 32));
+    return [
+        value,
+        32
+    ];
+}
+function decodeNumber(cursor, param) {
+    const signed = param.type.startsWith('int');
+    const size = Number.parseInt(param.type.split('int')[1] || '256', 10);
+    const value = cursor.readBytes(32);
+    return [
+        size > 48 ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToBigInt"])(value, {
+            signed
+        }) : (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToNumber"])(value, {
+            signed
+        }),
+        32
+    ];
+}
+function decodeTuple(cursor, param, param1) {
+    let { staticPosition } = param1;
+    // Tuples can have unnamed components (i.e. they are arrays), so we must
+    // determine whether the tuple is named or unnamed. In the case of a named
+    // tuple, the value will be an object where each property is the name of the
+    // component. In the case of an unnamed tuple, the value will be an array.
+    const hasUnnamedChild = param.components.length === 0 || param.components.some((param)=>{
+        let { name } = param;
+        return !name;
+    });
+    // Initialize the value to an object or an array, depending on whether the
+    // tuple is named or unnamed.
+    const value = hasUnnamedChild ? [] : {};
+    let consumed = 0;
+    // If the tuple has a dynamic child, we must first decode the offset to the
+    // tuple data.
+    if (hasDynamicChild(param)) {
+        // Dealing with dynamic types, so get the offset of the tuple data.
+        const offset = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToNumber"])(cursor.readBytes(sizeOfOffset));
+        // Start is the static position of referencing slot + offset.
+        const start = staticPosition + offset;
+        for(let i = 0; i < param.components.length; ++i){
+            const component = param.components[i];
+            cursor.setPosition(start + consumed);
+            const [data, consumed_] = decodeParameter(cursor, component, {
+                staticPosition: start
+            });
+            consumed += consumed_;
+            value[hasUnnamedChild ? i : component === null || component === void 0 ? void 0 : component.name] = data;
+        }
+        // As we have gone wondering, restore to the original position + next slot.
+        cursor.setPosition(staticPosition + 32);
+        return [
+            value,
+            32
+        ];
+    }
+    // If the tuple has static children, we can just decode each component
+    // in sequence.
+    for(let i = 0; i < param.components.length; ++i){
+        const component = param.components[i];
+        const [data, consumed_] = decodeParameter(cursor, component, {
+            staticPosition
+        });
+        value[hasUnnamedChild ? i : component === null || component === void 0 ? void 0 : component.name] = data;
+        consumed += consumed_;
+    }
+    return [
+        value,
+        consumed
+    ];
+}
+function decodeString(cursor, param) {
+    let { staticPosition } = param;
+    // Get offset to start of string data.
+    const offset = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToNumber"])(cursor.readBytes(32));
+    // Start is the static position of current slot + offset.
+    const start = staticPosition + offset;
+    cursor.setPosition(start);
+    const length = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToNumber"])(cursor.readBytes(32));
+    // If there is no length, we have zero data (empty string).
+    if (length === 0) {
+        cursor.setPosition(staticPosition + 32);
+        return [
+            '',
+            32
+        ];
+    }
+    const data = cursor.readBytes(length, 32);
+    const value = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToString"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$trim$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["trim"])(data));
+    // As we have gone wondering, restore to the original position + next slot.
+    cursor.setPosition(staticPosition + 32);
+    return [
+        value,
+        32
+    ];
+}
+function hasDynamicChild(param) {
+    var _param_components;
+    const { type } = param;
+    if (type === 'string') return true;
+    if (type === 'bytes') return true;
+    if (type.endsWith('[]')) return true;
+    if (type === 'tuple') return (_param_components = param.components) === null || _param_components === void 0 ? void 0 : _param_components.some(hasDynamicChild);
+    const arrayComponents = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getArrayComponents"])(param.type);
+    if (arrayComponents && hasDynamicChild({
+        ...param,
+        type: arrayComponents[1]
+    })) return true;
+    return false;
+} //# sourceMappingURL=decodeAbiParameters.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeErrorResult.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "decodeErrorResult",
+    ()=>decodeErrorResult
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$solidity$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/solidity.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$slice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/slice.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toFunctionSelector$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/toFunctionSelector.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeAbiParameters.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/formatAbiItem.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+function decodeErrorResult(parameters) {
+    const { abi, data } = parameters;
+    const signature = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$slice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["slice"])(data, 0, 4);
+    if (signature === '0x') throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiDecodingZeroDataError"]();
+    const abi_ = [
+        ...abi || [],
+        __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$solidity$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["solidityError"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$solidity$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["solidityPanic"]
+    ];
+    const abiItem = abi_.find((x)=>x.type === 'error' && signature === (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toFunctionSelector$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toFunctionSelector"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatAbiItem"])(x)));
+    if (!abiItem) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiErrorSignatureNotFoundError"](signature, {
+        docsPath: '/docs/contract/decodeErrorResult'
+    });
+    return {
+        abiItem,
+        args: 'inputs' in abiItem && abiItem.inputs && abiItem.inputs.length > 0 ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["decodeAbiParameters"])(abiItem.inputs, (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$slice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["slice"])(data, 4)) : undefined,
+        errorName: abiItem.name
+    };
+} //# sourceMappingURL=decodeErrorResult.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/stringify.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "stringify",
+    ()=>stringify
+]);
+const stringify = (value, replacer, space)=>JSON.stringify(value, (key, value_)=>{
+        const value = typeof value_ === 'bigint' ? value_.toString() : value_;
+        return typeof replacer === 'function' ? replacer(key, value) : value;
+    }, space); //# sourceMappingURL=stringify.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/abi/formatAbiItemWithArgs.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "formatAbiItemWithArgs",
+    ()=>formatAbiItemWithArgs
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/stringify.js [app-client] (ecmascript)");
+;
+function formatAbiItemWithArgs(param) {
+    let { abiItem, args, includeFunctionName = true, includeName = false } = param;
+    if (!('name' in abiItem)) return;
+    if (!('inputs' in abiItem)) return;
+    if (!abiItem.inputs) return;
+    return "".concat(includeFunctionName ? abiItem.name : '', "(").concat(abiItem.inputs.map((input, i)=>"".concat(includeName && input.name ? "".concat(input.name, ": ") : '').concat(typeof args[i] === 'object' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])(args[i]) : args[i])).join(', '), ")");
+} //# sourceMappingURL=formatAbiItemWithArgs.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/hash/toEventSelector.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "toEventSelector",
+    ()=>toEventSelector
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toSignatureHash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/toSignatureHash.js [app-client] (ecmascript)");
+;
+const toEventSelector = __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toSignatureHash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toSignatureHash"]; //# sourceMappingURL=toEventSelector.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/abi/getAbiItem.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getAbiItem",
+    ()=>getAbiItem,
+    "getAmbiguousTypes",
+    ()=>getAmbiguousTypes,
+    "isArgOfType",
+    ()=>isArgOfType
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/isHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/address/isAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toEventSelector$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/toEventSelector.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toFunctionSelector$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/toFunctionSelector.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+function getAbiItem(parameters) {
+    const { abi, args = [], name } = parameters;
+    const isSelector = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isHex"])(name, {
+        strict: false
+    });
+    const abiItems = abi.filter((abiItem)=>{
+        if (isSelector) {
+            if (abiItem.type === 'function') return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toFunctionSelector$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toFunctionSelector"])(abiItem) === name;
+            if (abiItem.type === 'event') return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toEventSelector$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toEventSelector"])(abiItem) === name;
+            return false;
+        }
+        return 'name' in abiItem && abiItem.name === name;
+    });
+    if (abiItems.length === 0) return undefined;
+    if (abiItems.length === 1) return abiItems[0];
+    let matchedAbiItem;
+    for (const abiItem of abiItems){
+        if (!('inputs' in abiItem)) continue;
+        if (!args || args.length === 0) {
+            if (!abiItem.inputs || abiItem.inputs.length === 0) return abiItem;
+            continue;
+        }
+        if (!abiItem.inputs) continue;
+        if (abiItem.inputs.length === 0) continue;
+        if (abiItem.inputs.length !== args.length) continue;
+        const matched = args.every((arg, index)=>{
+            const abiParameter = 'inputs' in abiItem && abiItem.inputs[index];
+            if (!abiParameter) return false;
+            return isArgOfType(arg, abiParameter);
+        });
+        if (matched) {
+            // Check for ambiguity against already matched parameters (e.g. `address` vs `bytes20`).
+            if (matchedAbiItem && 'inputs' in matchedAbiItem && matchedAbiItem.inputs) {
+                const ambiguousTypes = getAmbiguousTypes(abiItem.inputs, matchedAbiItem.inputs, args);
+                if (ambiguousTypes) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiItemAmbiguityError"]({
+                    abiItem,
+                    type: ambiguousTypes[0]
+                }, {
+                    abiItem: matchedAbiItem,
+                    type: ambiguousTypes[1]
+                });
+            }
+            matchedAbiItem = abiItem;
+        }
+    }
+    if (matchedAbiItem) return matchedAbiItem;
+    return abiItems[0];
+}
+function isArgOfType(arg, abiParameter) {
+    const argType = typeof arg;
+    const abiParameterType = abiParameter.type;
+    switch(abiParameterType){
+        case 'address':
+            return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isAddress"])(arg, {
+                strict: false
+            });
+        case 'bool':
+            return argType === 'boolean';
+        case 'function':
+            return argType === 'string';
+        case 'string':
+            return argType === 'string';
+        default:
+            {
+                if (abiParameterType === 'tuple' && 'components' in abiParameter) return Object.values(abiParameter.components).every((component, index)=>{
+                    return isArgOfType(Object.values(arg)[index], component);
+                });
+                // `(u)int<M>`: (un)signed integer type of `M` bits, `0 < M <= 256`, `M % 8 == 0`
+                // https://regexr.com/6v8hp
+                if (/^u?int(8|16|24|32|40|48|56|64|72|80|88|96|104|112|120|128|136|144|152|160|168|176|184|192|200|208|216|224|232|240|248|256)?$/.test(abiParameterType)) return argType === 'number' || argType === 'bigint';
+                // `bytes<M>`: binary type of `M` bytes, `0 < M <= 32`
+                // https://regexr.com/6va55
+                if (/^bytes([1-9]|1[0-9]|2[0-9]|3[0-2])?$/.test(abiParameterType)) return argType === 'string' || arg instanceof Uint8Array;
+                // fixed-length (`<type>[M]`) and dynamic (`<type>[]`) arrays
+                // https://regexr.com/6va6i
+                if (/[a-z]+[1-9]{0,3}(\[[0-9]{0,}\])+$/.test(abiParameterType)) {
+                    return Array.isArray(arg) && arg.every((x)=>isArgOfType(x, {
+                            ...abiParameter,
+                            // Pop off `[]` or `[M]` from end of type
+                            type: abiParameterType.replace(/(\[[0-9]{0,}\])$/, '')
+                        }));
+                }
+                return false;
+            }
+    }
+}
+function getAmbiguousTypes(sourceParameters, targetParameters, args) {
+    for(const parameterIndex in sourceParameters){
+        const sourceParameter = sourceParameters[parameterIndex];
+        const targetParameter = targetParameters[parameterIndex];
+        if (sourceParameter.type === 'tuple' && targetParameter.type === 'tuple' && 'components' in sourceParameter && 'components' in targetParameter) return getAmbiguousTypes(sourceParameter.components, targetParameter.components, args[parameterIndex]);
+        const types = [
+            sourceParameter.type,
+            targetParameter.type
+        ];
+        const ambiguous = (()=>{
+            if (types.includes('address') && types.includes('bytes20')) return true;
+            if (types.includes('address') && types.includes('string')) return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isAddress"])(args[parameterIndex], {
+                strict: false
+            });
+            if (types.includes('address') && types.includes('bytes')) return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isAddress"])(args[parameterIndex], {
+                strict: false
+            });
+            return false;
+        })();
+        if (ambiguous) return types;
+    }
+    return;
+} //# sourceMappingURL=getAbiItem.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/unit/formatEther.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "formatEther",
+    ()=>formatEther
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$unit$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/unit.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatUnits$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/unit/formatUnits.js [app-client] (ecmascript)");
+;
+;
+function formatEther(wei) {
+    let unit = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 'wei';
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatUnits$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatUnits"])(wei, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$unit$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["etherUnits"][unit]);
+} //# sourceMappingURL=formatEther.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/unit/formatGwei.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "formatGwei",
+    ()=>formatGwei
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$unit$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/unit.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatUnits$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/unit/formatUnits.js [app-client] (ecmascript)");
+;
+;
+function formatGwei(wei) {
+    let unit = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 'wei';
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatUnits$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatUnits"])(wei, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$unit$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["gweiUnits"][unit]);
+} //# sourceMappingURL=formatGwei.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/stateOverride.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "AccountStateConflictError",
+    ()=>AccountStateConflictError,
+    "StateAssignmentConflictError",
+    ()=>StateAssignmentConflictError,
+    "prettyStateMapping",
+    ()=>prettyStateMapping,
+    "prettyStateOverride",
+    ()=>prettyStateOverride
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+class AccountStateConflictError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ address }){
+        super('State for account "'.concat(address, '" is set multiple times.'), {
+            name: 'AccountStateConflictError'
+        });
+    }
+}
+class StateAssignmentConflictError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(){
+        super('state and stateDiff are set on the same account.', {
+            name: 'StateAssignmentConflictError'
+        });
+    }
+}
+function prettyStateMapping(stateMapping) {
+    return stateMapping.reduce((pretty, param)=>{
+        let { slot, value } = param;
+        return "".concat(pretty, "        ").concat(slot, ": ").concat(value, "\n");
+    }, '');
+}
+function prettyStateOverride(stateOverride) {
+    return stateOverride.reduce((pretty, param)=>{
+        let { address, ...state } = param;
+        let val = "".concat(pretty, "    ").concat(address, ":\n");
+        if (state.nonce) val += "      nonce: ".concat(state.nonce, "\n");
+        if (state.balance) val += "      balance: ".concat(state.balance, "\n");
+        if (state.code) val += "      code: ".concat(state.code, "\n");
+        if (state.state) {
+            val += '      state:\n';
+            val += prettyStateMapping(state.state);
+        }
+        if (state.stateDiff) {
+            val += '      stateDiff:\n';
+            val += prettyStateMapping(state.stateDiff);
+        }
+        return val;
+    }, '  State Override:\n').slice(0, -1);
+} //# sourceMappingURL=stateOverride.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/transaction.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "FeeConflictError",
+    ()=>FeeConflictError,
+    "InvalidLegacyVError",
+    ()=>InvalidLegacyVError,
+    "InvalidSerializableTransactionError",
+    ()=>InvalidSerializableTransactionError,
+    "InvalidSerializedTransactionError",
+    ()=>InvalidSerializedTransactionError,
+    "InvalidSerializedTransactionTypeError",
+    ()=>InvalidSerializedTransactionTypeError,
+    "InvalidStorageKeySizeError",
+    ()=>InvalidStorageKeySizeError,
+    "TransactionExecutionError",
+    ()=>TransactionExecutionError,
+    "TransactionNotFoundError",
+    ()=>TransactionNotFoundError,
+    "TransactionReceiptNotFoundError",
+    ()=>TransactionReceiptNotFoundError,
+    "TransactionReceiptRevertedError",
+    ()=>TransactionReceiptRevertedError,
+    "WaitForTransactionReceiptTimeoutError",
+    ()=>WaitForTransactionReceiptTimeoutError,
+    "prettyPrint",
+    ()=>prettyPrint
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatEther$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/unit/formatEther.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/unit/formatGwei.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+;
+;
+function prettyPrint(args) {
+    const entries = Object.entries(args).map((param)=>{
+        let [key, value] = param;
+        if (value === undefined || value === false) return null;
+        return [
+            key,
+            value
+        ];
+    }).filter(Boolean);
+    const maxLength = entries.reduce((acc, param)=>{
+        let [key] = param;
+        return Math.max(acc, key.length);
+    }, 0);
+    return entries.map((param)=>{
+        let [key, value] = param;
+        return "  ".concat("".concat(key, ":").padEnd(maxLength + 1), "  ").concat(value);
+    }).join('\n');
+}
+class FeeConflictError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(){
+        super([
+            'Cannot specify both a `gasPrice` and a `maxFeePerGas`/`maxPriorityFeePerGas`.',
+            'Use `maxFeePerGas`/`maxPriorityFeePerGas` for EIP-1559 compatible networks, and `gasPrice` for others.'
+        ].join('\n'), {
+            name: 'FeeConflictError'
+        });
+    }
+}
+class InvalidLegacyVError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ v }){
+        super('Invalid `v` value "'.concat(v, '". Expected 27 or 28.'), {
+            name: 'InvalidLegacyVError'
+        });
+    }
+}
+class InvalidSerializableTransactionError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ transaction }){
+        super('Cannot infer a transaction type from provided transaction.', {
+            metaMessages: [
+                'Provided Transaction:',
+                '{',
+                prettyPrint(transaction),
+                '}',
+                '',
+                'To infer the type, either provide:',
+                '- a `type` to the Transaction, or',
+                '- an EIP-1559 Transaction with `maxFeePerGas`, or',
+                '- an EIP-2930 Transaction with `gasPrice` & `accessList`, or',
+                '- an EIP-4844 Transaction with `blobs`, `blobVersionedHashes`, `sidecars`, or',
+                '- an EIP-7702 Transaction with `authorizationList`, or',
+                '- a Legacy Transaction with `gasPrice`'
+            ],
+            name: 'InvalidSerializableTransactionError'
+        });
+    }
+}
+class InvalidSerializedTransactionTypeError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ serializedType }){
+        super('Serialized transaction type "'.concat(serializedType, '" is invalid.'), {
+            name: 'InvalidSerializedTransactionType'
+        });
+        Object.defineProperty(this, "serializedType", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.serializedType = serializedType;
+    }
+}
+class InvalidSerializedTransactionError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ attributes, serializedTransaction, type }){
+        const missing = Object.entries(attributes).map((param)=>{
+            let [key, value] = param;
+            return typeof value === 'undefined' ? key : undefined;
+        }).filter(Boolean);
+        super('Invalid serialized transaction of type "'.concat(type, '" was provided.'), {
+            metaMessages: [
+                'Serialized Transaction: "'.concat(serializedTransaction, '"'),
+                missing.length > 0 ? "Missing Attributes: ".concat(missing.join(', ')) : ''
+            ].filter(Boolean),
+            name: 'InvalidSerializedTransactionError'
+        });
+        Object.defineProperty(this, "serializedTransaction", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "type", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.serializedTransaction = serializedTransaction;
+        this.type = type;
+    }
+}
+class InvalidStorageKeySizeError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ storageKey }){
+        super('Size for storage key "'.concat(storageKey, '" is invalid. Expected 32 bytes. Got ').concat(Math.floor((storageKey.length - 2) / 2), " bytes."), {
+            name: 'InvalidStorageKeySizeError'
+        });
+    }
+}
+class TransactionExecutionError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(cause, { account, docsPath, chain, data, gas, gasPrice, maxFeePerGas, maxPriorityFeePerGas, nonce, to, value }){
+        var _chain_nativeCurrency;
+        const prettyArgs = prettyPrint({
+            chain: chain && "".concat(chain === null || chain === void 0 ? void 0 : chain.name, " (id: ").concat(chain === null || chain === void 0 ? void 0 : chain.id, ")"),
+            from: account === null || account === void 0 ? void 0 : account.address,
+            to,
+            value: typeof value !== 'undefined' && "".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatEther$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatEther"])(value), " ").concat((chain === null || chain === void 0 ? void 0 : (_chain_nativeCurrency = chain.nativeCurrency) === null || _chain_nativeCurrency === void 0 ? void 0 : _chain_nativeCurrency.symbol) || 'ETH'),
+            data,
+            gas,
+            gasPrice: typeof gasPrice !== 'undefined' && "".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatGwei"])(gasPrice), " gwei"),
+            maxFeePerGas: typeof maxFeePerGas !== 'undefined' && "".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatGwei"])(maxFeePerGas), " gwei"),
+            maxPriorityFeePerGas: typeof maxPriorityFeePerGas !== 'undefined' && "".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatGwei"])(maxPriorityFeePerGas), " gwei"),
+            nonce
+        });
+        super(cause.shortMessage, {
+            cause,
+            docsPath,
+            metaMessages: [
+                ...cause.metaMessages ? [
+                    ...cause.metaMessages,
+                    ' '
+                ] : [],
+                'Request Arguments:',
+                prettyArgs
+            ].filter(Boolean),
+            name: 'TransactionExecutionError'
+        });
+        Object.defineProperty(this, "cause", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.cause = cause;
+    }
+}
+class TransactionNotFoundError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ blockHash, blockNumber, blockTag, hash, index }){
+        let identifier = 'Transaction';
+        if (blockTag && index !== undefined) identifier = 'Transaction at block time "'.concat(blockTag, '" at index "').concat(index, '"');
+        if (blockHash && index !== undefined) identifier = 'Transaction at block hash "'.concat(blockHash, '" at index "').concat(index, '"');
+        if (blockNumber && index !== undefined) identifier = 'Transaction at block number "'.concat(blockNumber, '" at index "').concat(index, '"');
+        if (hash) identifier = 'Transaction with hash "'.concat(hash, '"');
+        super("".concat(identifier, " could not be found."), {
+            name: 'TransactionNotFoundError'
+        });
+    }
+}
+class TransactionReceiptNotFoundError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ hash }){
+        super('Transaction receipt with hash "'.concat(hash, '" could not be found. The Transaction may not be processed on a block yet.'), {
+            name: 'TransactionReceiptNotFoundError'
+        });
+    }
+}
+class TransactionReceiptRevertedError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ receipt }){
+        super('Transaction with hash "'.concat(receipt.transactionHash, '" reverted.'), {
+            metaMessages: [
+                'The receipt marked the transaction as "reverted". This could mean that the function on the contract you are trying to call threw an error.',
+                ' ',
+                'You can attempt to extract the revert reason by:',
+                '- calling the `simulateContract` or `simulateCalls` Action with the `abi` and `functionName` of the contract',
+                '- using the `call` Action with raw `data`'
+            ],
+            name: 'TransactionReceiptRevertedError'
+        });
+        Object.defineProperty(this, "receipt", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.receipt = receipt;
+    }
+}
+class WaitForTransactionReceiptTimeoutError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ hash }){
+        super('Timed out while waiting for transaction with hash "'.concat(hash, '" to be confirmed.'), {
+            name: 'WaitForTransactionReceiptTimeoutError'
+        });
+    }
+} //# sourceMappingURL=transaction.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/utils.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getContractAddress",
+    ()=>getContractAddress,
+    "getUrl",
+    ()=>getUrl
+]);
+const getContractAddress = (address)=>address;
+const getUrl = (url)=>url; //# sourceMappingURL=utils.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/contract.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "CallExecutionError",
+    ()=>CallExecutionError,
+    "ContractFunctionExecutionError",
+    ()=>ContractFunctionExecutionError,
+    "ContractFunctionRevertedError",
+    ()=>ContractFunctionRevertedError,
+    "ContractFunctionZeroDataError",
+    ()=>ContractFunctionZeroDataError,
+    "CounterfactualDeploymentFailedError",
+    ()=>CounterfactualDeploymentFailedError,
+    "RawContractError",
+    ()=>RawContractError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/accounts/utils/parseAccount.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$solidity$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/solidity.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeErrorResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeErrorResult.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/formatAbiItem.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItemWithArgs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/formatAbiItemWithArgs.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$getAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/getAbiItem.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatEther$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/unit/formatEther.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/unit/formatGwei.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$stateOverride$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/stateOverride.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/transaction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/utils.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+class CallExecutionError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(cause, { account: account_, docsPath, chain, data, gas, gasPrice, maxFeePerGas, maxPriorityFeePerGas, nonce, to, value, stateOverride }){
+        var _chain_nativeCurrency;
+        const account = account_ ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAccount"])(account_) : undefined;
+        let prettyArgs = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["prettyPrint"])({
+            from: account === null || account === void 0 ? void 0 : account.address,
+            to,
+            value: typeof value !== 'undefined' && "".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatEther$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatEther"])(value), " ").concat((chain === null || chain === void 0 ? void 0 : (_chain_nativeCurrency = chain.nativeCurrency) === null || _chain_nativeCurrency === void 0 ? void 0 : _chain_nativeCurrency.symbol) || 'ETH'),
+            data,
+            gas,
+            gasPrice: typeof gasPrice !== 'undefined' && "".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatGwei"])(gasPrice), " gwei"),
+            maxFeePerGas: typeof maxFeePerGas !== 'undefined' && "".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatGwei"])(maxFeePerGas), " gwei"),
+            maxPriorityFeePerGas: typeof maxPriorityFeePerGas !== 'undefined' && "".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatGwei"])(maxPriorityFeePerGas), " gwei"),
+            nonce
+        });
+        if (stateOverride) {
+            prettyArgs += "\n".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$stateOverride$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["prettyStateOverride"])(stateOverride));
+        }
+        super(cause.shortMessage, {
+            cause,
+            docsPath,
+            metaMessages: [
+                ...cause.metaMessages ? [
+                    ...cause.metaMessages,
+                    ' '
+                ] : [],
+                'Raw Call Arguments:',
+                prettyArgs
+            ].filter(Boolean),
+            name: 'CallExecutionError'
+        });
+        Object.defineProperty(this, "cause", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.cause = cause;
+    }
+}
+class ContractFunctionExecutionError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(cause, { abi, args, contractAddress, docsPath, functionName, sender }){
+        const abiItem = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$getAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAbiItem"])({
+            abi,
+            args,
+            name: functionName
+        });
+        const formattedArgs = abiItem ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItemWithArgs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatAbiItemWithArgs"])({
+            abiItem,
+            args,
+            includeFunctionName: false,
+            includeName: false
+        }) : undefined;
+        const functionWithParams = abiItem ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatAbiItem"])(abiItem, {
+            includeName: true
+        }) : undefined;
+        var _functionName_length;
+        const prettyArgs = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["prettyPrint"])({
+            address: contractAddress && (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getContractAddress"])(contractAddress),
+            function: functionWithParams,
+            args: formattedArgs && formattedArgs !== '()' && "".concat([
+                ...Array((_functionName_length = functionName === null || functionName === void 0 ? void 0 : functionName.length) !== null && _functionName_length !== void 0 ? _functionName_length : 0).keys()
+            ].map(()=>' ').join('')).concat(formattedArgs),
+            sender
+        });
+        super(cause.shortMessage || 'An unknown error occurred while executing the contract function "'.concat(functionName, '".'), {
+            cause,
+            docsPath,
+            metaMessages: [
+                ...cause.metaMessages ? [
+                    ...cause.metaMessages,
+                    ' '
+                ] : [],
+                prettyArgs && 'Contract Call:',
+                prettyArgs
+            ].filter(Boolean),
+            name: 'ContractFunctionExecutionError'
+        });
+        Object.defineProperty(this, "abi", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "args", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "cause", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "contractAddress", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "formattedArgs", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "functionName", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "sender", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.abi = abi;
+        this.args = args;
+        this.cause = cause;
+        this.contractAddress = contractAddress;
+        this.functionName = functionName;
+        this.sender = sender;
+    }
+}
+class ContractFunctionRevertedError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ abi, data, functionName, message }){
+        let cause;
+        let decodedData;
+        let metaMessages;
+        let reason;
+        if (data && data !== '0x') {
+            try {
+                decodedData = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeErrorResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["decodeErrorResult"])({
+                    abi,
+                    data
+                });
+                const { abiItem, errorName, args: errorArgs } = decodedData;
+                if (errorName === 'Error') {
+                    reason = errorArgs[0];
+                } else if (errorName === 'Panic') {
+                    const [firstArg] = errorArgs;
+                    reason = __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$solidity$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["panicReasons"][firstArg];
+                } else {
+                    const errorWithParams = abiItem ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatAbiItem"])(abiItem, {
+                        includeName: true
+                    }) : undefined;
+                    const formattedArgs = abiItem && errorArgs ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItemWithArgs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatAbiItemWithArgs"])({
+                        abiItem,
+                        args: errorArgs,
+                        includeFunctionName: false,
+                        includeName: false
+                    }) : undefined;
+                    var _errorName_length;
+                    metaMessages = [
+                        errorWithParams ? "Error: ".concat(errorWithParams) : '',
+                        formattedArgs && formattedArgs !== '()' ? "       ".concat([
+                            ...Array((_errorName_length = errorName === null || errorName === void 0 ? void 0 : errorName.length) !== null && _errorName_length !== void 0 ? _errorName_length : 0).keys()
+                        ].map(()=>' ').join('')).concat(formattedArgs) : ''
+                    ];
+                }
+            } catch (err) {
+                cause = err;
+            }
+        } else if (message) reason = message;
+        let signature;
+        if (cause instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiErrorSignatureNotFoundError"]) {
+            signature = cause.signature;
+            metaMessages = [
+                'Unable to decode signature "'.concat(signature, '" as it was not found on the provided ABI.'),
+                'Make sure you are using the correct ABI and that the error exists on it.',
+                "You can look up the decoded signature here: https://openchain.xyz/signatures?query=".concat(signature, ".")
+            ];
+        }
+        super(reason && reason !== 'execution reverted' || signature ? [
+            'The contract function "'.concat(functionName, '" reverted with the following ').concat(signature ? 'signature' : 'reason', ":"),
+            reason || signature
+        ].join('\n') : 'The contract function "'.concat(functionName, '" reverted.'), {
+            cause,
+            metaMessages,
+            name: 'ContractFunctionRevertedError'
+        });
+        Object.defineProperty(this, "data", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "raw", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "reason", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "signature", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.data = decodedData;
+        this.raw = data;
+        this.reason = reason;
+        this.signature = signature;
+    }
+}
+class ContractFunctionZeroDataError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ functionName }){
+        super('The contract function "'.concat(functionName, '" returned no data ("0x").'), {
+            metaMessages: [
+                'This could be due to any of the following:',
+                '  - The contract does not have the function "'.concat(functionName, '",'),
+                '  - The parameters passed to the contract function may be invalid, or',
+                '  - The address is not a contract.'
+            ],
+            name: 'ContractFunctionZeroDataError'
+        });
+    }
+}
+class CounterfactualDeploymentFailedError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ factory }){
+        super("Deployment for counterfactual contract call failed".concat(factory ? ' for factory "'.concat(factory, '".') : ''), {
+            metaMessages: [
+                'Please ensure:',
+                '- The `factory` is a valid contract deployment factory (ie. Create2 Factory, ERC-4337 Factory, etc).',
+                '- The `factoryData` is a valid encoded function call for contract deployment function on the factory.'
+            ],
+            name: 'CounterfactualDeploymentFailedError'
+        });
+    }
+}
+class RawContractError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ data, message }){
+        super(message || '', {
+            name: 'RawContractError'
+        });
+        Object.defineProperty(this, "code", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 3
+        });
+        Object.defineProperty(this, "data", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.data = data;
+    }
+} //# sourceMappingURL=contract.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/constants/abis.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/* [Multicall3](https://github.com/mds1/multicall) */ __turbopack_context__.s([
+    "addressResolverAbi",
+    ()=>addressResolverAbi,
+    "batchGatewayAbi",
+    ()=>batchGatewayAbi,
+    "erc1155Abi",
+    ()=>erc1155Abi,
+    "erc1271Abi",
+    ()=>erc1271Abi,
+    "erc20Abi",
+    ()=>erc20Abi,
+    "erc20Abi_bytes32",
+    ()=>erc20Abi_bytes32,
+    "erc4626Abi",
+    ()=>erc4626Abi,
+    "erc6492SignatureValidatorAbi",
+    ()=>erc6492SignatureValidatorAbi,
+    "erc721Abi",
+    ()=>erc721Abi,
+    "multicall3Abi",
+    ()=>multicall3Abi,
+    "textResolverAbi",
+    ()=>textResolverAbi,
+    "universalResolverResolveAbi",
+    ()=>universalResolverResolveAbi,
+    "universalResolverReverseAbi",
+    ()=>universalResolverReverseAbi
+]);
+const multicall3Abi = [
+    {
+        inputs: [
+            {
+                components: [
+                    {
+                        name: 'target',
+                        type: 'address'
+                    },
+                    {
+                        name: 'allowFailure',
+                        type: 'bool'
+                    },
+                    {
+                        name: 'callData',
+                        type: 'bytes'
+                    }
+                ],
+                name: 'calls',
+                type: 'tuple[]'
+            }
+        ],
+        name: 'aggregate3',
+        outputs: [
+            {
+                components: [
+                    {
+                        name: 'success',
+                        type: 'bool'
+                    },
+                    {
+                        name: 'returnData',
+                        type: 'bytes'
+                    }
+                ],
+                name: 'returnData',
+                type: 'tuple[]'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [],
+        name: 'getCurrentBlockTimestamp',
+        outputs: [
+            {
+                internalType: 'uint256',
+                name: 'timestamp',
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    }
+];
+const batchGatewayAbi = [
+    {
+        name: 'query',
+        type: 'function',
+        stateMutability: 'view',
+        inputs: [
+            {
+                type: 'tuple[]',
+                name: 'queries',
+                components: [
+                    {
+                        type: 'address',
+                        name: 'sender'
+                    },
+                    {
+                        type: 'string[]',
+                        name: 'urls'
+                    },
+                    {
+                        type: 'bytes',
+                        name: 'data'
+                    }
+                ]
+            }
+        ],
+        outputs: [
+            {
+                type: 'bool[]',
+                name: 'failures'
+            },
+            {
+                type: 'bytes[]',
+                name: 'responses'
+            }
+        ]
+    },
+    {
+        name: 'HttpError',
+        type: 'error',
+        inputs: [
+            {
+                type: 'uint16',
+                name: 'status'
+            },
+            {
+                type: 'string',
+                name: 'message'
+            }
+        ]
+    }
+];
+const universalResolverErrors = [
+    {
+        inputs: [
+            {
+                name: 'dns',
+                type: 'bytes'
+            }
+        ],
+        name: 'DNSDecodingFailed',
+        type: 'error'
+    },
+    {
+        inputs: [
+            {
+                name: 'ens',
+                type: 'string'
+            }
+        ],
+        name: 'DNSEncodingFailed',
+        type: 'error'
+    },
+    {
+        inputs: [],
+        name: 'EmptyAddress',
+        type: 'error'
+    },
+    {
+        inputs: [
+            {
+                name: 'status',
+                type: 'uint16'
+            },
+            {
+                name: 'message',
+                type: 'string'
+            }
+        ],
+        name: 'HttpError',
+        type: 'error'
+    },
+    {
+        inputs: [],
+        name: 'InvalidBatchGatewayResponse',
+        type: 'error'
+    },
+    {
+        inputs: [
+            {
+                name: 'errorData',
+                type: 'bytes'
+            }
+        ],
+        name: 'ResolverError',
+        type: 'error'
+    },
+    {
+        inputs: [
+            {
+                name: 'name',
+                type: 'bytes'
+            },
+            {
+                name: 'resolver',
+                type: 'address'
+            }
+        ],
+        name: 'ResolverNotContract',
+        type: 'error'
+    },
+    {
+        inputs: [
+            {
+                name: 'name',
+                type: 'bytes'
+            }
+        ],
+        name: 'ResolverNotFound',
+        type: 'error'
+    },
+    {
+        inputs: [
+            {
+                name: 'primary',
+                type: 'string'
+            },
+            {
+                name: 'primaryAddress',
+                type: 'bytes'
+            }
+        ],
+        name: 'ReverseAddressMismatch',
+        type: 'error'
+    },
+    {
+        inputs: [
+            {
+                internalType: 'bytes4',
+                name: 'selector',
+                type: 'bytes4'
+            }
+        ],
+        name: 'UnsupportedResolverProfile',
+        type: 'error'
+    }
+];
+const universalResolverResolveAbi = [
+    ...universalResolverErrors,
+    {
+        name: 'resolveWithGateways',
+        type: 'function',
+        stateMutability: 'view',
+        inputs: [
+            {
+                name: 'name',
+                type: 'bytes'
+            },
+            {
+                name: 'data',
+                type: 'bytes'
+            },
+            {
+                name: 'gateways',
+                type: 'string[]'
+            }
+        ],
+        outputs: [
+            {
+                name: '',
+                type: 'bytes'
+            },
+            {
+                name: 'address',
+                type: 'address'
+            }
+        ]
+    }
+];
+const universalResolverReverseAbi = [
+    ...universalResolverErrors,
+    {
+        name: 'reverseWithGateways',
+        type: 'function',
+        stateMutability: 'view',
+        inputs: [
+            {
+                type: 'bytes',
+                name: 'reverseName'
+            },
+            {
+                type: 'uint256',
+                name: 'coinType'
+            },
+            {
+                type: 'string[]',
+                name: 'gateways'
+            }
+        ],
+        outputs: [
+            {
+                type: 'string',
+                name: 'resolvedName'
+            },
+            {
+                type: 'address',
+                name: 'resolver'
+            },
+            {
+                type: 'address',
+                name: 'reverseResolver'
+            }
+        ]
+    }
+];
+const textResolverAbi = [
+    {
+        name: 'text',
+        type: 'function',
+        stateMutability: 'view',
+        inputs: [
+            {
+                name: 'name',
+                type: 'bytes32'
+            },
+            {
+                name: 'key',
+                type: 'string'
+            }
+        ],
+        outputs: [
+            {
+                name: '',
+                type: 'string'
+            }
+        ]
+    }
+];
+const addressResolverAbi = [
+    {
+        name: 'addr',
+        type: 'function',
+        stateMutability: 'view',
+        inputs: [
+            {
+                name: 'name',
+                type: 'bytes32'
+            }
+        ],
+        outputs: [
+            {
+                name: '',
+                type: 'address'
+            }
+        ]
+    },
+    {
+        name: 'addr',
+        type: 'function',
+        stateMutability: 'view',
+        inputs: [
+            {
+                name: 'name',
+                type: 'bytes32'
+            },
+            {
+                name: 'coinType',
+                type: 'uint256'
+            }
+        ],
+        outputs: [
+            {
+                name: '',
+                type: 'bytes'
+            }
+        ]
+    }
+];
+const erc1271Abi = [
+    {
+        name: 'isValidSignature',
+        type: 'function',
+        stateMutability: 'view',
+        inputs: [
+            {
+                name: 'hash',
+                type: 'bytes32'
+            },
+            {
+                name: 'signature',
+                type: 'bytes'
+            }
+        ],
+        outputs: [
+            {
+                name: '',
+                type: 'bytes4'
+            }
+        ]
+    }
+];
+const erc6492SignatureValidatorAbi = [
+    {
+        inputs: [
+            {
+                name: '_signer',
+                type: 'address'
+            },
+            {
+                name: '_hash',
+                type: 'bytes32'
+            },
+            {
+                name: '_signature',
+                type: 'bytes'
+            }
+        ],
+        stateMutability: 'nonpayable',
+        type: 'constructor'
+    },
+    {
+        inputs: [
+            {
+                name: '_signer',
+                type: 'address'
+            },
+            {
+                name: '_hash',
+                type: 'bytes32'
+            },
+            {
+                name: '_signature',
+                type: 'bytes'
+            }
+        ],
+        outputs: [
+            {
+                type: 'bool'
+            }
+        ],
+        stateMutability: 'nonpayable',
+        type: 'function',
+        name: 'isValidSig'
+    }
+];
+const erc20Abi = [
+    {
+        type: 'event',
+        name: 'Approval',
+        inputs: [
+            {
+                indexed: true,
+                name: 'owner',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                name: 'spender',
+                type: 'address'
+            },
+            {
+                indexed: false,
+                name: 'value',
+                type: 'uint256'
+            }
+        ]
+    },
+    {
+        type: 'event',
+        name: 'Transfer',
+        inputs: [
+            {
+                indexed: true,
+                name: 'from',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                name: 'to',
+                type: 'address'
+            },
+            {
+                indexed: false,
+                name: 'value',
+                type: 'uint256'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'allowance',
+        stateMutability: 'view',
+        inputs: [
+            {
+                name: 'owner',
+                type: 'address'
+            },
+            {
+                name: 'spender',
+                type: 'address'
+            }
+        ],
+        outputs: [
+            {
+                type: 'uint256'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'approve',
+        stateMutability: 'nonpayable',
+        inputs: [
+            {
+                name: 'spender',
+                type: 'address'
+            },
+            {
+                name: 'amount',
+                type: 'uint256'
+            }
+        ],
+        outputs: [
+            {
+                type: 'bool'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'balanceOf',
+        stateMutability: 'view',
+        inputs: [
+            {
+                name: 'account',
+                type: 'address'
+            }
+        ],
+        outputs: [
+            {
+                type: 'uint256'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'decimals',
+        stateMutability: 'view',
+        inputs: [],
+        outputs: [
+            {
+                type: 'uint8'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'name',
+        stateMutability: 'view',
+        inputs: [],
+        outputs: [
+            {
+                type: 'string'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'symbol',
+        stateMutability: 'view',
+        inputs: [],
+        outputs: [
+            {
+                type: 'string'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'totalSupply',
+        stateMutability: 'view',
+        inputs: [],
+        outputs: [
+            {
+                type: 'uint256'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'transfer',
+        stateMutability: 'nonpayable',
+        inputs: [
+            {
+                name: 'recipient',
+                type: 'address'
+            },
+            {
+                name: 'amount',
+                type: 'uint256'
+            }
+        ],
+        outputs: [
+            {
+                type: 'bool'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'transferFrom',
+        stateMutability: 'nonpayable',
+        inputs: [
+            {
+                name: 'sender',
+                type: 'address'
+            },
+            {
+                name: 'recipient',
+                type: 'address'
+            },
+            {
+                name: 'amount',
+                type: 'uint256'
+            }
+        ],
+        outputs: [
+            {
+                type: 'bool'
+            }
+        ]
+    }
+];
+const erc20Abi_bytes32 = [
+    {
+        type: 'event',
+        name: 'Approval',
+        inputs: [
+            {
+                indexed: true,
+                name: 'owner',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                name: 'spender',
+                type: 'address'
+            },
+            {
+                indexed: false,
+                name: 'value',
+                type: 'uint256'
+            }
+        ]
+    },
+    {
+        type: 'event',
+        name: 'Transfer',
+        inputs: [
+            {
+                indexed: true,
+                name: 'from',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                name: 'to',
+                type: 'address'
+            },
+            {
+                indexed: false,
+                name: 'value',
+                type: 'uint256'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'allowance',
+        stateMutability: 'view',
+        inputs: [
+            {
+                name: 'owner',
+                type: 'address'
+            },
+            {
+                name: 'spender',
+                type: 'address'
+            }
+        ],
+        outputs: [
+            {
+                type: 'uint256'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'approve',
+        stateMutability: 'nonpayable',
+        inputs: [
+            {
+                name: 'spender',
+                type: 'address'
+            },
+            {
+                name: 'amount',
+                type: 'uint256'
+            }
+        ],
+        outputs: [
+            {
+                type: 'bool'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'balanceOf',
+        stateMutability: 'view',
+        inputs: [
+            {
+                name: 'account',
+                type: 'address'
+            }
+        ],
+        outputs: [
+            {
+                type: 'uint256'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'decimals',
+        stateMutability: 'view',
+        inputs: [],
+        outputs: [
+            {
+                type: 'uint8'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'name',
+        stateMutability: 'view',
+        inputs: [],
+        outputs: [
+            {
+                type: 'bytes32'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'symbol',
+        stateMutability: 'view',
+        inputs: [],
+        outputs: [
+            {
+                type: 'bytes32'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'totalSupply',
+        stateMutability: 'view',
+        inputs: [],
+        outputs: [
+            {
+                type: 'uint256'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'transfer',
+        stateMutability: 'nonpayable',
+        inputs: [
+            {
+                name: 'recipient',
+                type: 'address'
+            },
+            {
+                name: 'amount',
+                type: 'uint256'
+            }
+        ],
+        outputs: [
+            {
+                type: 'bool'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'transferFrom',
+        stateMutability: 'nonpayable',
+        inputs: [
+            {
+                name: 'sender',
+                type: 'address'
+            },
+            {
+                name: 'recipient',
+                type: 'address'
+            },
+            {
+                name: 'amount',
+                type: 'uint256'
+            }
+        ],
+        outputs: [
+            {
+                type: 'bool'
+            }
+        ]
+    }
+];
+const erc1155Abi = [
+    {
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'sender',
+                type: 'address'
+            },
+            {
+                internalType: 'uint256',
+                name: 'balance',
+                type: 'uint256'
+            },
+            {
+                internalType: 'uint256',
+                name: 'needed',
+                type: 'uint256'
+            },
+            {
+                internalType: 'uint256',
+                name: 'tokenId',
+                type: 'uint256'
+            }
+        ],
+        name: 'ERC1155InsufficientBalance',
+        type: 'error'
+    },
+    {
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'approver',
+                type: 'address'
+            }
+        ],
+        name: 'ERC1155InvalidApprover',
+        type: 'error'
+    },
+    {
+        inputs: [
+            {
+                internalType: 'uint256',
+                name: 'idsLength',
+                type: 'uint256'
+            },
+            {
+                internalType: 'uint256',
+                name: 'valuesLength',
+                type: 'uint256'
+            }
+        ],
+        name: 'ERC1155InvalidArrayLength',
+        type: 'error'
+    },
+    {
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'operator',
+                type: 'address'
+            }
+        ],
+        name: 'ERC1155InvalidOperator',
+        type: 'error'
+    },
+    {
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'receiver',
+                type: 'address'
+            }
+        ],
+        name: 'ERC1155InvalidReceiver',
+        type: 'error'
+    },
+    {
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'sender',
+                type: 'address'
+            }
+        ],
+        name: 'ERC1155InvalidSender',
+        type: 'error'
+    },
+    {
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'operator',
+                type: 'address'
+            },
+            {
+                internalType: 'address',
+                name: 'owner',
+                type: 'address'
+            }
+        ],
+        name: 'ERC1155MissingApprovalForAll',
+        type: 'error'
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: true,
+                internalType: 'address',
+                name: 'account',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                internalType: 'address',
+                name: 'operator',
+                type: 'address'
+            },
+            {
+                indexed: false,
+                internalType: 'bool',
+                name: 'approved',
+                type: 'bool'
+            }
+        ],
+        name: 'ApprovalForAll',
+        type: 'event'
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: true,
+                internalType: 'address',
+                name: 'operator',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                internalType: 'address',
+                name: 'from',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                internalType: 'address',
+                name: 'to',
+                type: 'address'
+            },
+            {
+                indexed: false,
+                internalType: 'uint256[]',
+                name: 'ids',
+                type: 'uint256[]'
+            },
+            {
+                indexed: false,
+                internalType: 'uint256[]',
+                name: 'values',
+                type: 'uint256[]'
+            }
+        ],
+        name: 'TransferBatch',
+        type: 'event'
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: true,
+                internalType: 'address',
+                name: 'operator',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                internalType: 'address',
+                name: 'from',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                internalType: 'address',
+                name: 'to',
+                type: 'address'
+            },
+            {
+                indexed: false,
+                internalType: 'uint256',
+                name: 'id',
+                type: 'uint256'
+            },
+            {
+                indexed: false,
+                internalType: 'uint256',
+                name: 'value',
+                type: 'uint256'
+            }
+        ],
+        name: 'TransferSingle',
+        type: 'event'
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: false,
+                internalType: 'string',
+                name: 'value',
+                type: 'string'
+            },
+            {
+                indexed: true,
+                internalType: 'uint256',
+                name: 'id',
+                type: 'uint256'
+            }
+        ],
+        name: 'URI',
+        type: 'event'
+    },
+    {
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'account',
+                type: 'address'
+            },
+            {
+                internalType: 'uint256',
+                name: 'id',
+                type: 'uint256'
+            }
+        ],
+        name: 'balanceOf',
+        outputs: [
+            {
+                internalType: 'uint256',
+                name: '',
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                internalType: 'address[]',
+                name: 'accounts',
+                type: 'address[]'
+            },
+            {
+                internalType: 'uint256[]',
+                name: 'ids',
+                type: 'uint256[]'
+            }
+        ],
+        name: 'balanceOfBatch',
+        outputs: [
+            {
+                internalType: 'uint256[]',
+                name: '',
+                type: 'uint256[]'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'account',
+                type: 'address'
+            },
+            {
+                internalType: 'address',
+                name: 'operator',
+                type: 'address'
+            }
+        ],
+        name: 'isApprovedForAll',
+        outputs: [
+            {
+                internalType: 'bool',
+                name: '',
+                type: 'bool'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'from',
+                type: 'address'
+            },
+            {
+                internalType: 'address',
+                name: 'to',
+                type: 'address'
+            },
+            {
+                internalType: 'uint256[]',
+                name: 'ids',
+                type: 'uint256[]'
+            },
+            {
+                internalType: 'uint256[]',
+                name: 'values',
+                type: 'uint256[]'
+            },
+            {
+                internalType: 'bytes',
+                name: 'data',
+                type: 'bytes'
+            }
+        ],
+        name: 'safeBatchTransferFrom',
+        outputs: [],
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'from',
+                type: 'address'
+            },
+            {
+                internalType: 'address',
+                name: 'to',
+                type: 'address'
+            },
+            {
+                internalType: 'uint256',
+                name: 'id',
+                type: 'uint256'
+            },
+            {
+                internalType: 'uint256',
+                name: 'value',
+                type: 'uint256'
+            },
+            {
+                internalType: 'bytes',
+                name: 'data',
+                type: 'bytes'
+            }
+        ],
+        name: 'safeTransferFrom',
+        outputs: [],
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'operator',
+                type: 'address'
+            },
+            {
+                internalType: 'bool',
+                name: 'approved',
+                type: 'bool'
+            }
+        ],
+        name: 'setApprovalForAll',
+        outputs: [],
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                internalType: 'bytes4',
+                name: 'interfaceId',
+                type: 'bytes4'
+            }
+        ],
+        name: 'supportsInterface',
+        outputs: [
+            {
+                internalType: 'bool',
+                name: '',
+                type: 'bool'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                internalType: 'uint256',
+                name: '',
+                type: 'uint256'
+            }
+        ],
+        name: 'uri',
+        outputs: [
+            {
+                internalType: 'string',
+                name: '',
+                type: 'string'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    }
+];
+const erc721Abi = [
+    {
+        type: 'event',
+        name: 'Approval',
+        inputs: [
+            {
+                indexed: true,
+                name: 'owner',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                name: 'spender',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                name: 'tokenId',
+                type: 'uint256'
+            }
+        ]
+    },
+    {
+        type: 'event',
+        name: 'ApprovalForAll',
+        inputs: [
+            {
+                indexed: true,
+                name: 'owner',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                name: 'operator',
+                type: 'address'
+            },
+            {
+                indexed: false,
+                name: 'approved',
+                type: 'bool'
+            }
+        ]
+    },
+    {
+        type: 'event',
+        name: 'Transfer',
+        inputs: [
+            {
+                indexed: true,
+                name: 'from',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                name: 'to',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                name: 'tokenId',
+                type: 'uint256'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'approve',
+        stateMutability: 'payable',
+        inputs: [
+            {
+                name: 'spender',
+                type: 'address'
+            },
+            {
+                name: 'tokenId',
+                type: 'uint256'
+            }
+        ],
+        outputs: []
+    },
+    {
+        type: 'function',
+        name: 'balanceOf',
+        stateMutability: 'view',
+        inputs: [
+            {
+                name: 'account',
+                type: 'address'
+            }
+        ],
+        outputs: [
+            {
+                type: 'uint256'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'getApproved',
+        stateMutability: 'view',
+        inputs: [
+            {
+                name: 'tokenId',
+                type: 'uint256'
+            }
+        ],
+        outputs: [
+            {
+                type: 'address'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'isApprovedForAll',
+        stateMutability: 'view',
+        inputs: [
+            {
+                name: 'owner',
+                type: 'address'
+            },
+            {
+                name: 'operator',
+                type: 'address'
+            }
+        ],
+        outputs: [
+            {
+                type: 'bool'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'name',
+        stateMutability: 'view',
+        inputs: [],
+        outputs: [
+            {
+                type: 'string'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'ownerOf',
+        stateMutability: 'view',
+        inputs: [
+            {
+                name: 'tokenId',
+                type: 'uint256'
+            }
+        ],
+        outputs: [
+            {
+                name: 'owner',
+                type: 'address'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'safeTransferFrom',
+        stateMutability: 'payable',
+        inputs: [
+            {
+                name: 'from',
+                type: 'address'
+            },
+            {
+                name: 'to',
+                type: 'address'
+            },
+            {
+                name: 'tokenId',
+                type: 'uint256'
+            }
+        ],
+        outputs: []
+    },
+    {
+        type: 'function',
+        name: 'safeTransferFrom',
+        stateMutability: 'nonpayable',
+        inputs: [
+            {
+                name: 'from',
+                type: 'address'
+            },
+            {
+                name: 'to',
+                type: 'address'
+            },
+            {
+                name: 'id',
+                type: 'uint256'
+            },
+            {
+                name: 'data',
+                type: 'bytes'
+            }
+        ],
+        outputs: []
+    },
+    {
+        type: 'function',
+        name: 'setApprovalForAll',
+        stateMutability: 'nonpayable',
+        inputs: [
+            {
+                name: 'operator',
+                type: 'address'
+            },
+            {
+                name: 'approved',
+                type: 'bool'
+            }
+        ],
+        outputs: []
+    },
+    {
+        type: 'function',
+        name: 'symbol',
+        stateMutability: 'view',
+        inputs: [],
+        outputs: [
+            {
+                type: 'string'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'tokenByIndex',
+        stateMutability: 'view',
+        inputs: [
+            {
+                name: 'index',
+                type: 'uint256'
+            }
+        ],
+        outputs: [
+            {
+                type: 'uint256'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'tokenByIndex',
+        stateMutability: 'view',
+        inputs: [
+            {
+                name: 'owner',
+                type: 'address'
+            },
+            {
+                name: 'index',
+                type: 'uint256'
+            }
+        ],
+        outputs: [
+            {
+                name: 'tokenId',
+                type: 'uint256'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'tokenURI',
+        stateMutability: 'view',
+        inputs: [
+            {
+                name: 'tokenId',
+                type: 'uint256'
+            }
+        ],
+        outputs: [
+            {
+                type: 'string'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'totalSupply',
+        stateMutability: 'view',
+        inputs: [],
+        outputs: [
+            {
+                type: 'uint256'
+            }
+        ]
+    },
+    {
+        type: 'function',
+        name: 'transferFrom',
+        stateMutability: 'payable',
+        inputs: [
+            {
+                name: 'sender',
+                type: 'address'
+            },
+            {
+                name: 'recipient',
+                type: 'address'
+            },
+            {
+                name: 'tokenId',
+                type: 'uint256'
+            }
+        ],
+        outputs: []
+    }
+];
+const erc4626Abi = [
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: true,
+                name: 'owner',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                name: 'spender',
+                type: 'address'
+            },
+            {
+                indexed: false,
+                name: 'value',
+                type: 'uint256'
+            }
+        ],
+        name: 'Approval',
+        type: 'event'
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: true,
+                name: 'sender',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                name: 'receiver',
+                type: 'address'
+            },
+            {
+                indexed: false,
+                name: 'assets',
+                type: 'uint256'
+            },
+            {
+                indexed: false,
+                name: 'shares',
+                type: 'uint256'
+            }
+        ],
+        name: 'Deposit',
+        type: 'event'
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: true,
+                name: 'from',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                name: 'to',
+                type: 'address'
+            },
+            {
+                indexed: false,
+                name: 'value',
+                type: 'uint256'
+            }
+        ],
+        name: 'Transfer',
+        type: 'event'
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: true,
+                name: 'sender',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                name: 'receiver',
+                type: 'address'
+            },
+            {
+                indexed: true,
+                name: 'owner',
+                type: 'address'
+            },
+            {
+                indexed: false,
+                name: 'assets',
+                type: 'uint256'
+            },
+            {
+                indexed: false,
+                name: 'shares',
+                type: 'uint256'
+            }
+        ],
+        name: 'Withdraw',
+        type: 'event'
+    },
+    {
+        inputs: [
+            {
+                name: 'owner',
+                type: 'address'
+            },
+            {
+                name: 'spender',
+                type: 'address'
+            }
+        ],
+        name: 'allowance',
+        outputs: [
+            {
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                name: 'spender',
+                type: 'address'
+            },
+            {
+                name: 'amount',
+                type: 'uint256'
+            }
+        ],
+        name: 'approve',
+        outputs: [
+            {
+                type: 'bool'
+            }
+        ],
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        inputs: [],
+        name: 'asset',
+        outputs: [
+            {
+                name: 'assetTokenAddress',
+                type: 'address'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                name: 'account',
+                type: 'address'
+            }
+        ],
+        name: 'balanceOf',
+        outputs: [
+            {
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                name: 'shares',
+                type: 'uint256'
+            }
+        ],
+        name: 'convertToAssets',
+        outputs: [
+            {
+                name: 'assets',
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                name: 'assets',
+                type: 'uint256'
+            }
+        ],
+        name: 'convertToShares',
+        outputs: [
+            {
+                name: 'shares',
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                name: 'assets',
+                type: 'uint256'
+            },
+            {
+                name: 'receiver',
+                type: 'address'
+            }
+        ],
+        name: 'deposit',
+        outputs: [
+            {
+                name: 'shares',
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                name: 'caller',
+                type: 'address'
+            }
+        ],
+        name: 'maxDeposit',
+        outputs: [
+            {
+                name: 'maxAssets',
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                name: 'caller',
+                type: 'address'
+            }
+        ],
+        name: 'maxMint',
+        outputs: [
+            {
+                name: 'maxShares',
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                name: 'owner',
+                type: 'address'
+            }
+        ],
+        name: 'maxRedeem',
+        outputs: [
+            {
+                name: 'maxShares',
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                name: 'owner',
+                type: 'address'
+            }
+        ],
+        name: 'maxWithdraw',
+        outputs: [
+            {
+                name: 'maxAssets',
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                name: 'shares',
+                type: 'uint256'
+            },
+            {
+                name: 'receiver',
+                type: 'address'
+            }
+        ],
+        name: 'mint',
+        outputs: [
+            {
+                name: 'assets',
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                name: 'assets',
+                type: 'uint256'
+            }
+        ],
+        name: 'previewDeposit',
+        outputs: [
+            {
+                name: 'shares',
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                name: 'shares',
+                type: 'uint256'
+            }
+        ],
+        name: 'previewMint',
+        outputs: [
+            {
+                name: 'assets',
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                name: 'shares',
+                type: 'uint256'
+            }
+        ],
+        name: 'previewRedeem',
+        outputs: [
+            {
+                name: 'assets',
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                name: 'assets',
+                type: 'uint256'
+            }
+        ],
+        name: 'previewWithdraw',
+        outputs: [
+            {
+                name: 'shares',
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                name: 'shares',
+                type: 'uint256'
+            },
+            {
+                name: 'receiver',
+                type: 'address'
+            },
+            {
+                name: 'owner',
+                type: 'address'
+            }
+        ],
+        name: 'redeem',
+        outputs: [
+            {
+                name: 'assets',
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        inputs: [],
+        name: 'totalAssets',
+        outputs: [
+            {
+                name: 'totalManagedAssets',
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [],
+        name: 'totalSupply',
+        outputs: [
+            {
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                name: 'to',
+                type: 'address'
+            },
+            {
+                name: 'amount',
+                type: 'uint256'
+            }
+        ],
+        name: 'transfer',
+        outputs: [
+            {
+                type: 'bool'
+            }
+        ],
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                name: 'from',
+                type: 'address'
+            },
+            {
+                name: 'to',
+                type: 'address'
+            },
+            {
+                name: 'amount',
+                type: 'uint256'
+            }
+        ],
+        name: 'transferFrom',
+        outputs: [
+            {
+                type: 'bool'
+            }
+        ],
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        inputs: [
+            {
+                name: 'assets',
+                type: 'uint256'
+            },
+            {
+                name: 'receiver',
+                type: 'address'
+            },
+            {
+                name: 'owner',
+                type: 'address'
+            }
+        ],
+        name: 'withdraw',
+        outputs: [
+            {
+                name: 'shares',
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'nonpayable',
+        type: 'function'
+    }
+]; //# sourceMappingURL=abis.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/constants/contracts.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "deploylessCallViaBytecodeBytecode",
+    ()=>deploylessCallViaBytecodeBytecode,
+    "deploylessCallViaFactoryBytecode",
+    ()=>deploylessCallViaFactoryBytecode,
+    "erc6492SignatureValidatorByteCode",
+    ()=>erc6492SignatureValidatorByteCode,
+    "multicall3Bytecode",
+    ()=>multicall3Bytecode
+]);
+const deploylessCallViaBytecodeBytecode = '0x608060405234801561001057600080fd5b5060405161018e38038061018e83398101604081905261002f91610124565b6000808351602085016000f59050803b61004857600080fd5b6000808351602085016000855af16040513d6000823e81610067573d81fd5b3d81f35b634e487b7160e01b600052604160045260246000fd5b600082601f83011261009257600080fd5b81516001600160401b038111156100ab576100ab61006b565b604051601f8201601f19908116603f011681016001600160401b03811182821017156100d9576100d961006b565b6040528181528382016020018510156100f157600080fd5b60005b82811015610110576020818601810151838301820152016100f4565b506000918101602001919091529392505050565b6000806040838503121561013757600080fd5b82516001600160401b0381111561014d57600080fd5b61015985828601610081565b602085015190935090506001600160401b0381111561017757600080fd5b61018385828601610081565b915050925092905056fe';
+const deploylessCallViaFactoryBytecode = '0x608060405234801561001057600080fd5b506040516102c03803806102c083398101604081905261002f916101e6565b836001600160a01b03163b6000036100e457600080836001600160a01b03168360405161005c9190610270565b6000604051808303816000865af19150503d8060008114610099576040519150601f19603f3d011682016040523d82523d6000602084013e61009e565b606091505b50915091508115806100b857506001600160a01b0386163b155b156100e1578060405163101bb98d60e01b81526004016100d8919061028c565b60405180910390fd5b50505b6000808451602086016000885af16040513d6000823e81610103573d81fd5b3d81f35b80516001600160a01b038116811461011e57600080fd5b919050565b634e487b7160e01b600052604160045260246000fd5b60005b8381101561015457818101518382015260200161013c565b50506000910152565b600082601f83011261016e57600080fd5b81516001600160401b0381111561018757610187610123565b604051601f8201601f19908116603f011681016001600160401b03811182821017156101b5576101b5610123565b6040528181528382016020018510156101cd57600080fd5b6101de826020830160208701610139565b949350505050565b600080600080608085870312156101fc57600080fd5b61020585610107565b60208601519094506001600160401b0381111561022157600080fd5b61022d8782880161015d565b93505061023c60408601610107565b60608601519092506001600160401b0381111561025857600080fd5b6102648782880161015d565b91505092959194509250565b60008251610282818460208701610139565b9190910192915050565b60208152600082518060208401526102ab816040850160208701610139565b601f01601f1916919091016040019291505056fe';
+const erc6492SignatureValidatorByteCode = '0x608060405234801561001057600080fd5b5060405161069438038061069483398101604081905261002f9161051e565b600061003c848484610048565b9050806000526001601ff35b60007f64926492649264926492649264926492649264926492649264926492649264926100748361040c565b036101e7576000606080848060200190518101906100929190610577565b60405192955090935091506000906001600160a01b038516906100b69085906105dd565b6000604051808303816000865af19150503d80600081146100f3576040519150601f19603f3d011682016040523d82523d6000602084013e6100f8565b606091505b50509050876001600160a01b03163b60000361016057806101605760405162461bcd60e51b815260206004820152601e60248201527f5369676e617475726556616c696461746f723a206465706c6f796d656e74000060448201526064015b60405180910390fd5b604051630b135d3f60e11b808252906001600160a01b038a1690631626ba7e90610190908b9087906004016105f9565b602060405180830381865afa1580156101ad573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906101d19190610633565b6001600160e01b03191614945050505050610405565b6001600160a01b0384163b1561027a57604051630b135d3f60e11b808252906001600160a01b03861690631626ba7e9061022790879087906004016105f9565b602060405180830381865afa158015610244573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906102689190610633565b6001600160e01b031916149050610405565b81516041146102df5760405162461bcd60e51b815260206004820152603a602482015260008051602061067483398151915260448201527f3a20696e76616c6964207369676e6174757265206c656e6774680000000000006064820152608401610157565b6102e7610425565b5060208201516040808401518451859392600091859190811061030c5761030c61065d565b016020015160f81c9050601b811480159061032b57508060ff16601c14155b1561038c5760405162461bcd60e51b815260206004820152603b602482015260008051602061067483398151915260448201527f3a20696e76616c6964207369676e617475726520762076616c756500000000006064820152608401610157565b60408051600081526020810180835289905260ff83169181019190915260608101849052608081018390526001600160a01b0389169060019060a0016020604051602081039080840390855afa1580156103ea573d6000803e3d6000fd5b505050602060405103516001600160a01b0316149450505050505b9392505050565b600060208251101561041d57600080fd5b508051015190565b60405180606001604052806003906020820280368337509192915050565b6001600160a01b038116811461045857600080fd5b50565b634e487b7160e01b600052604160045260246000fd5b60005b8381101561048c578181015183820152602001610474565b50506000910152565b600082601f8301126104a657600080fd5b81516001600160401b038111156104bf576104bf61045b565b604051601f8201601f19908116603f011681016001600160401b03811182821017156104ed576104ed61045b565b60405281815283820160200185101561050557600080fd5b610516826020830160208701610471565b949350505050565b60008060006060848603121561053357600080fd5b835161053e81610443565b6020850151604086015191945092506001600160401b0381111561056157600080fd5b61056d86828701610495565b9150509250925092565b60008060006060848603121561058c57600080fd5b835161059781610443565b60208501519093506001600160401b038111156105b357600080fd5b6105bf86828701610495565b604086015190935090506001600160401b0381111561056157600080fd5b600082516105ef818460208701610471565b9190910192915050565b828152604060208201526000825180604084015261061e816060850160208701610471565b601f01601f1916919091016060019392505050565b60006020828403121561064557600080fd5b81516001600160e01b03198116811461040557600080fd5b634e487b7160e01b600052603260045260246000fdfe5369676e617475726556616c696461746f72237265636f7665725369676e6572';
+const multicall3Bytecode = '0x608060405234801561001057600080fd5b506115b9806100206000396000f3fe6080604052600436106100f35760003560e01c80634d2301cc1161008a578063a8b0574e11610059578063a8b0574e14610325578063bce38bd714610350578063c3077fa914610380578063ee82ac5e146103b2576100f3565b80634d2301cc1461026257806372425d9d1461029f57806382ad56cb146102ca57806386d516e8146102fa576100f3565b80633408e470116100c65780633408e470146101af578063399542e9146101da5780633e64a6961461020c57806342cbb15c14610237576100f3565b80630f28c97d146100f8578063174dea7114610123578063252dba421461015357806327e86d6e14610184575b600080fd5b34801561010457600080fd5b5061010d6103ef565b60405161011a9190610c0a565b60405180910390f35b61013d60048036038101906101389190610c94565b6103f7565b60405161014a9190610e94565b60405180910390f35b61016d60048036038101906101689190610f0c565b610615565b60405161017b92919061101b565b60405180910390f35b34801561019057600080fd5b506101996107ab565b6040516101a69190611064565b60405180910390f35b3480156101bb57600080fd5b506101c46107b7565b6040516101d19190610c0a565b60405180910390f35b6101f460048036038101906101ef91906110ab565b6107bf565b6040516102039392919061110b565b60405180910390f35b34801561021857600080fd5b506102216107e1565b60405161022e9190610c0a565b60405180910390f35b34801561024357600080fd5b5061024c6107e9565b6040516102599190610c0a565b60405180910390f35b34801561026e57600080fd5b50610289600480360381019061028491906111a7565b6107f1565b6040516102969190610c0a565b60405180910390f35b3480156102ab57600080fd5b506102b4610812565b6040516102c19190610c0a565b60405180910390f35b6102e460048036038101906102df919061122a565b61081a565b6040516102f19190610e94565b60405180910390f35b34801561030657600080fd5b5061030f6109e4565b60405161031c9190610c0a565b60405180910390f35b34801561033157600080fd5b5061033a6109ec565b6040516103479190611286565b60405180910390f35b61036a600480360381019061036591906110ab565b6109f4565b6040516103779190610e94565b60405180910390f35b61039a60048036038101906103959190610f0c565b610ba6565b6040516103a99392919061110b565b60405180910390f35b3480156103be57600080fd5b506103d960048036038101906103d491906112cd565b610bca565b6040516103e69190611064565b60405180910390f35b600042905090565b60606000808484905090508067ffffffffffffffff81111561041c5761041b6112fa565b5b60405190808252806020026020018201604052801561045557816020015b610442610bd5565b81526020019060019003908161043a5790505b5092503660005b828110156105c957600085828151811061047957610478611329565b5b6020026020010151905087878381811061049657610495611329565b5b90506020028101906104a89190611367565b925060008360400135905080860195508360000160208101906104cb91906111a7565b73ffffffffffffffffffffffffffffffffffffffff16818580606001906104f2919061138f565b604051610500929190611431565b60006040518083038185875af1925050503d806000811461053d576040519150601f19603f3d011682016040523d82523d6000602084013e610542565b606091505b5083600001846020018290528215151515815250505081516020850135176105bc577f08c379a000000000000000000000000000000000000000000000000000000000600052602060045260176024527f4d756c746963616c6c333a2063616c6c206661696c656400000000000000000060445260846000fd5b826001019250505061045c565b5082341461060c576040517f08c379a0000000000000000000000000000000000000000000000000000000008152600401610603906114a7565b60405180910390fd5b50505092915050565b6000606043915060008484905090508067ffffffffffffffff81111561063e5761063d6112fa565b5b60405190808252806020026020018201604052801561067157816020015b606081526020019060019003908161065c5790505b5091503660005b828110156107a157600087878381811061069557610694611329565b5b90506020028101906106a791906114c7565b92508260000160208101906106bc91906111a7565b73ffffffffffffffffffffffffffffffffffffffff168380602001906106e2919061138f565b6040516106f0929190611431565b6000604051808303816000865af19150503d806000811461072d576040519150601f19603f3d011682016040523d82523d6000602084013e610732565b606091505b5086848151811061074657610745611329565b5b60200260200101819052819250505080610795576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040161078c9061153b565b60405180910390fd5b81600101915050610678565b5050509250929050565b60006001430340905090565b600046905090565b6000806060439250434091506107d68686866109f4565b905093509350939050565b600048905090565b600043905090565b60008173ffffffffffffffffffffffffffffffffffffffff16319050919050565b600044905090565b606060008383905090508067ffffffffffffffff81111561083e5761083d6112fa565b5b60405190808252806020026020018201604052801561087757816020015b610864610bd5565b81526020019060019003908161085c5790505b5091503660005b828110156109db57600084828151811061089b5761089a611329565b5b602002602001015190508686838181106108b8576108b7611329565b5b90506020028101906108ca919061155b565b92508260000160208101906108df91906111a7565b73ffffffffffffffffffffffffffffffffffffffff16838060400190610905919061138f565b604051610913929190611431565b6000604051808303816000865af19150503d8060008114610950576040519150601f19603f3d011682016040523d82523d6000602084013e610955565b606091505b5082600001836020018290528215151515815250505080516020840135176109cf577f08c379a000000000000000000000000000000000000000000000000000000000600052602060045260176024527f4d756c746963616c6c333a2063616c6c206661696c656400000000000000000060445260646000fd5b8160010191505061087e565b50505092915050565b600045905090565b600041905090565b606060008383905090508067ffffffffffffffff811115610a1857610a176112fa565b5b604051908082528060200260200182016040528015610a5157816020015b610a3e610bd5565b815260200190600190039081610a365790505b5091503660005b82811015610b9c576000848281518110610a7557610a74611329565b5b60200260200101519050868683818110610a9257610a91611329565b5b9050602002810190610aa491906114c7565b9250826000016020810190610ab991906111a7565b73ffffffffffffffffffffffffffffffffffffffff16838060200190610adf919061138f565b604051610aed929190611431565b6000604051808303816000865af19150503d8060008114610b2a576040519150601f19603f3d011682016040523d82523d6000602084013e610b2f565b606091505b508260000183602001829052821515151581525050508715610b90578060000151610b8f576040517f08c379a0000000000000000000000000000000000000000000000000000000008152600401610b869061153b565b60405180910390fd5b5b81600101915050610a58565b5050509392505050565b6000806060610bb7600186866107bf565b8093508194508295505050509250925092565b600081409050919050565b6040518060400160405280600015158152602001606081525090565b6000819050919050565b610c0481610bf1565b82525050565b6000602082019050610c1f6000830184610bfb565b92915050565b600080fd5b600080fd5b600080fd5b600080fd5b600080fd5b60008083601f840112610c5457610c53610c2f565b5b8235905067ffffffffffffffff811115610c7157610c70610c34565b5b602083019150836020820283011115610c8d57610c8c610c39565b5b9250929050565b60008060208385031215610cab57610caa610c25565b5b600083013567ffffffffffffffff811115610cc957610cc8610c2a565b5b610cd585828601610c3e565b92509250509250929050565b600081519050919050565b600082825260208201905092915050565b6000819050602082019050919050565b60008115159050919050565b610d2281610d0d565b82525050565b600081519050919050565b600082825260208201905092915050565b60005b83811015610d62578082015181840152602081019050610d47565b83811115610d71576000848401525b50505050565b6000601f19601f8301169050919050565b6000610d9382610d28565b610d9d8185610d33565b9350610dad818560208601610d44565b610db681610d77565b840191505092915050565b6000604083016000830151610dd96000860182610d19565b5060208301518482036020860152610df18282610d88565b9150508091505092915050565b6000610e0a8383610dc1565b905092915050565b6000602082019050919050565b6000610e2a82610ce1565b610e348185610cec565b935083602082028501610e4685610cfd565b8060005b85811015610e825784840389528151610e638582610dfe565b9450610e6e83610e12565b925060208a01995050600181019050610e4a565b50829750879550505050505092915050565b60006020820190508181036000830152610eae8184610e1f565b905092915050565b60008083601f840112610ecc57610ecb610c2f565b5b8235905067ffffffffffffffff811115610ee957610ee8610c34565b5b602083019150836020820283011115610f0557610f04610c39565b5b9250929050565b60008060208385031215610f2357610f22610c25565b5b600083013567ffffffffffffffff811115610f4157610f40610c2a565b5b610f4d85828601610eb6565b92509250509250929050565b600081519050919050565b600082825260208201905092915050565b6000819050602082019050919050565b6000610f918383610d88565b905092915050565b6000602082019050919050565b6000610fb182610f59565b610fbb8185610f64565b935083602082028501610fcd85610f75565b8060005b858110156110095784840389528151610fea8582610f85565b9450610ff583610f99565b925060208a01995050600181019050610fd1565b50829750879550505050505092915050565b60006040820190506110306000830185610bfb565b81810360208301526110428184610fa6565b90509392505050565b6000819050919050565b61105e8161104b565b82525050565b60006020820190506110796000830184611055565b92915050565b61108881610d0d565b811461109357600080fd5b50565b6000813590506110a58161107f565b92915050565b6000806000604084860312156110c4576110c3610c25565b5b60006110d286828701611096565b935050602084013567ffffffffffffffff8111156110f3576110f2610c2a565b5b6110ff86828701610eb6565b92509250509250925092565b60006060820190506111206000830186610bfb565b61112d6020830185611055565b818103604083015261113f8184610e1f565b9050949350505050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b600061117482611149565b9050919050565b61118481611169565b811461118f57600080fd5b50565b6000813590506111a18161117b565b92915050565b6000602082840312156111bd576111bc610c25565b5b60006111cb84828501611192565b91505092915050565b60008083601f8401126111ea576111e9610c2f565b5b8235905067ffffffffffffffff81111561120757611206610c34565b5b60208301915083602082028301111561122357611222610c39565b5b9250929050565b6000806020838503121561124157611240610c25565b5b600083013567ffffffffffffffff81111561125f5761125e610c2a565b5b61126b858286016111d4565b92509250509250929050565b61128081611169565b82525050565b600060208201905061129b6000830184611277565b92915050565b6112aa81610bf1565b81146112b557600080fd5b50565b6000813590506112c7816112a1565b92915050565b6000602082840312156112e3576112e2610c25565b5b60006112f1848285016112b8565b91505092915050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052604160045260246000fd5b7f4e487b7100000000000000000000000000000000000000000000000000000000600052603260045260246000fd5b600080fd5b600080fd5b600080fd5b60008235600160800383360303811261138357611382611358565b5b80830191505092915050565b600080833560016020038436030381126113ac576113ab611358565b5b80840192508235915067ffffffffffffffff8211156113ce576113cd61135d565b5b6020830192506001820236038313156113ea576113e9611362565b5b509250929050565b600081905092915050565b82818337600083830152505050565b600061141883856113f2565b93506114258385846113fd565b82840190509392505050565b600061143e82848661140c565b91508190509392505050565b600082825260208201905092915050565b7f4d756c746963616c6c333a2076616c7565206d69736d61746368000000000000600082015250565b6000611491601a8361144a565b915061149c8261145b565b602082019050919050565b600060208201905081810360008301526114c081611484565b9050919050565b6000823560016040038336030381126114e3576114e2611358565b5b80830191505092915050565b7f4d756c746963616c6c333a2063616c6c206661696c6564000000000000000000600082015250565b600061152560178361144a565b9150611530826114ef565b602082019050919050565b6000602082019050818103600083015261155481611518565b9050919050565b60008235600160600383360303811261157757611576611358565b5b8083019150509291505056fea264697066735822122020c1bc9aacf8e4a6507193432a895a8e77094f45a1395583f07b24e860ef06cd64736f6c634300080c0033'; //# sourceMappingURL=contracts.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeFunctionResult.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "decodeFunctionResult",
+    ()=>decodeFunctionResult
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeAbiParameters.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$getAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/getAbiItem.js [app-client] (ecmascript)");
+;
+;
+;
+const docsPath = '/docs/contract/decodeFunctionResult';
+function decodeFunctionResult(parameters) {
+    const { abi, args, functionName, data } = parameters;
+    let abiItem = abi[0];
+    if (functionName) {
+        const item = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$getAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAbiItem"])({
+            abi,
+            args,
+            name: functionName
+        });
+        if (!item) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiFunctionNotFoundError"](functionName, {
+            docsPath
+        });
+        abiItem = item;
+    }
+    if (abiItem.type !== 'function') throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiFunctionNotFoundError"](undefined, {
+        docsPath
+    });
+    if (!abiItem.outputs) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiFunctionOutputsNotFoundError"](abiItem.name, {
+        docsPath
+    });
+    const values = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["decodeAbiParameters"])(abiItem.outputs, data);
+    if (values && values.length > 1) return values;
+    if (values && values.length === 1) return values[0];
+    return undefined;
+} //# sourceMappingURL=decodeFunctionResult.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/abi/prepareEncodeFunctionData.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "prepareEncodeFunctionData",
+    ()=>prepareEncodeFunctionData
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toFunctionSelector$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/toFunctionSelector.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/formatAbiItem.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$getAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/getAbiItem.js [app-client] (ecmascript)");
+;
+;
+;
+;
+const docsPath = '/docs/contract/encodeFunctionData';
+function prepareEncodeFunctionData(parameters) {
+    const { abi, args, functionName } = parameters;
+    let abiItem = abi[0];
+    if (functionName) {
+        const item = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$getAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAbiItem"])({
+            abi,
+            args,
+            name: functionName
+        });
+        if (!item) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiFunctionNotFoundError"](functionName, {
+            docsPath
+        });
+        abiItem = item;
+    }
+    if (abiItem.type !== 'function') throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiFunctionNotFoundError"](undefined, {
+        docsPath
+    });
+    return {
+        abi: [
+            abiItem
+        ],
+        functionName: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toFunctionSelector$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toFunctionSelector"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatAbiItem"])(abiItem))
+    };
+} //# sourceMappingURL=prepareEncodeFunctionData.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeFunctionData.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "encodeFunctionData",
+    ()=>encodeFunctionData
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/concat.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeAbiParameters.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$prepareEncodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/prepareEncodeFunctionData.js [app-client] (ecmascript)");
+;
+;
+;
+function encodeFunctionData(parameters) {
+    const { args } = parameters;
+    const { abi, functionName } = (()=>{
+        var _parameters_functionName;
+        if (parameters.abi.length === 1 && ((_parameters_functionName = parameters.functionName) === null || _parameters_functionName === void 0 ? void 0 : _parameters_functionName.startsWith('0x'))) return parameters;
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$prepareEncodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["prepareEncodeFunctionData"])(parameters);
+    })();
+    const abiItem = abi[0];
+    const signature = functionName;
+    const data = 'inputs' in abiItem && abiItem.inputs ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeAbiParameters"])(abiItem.inputs, args !== null && args !== void 0 ? args : []) : undefined;
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["concatHex"])([
+        signature,
+        data !== null && data !== void 0 ? data : '0x'
+    ]);
+} //# sourceMappingURL=encodeFunctionData.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/chain.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "ChainDoesNotSupportContract",
+    ()=>ChainDoesNotSupportContract,
+    "ChainMismatchError",
+    ()=>ChainMismatchError,
+    "ChainNotFoundError",
+    ()=>ChainNotFoundError,
+    "ClientChainNotConfiguredError",
+    ()=>ClientChainNotConfiguredError,
+    "InvalidChainIdError",
+    ()=>InvalidChainIdError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+class ChainDoesNotSupportContract extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ blockNumber, chain, contract }){
+        super('Chain "'.concat(chain.name, '" does not support contract "').concat(contract.name, '".'), {
+            metaMessages: [
+                'This could be due to any of the following:',
+                ...blockNumber && contract.blockCreated && contract.blockCreated > blockNumber ? [
+                    '- The contract "'.concat(contract.name, '" was not deployed until block ').concat(contract.blockCreated, " (current block ").concat(blockNumber, ").")
+                ] : [
+                    '- The chain does not have the contract "'.concat(contract.name, '" configured.')
+                ]
+            ],
+            name: 'ChainDoesNotSupportContract'
+        });
+    }
+}
+class ChainMismatchError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ chain, currentChainId }){
+        super("The current chain of the wallet (id: ".concat(currentChainId, ") does not match the target chain for the transaction (id: ").concat(chain.id, " – ").concat(chain.name, ")."), {
+            metaMessages: [
+                "Current Chain ID:  ".concat(currentChainId),
+                "Expected Chain ID: ".concat(chain.id, " – ").concat(chain.name)
+            ],
+            name: 'ChainMismatchError'
+        });
+    }
+}
+class ChainNotFoundError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(){
+        super([
+            'No chain was provided to the request.',
+            'Please provide a chain with the `chain` argument on the Action, or by supplying a `chain` to WalletClient.'
+        ].join('\n'), {
+            name: 'ChainNotFoundError'
+        });
+    }
+}
+class ClientChainNotConfiguredError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(){
+        super('No chain was provided to the Client.', {
+            name: 'ClientChainNotConfiguredError'
+        });
+    }
+}
+class InvalidChainIdError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ chainId }){
+        super(typeof chainId === 'number' ? 'Chain ID "'.concat(chainId, '" is invalid.') : 'Chain ID is invalid.', {
+            name: 'InvalidChainIdError'
+        });
+    }
+} //# sourceMappingURL=chain.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/chain/getChainContractAddress.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getChainContractAddress",
+    ()=>getChainContractAddress
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$chain$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/chain.js [app-client] (ecmascript)");
+;
+function getChainContractAddress(param) {
+    let { blockNumber, chain, contract: name } = param;
+    var _chain_contracts;
+    const contract = chain === null || chain === void 0 ? void 0 : (_chain_contracts = chain.contracts) === null || _chain_contracts === void 0 ? void 0 : _chain_contracts[name];
+    if (!contract) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$chain$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ChainDoesNotSupportContract"]({
+        chain,
+        contract: {
+            name
+        }
+    });
+    if (blockNumber && contract.blockCreated && contract.blockCreated > blockNumber) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$chain$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ChainDoesNotSupportContract"]({
+        blockNumber,
+        chain,
+        contract: {
+            name,
+            blockCreated: contract.blockCreated
+        }
+    });
+    return contract.address;
+} //# sourceMappingURL=getChainContractAddress.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/request.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "HttpRequestError",
+    ()=>HttpRequestError,
+    "RpcRequestError",
+    ()=>RpcRequestError,
+    "SocketClosedError",
+    ()=>SocketClosedError,
+    "TimeoutError",
+    ()=>TimeoutError,
+    "WebSocketRequestError",
+    ()=>WebSocketRequestError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/stringify.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/utils.js [app-client] (ecmascript)");
+;
+;
+;
+class HttpRequestError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ body, cause, details, headers, status, url }){
+        super('HTTP request failed.', {
+            cause,
+            details,
+            metaMessages: [
+                status && "Status: ".concat(status),
+                "URL: ".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getUrl"])(url)),
+                body && "Request body: ".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])(body))
+            ].filter(Boolean),
+            name: 'HttpRequestError'
+        });
+        Object.defineProperty(this, "body", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "headers", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "status", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "url", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.body = body;
+        this.headers = headers;
+        this.status = status;
+        this.url = url;
+    }
+}
+class WebSocketRequestError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ body, cause, details, url }){
+        super('WebSocket request failed.', {
+            cause,
+            details,
+            metaMessages: [
+                "URL: ".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getUrl"])(url)),
+                body && "Request body: ".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])(body))
+            ].filter(Boolean),
+            name: 'WebSocketRequestError'
+        });
+        Object.defineProperty(this, "url", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.url = url;
+    }
+}
+class RpcRequestError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ body, error, url }){
+        super('RPC Request failed.', {
+            cause: error,
+            details: error.message,
+            metaMessages: [
+                "URL: ".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getUrl"])(url)),
+                "Request body: ".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])(body))
+            ],
+            name: 'RpcRequestError'
+        });
+        Object.defineProperty(this, "code", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "data", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "url", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.code = error.code;
+        this.data = error.data;
+        this.url = url;
+    }
+}
+class SocketClosedError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ url } = {}){
+        super('The socket has been closed.', {
+            metaMessages: [
+                url && "URL: ".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getUrl"])(url))
+            ].filter(Boolean),
+            name: 'SocketClosedError'
+        });
+        Object.defineProperty(this, "url", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.url = url;
+    }
+}
+class TimeoutError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ body, url }){
+        super('The request took too long to respond.', {
+            details: 'The request timed out.',
+            metaMessages: [
+                "URL: ".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getUrl"])(url)),
+                "Request body: ".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])(body))
+            ],
+            name: 'TimeoutError'
+        });
+        Object.defineProperty(this, "url", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.url = url;
+    }
+} //# sourceMappingURL=request.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/rpc.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "AtomicReadyWalletRejectedUpgradeError",
+    ()=>AtomicReadyWalletRejectedUpgradeError,
+    "AtomicityNotSupportedError",
+    ()=>AtomicityNotSupportedError,
+    "BundleTooLargeError",
+    ()=>BundleTooLargeError,
+    "ChainDisconnectedError",
+    ()=>ChainDisconnectedError,
+    "DuplicateIdError",
+    ()=>DuplicateIdError,
+    "InternalRpcError",
+    ()=>InternalRpcError,
+    "InvalidInputRpcError",
+    ()=>InvalidInputRpcError,
+    "InvalidParamsRpcError",
+    ()=>InvalidParamsRpcError,
+    "InvalidRequestRpcError",
+    ()=>InvalidRequestRpcError,
+    "JsonRpcVersionUnsupportedError",
+    ()=>JsonRpcVersionUnsupportedError,
+    "LimitExceededRpcError",
+    ()=>LimitExceededRpcError,
+    "MethodNotFoundRpcError",
+    ()=>MethodNotFoundRpcError,
+    "MethodNotSupportedRpcError",
+    ()=>MethodNotSupportedRpcError,
+    "ParseRpcError",
+    ()=>ParseRpcError,
+    "ProviderDisconnectedError",
+    ()=>ProviderDisconnectedError,
+    "ProviderRpcError",
+    ()=>ProviderRpcError,
+    "ResourceNotFoundRpcError",
+    ()=>ResourceNotFoundRpcError,
+    "ResourceUnavailableRpcError",
+    ()=>ResourceUnavailableRpcError,
+    "RpcError",
+    ()=>RpcError,
+    "SwitchChainError",
+    ()=>SwitchChainError,
+    "TransactionRejectedRpcError",
+    ()=>TransactionRejectedRpcError,
+    "UnauthorizedProviderError",
+    ()=>UnauthorizedProviderError,
+    "UnknownBundleIdError",
+    ()=>UnknownBundleIdError,
+    "UnknownRpcError",
+    ()=>UnknownRpcError,
+    "UnsupportedChainIdError",
+    ()=>UnsupportedChainIdError,
+    "UnsupportedNonOptionalCapabilityError",
+    ()=>UnsupportedNonOptionalCapabilityError,
+    "UnsupportedProviderMethodError",
+    ()=>UnsupportedProviderMethodError,
+    "UserRejectedRequestError",
+    ()=>UserRejectedRequestError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$request$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/request.js [app-client] (ecmascript)");
+;
+;
+const unknownErrorCode = -1;
+class RpcError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(cause, { code, docsPath, metaMessages, name, shortMessage }){
+        super(shortMessage, {
+            cause,
+            docsPath,
+            metaMessages: metaMessages || (cause === null || cause === void 0 ? void 0 : cause.metaMessages),
+            name: name || 'RpcError'
+        });
+        Object.defineProperty(this, "code", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.name = name || cause.name;
+        this.code = cause instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$request$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RpcRequestError"] ? cause.code : code !== null && code !== void 0 ? code : unknownErrorCode;
+    }
+}
+class ProviderRpcError extends RpcError {
+    constructor(cause, options){
+        super(cause, options);
+        Object.defineProperty(this, "data", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.data = options.data;
+    }
+}
+class ParseRpcError extends RpcError {
+    constructor(cause){
+        super(cause, {
+            code: ParseRpcError.code,
+            name: 'ParseRpcError',
+            shortMessage: 'Invalid JSON was received by the server. An error occurred on the server while parsing the JSON text.'
+        });
+    }
+}
+Object.defineProperty(ParseRpcError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: -32700
+});
+class InvalidRequestRpcError extends RpcError {
+    constructor(cause){
+        super(cause, {
+            code: InvalidRequestRpcError.code,
+            name: 'InvalidRequestRpcError',
+            shortMessage: 'JSON is not a valid request object.'
+        });
+    }
+}
+Object.defineProperty(InvalidRequestRpcError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: -32600
+});
+class MethodNotFoundRpcError extends RpcError {
+    constructor(cause, { method } = {}){
+        super(cause, {
+            code: MethodNotFoundRpcError.code,
+            name: 'MethodNotFoundRpcError',
+            shortMessage: "The method".concat(method ? ' "'.concat(method, '"') : '', " does not exist / is not available.")
+        });
+    }
+}
+Object.defineProperty(MethodNotFoundRpcError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: -32601
+});
+class InvalidParamsRpcError extends RpcError {
+    constructor(cause){
+        super(cause, {
+            code: InvalidParamsRpcError.code,
+            name: 'InvalidParamsRpcError',
+            shortMessage: [
+                'Invalid parameters were provided to the RPC method.',
+                'Double check you have provided the correct parameters.'
+            ].join('\n')
+        });
+    }
+}
+Object.defineProperty(InvalidParamsRpcError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: -32602
+});
+class InternalRpcError extends RpcError {
+    constructor(cause){
+        super(cause, {
+            code: InternalRpcError.code,
+            name: 'InternalRpcError',
+            shortMessage: 'An internal error was received.'
+        });
+    }
+}
+Object.defineProperty(InternalRpcError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: -32603
+});
+class InvalidInputRpcError extends RpcError {
+    constructor(cause){
+        super(cause, {
+            code: InvalidInputRpcError.code,
+            name: 'InvalidInputRpcError',
+            shortMessage: [
+                'Missing or invalid parameters.',
+                'Double check you have provided the correct parameters.'
+            ].join('\n')
+        });
+    }
+}
+Object.defineProperty(InvalidInputRpcError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: -32000
+});
+class ResourceNotFoundRpcError extends RpcError {
+    constructor(cause){
+        super(cause, {
+            code: ResourceNotFoundRpcError.code,
+            name: 'ResourceNotFoundRpcError',
+            shortMessage: 'Requested resource not found.'
+        });
+        Object.defineProperty(this, "name", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 'ResourceNotFoundRpcError'
+        });
+    }
+}
+Object.defineProperty(ResourceNotFoundRpcError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: -32001
+});
+class ResourceUnavailableRpcError extends RpcError {
+    constructor(cause){
+        super(cause, {
+            code: ResourceUnavailableRpcError.code,
+            name: 'ResourceUnavailableRpcError',
+            shortMessage: 'Requested resource not available.'
+        });
+    }
+}
+Object.defineProperty(ResourceUnavailableRpcError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: -32002
+});
+class TransactionRejectedRpcError extends RpcError {
+    constructor(cause){
+        super(cause, {
+            code: TransactionRejectedRpcError.code,
+            name: 'TransactionRejectedRpcError',
+            shortMessage: 'Transaction creation failed.'
+        });
+    }
+}
+Object.defineProperty(TransactionRejectedRpcError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: -32003
+});
+class MethodNotSupportedRpcError extends RpcError {
+    constructor(cause, { method } = {}){
+        super(cause, {
+            code: MethodNotSupportedRpcError.code,
+            name: 'MethodNotSupportedRpcError',
+            shortMessage: "Method".concat(method ? ' "'.concat(method, '"') : '', " is not supported.")
+        });
+    }
+}
+Object.defineProperty(MethodNotSupportedRpcError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: -32004
+});
+class LimitExceededRpcError extends RpcError {
+    constructor(cause){
+        super(cause, {
+            code: LimitExceededRpcError.code,
+            name: 'LimitExceededRpcError',
+            shortMessage: 'Request exceeds defined limit.'
+        });
+    }
+}
+Object.defineProperty(LimitExceededRpcError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: -32005
+});
+class JsonRpcVersionUnsupportedError extends RpcError {
+    constructor(cause){
+        super(cause, {
+            code: JsonRpcVersionUnsupportedError.code,
+            name: 'JsonRpcVersionUnsupportedError',
+            shortMessage: 'Version of JSON-RPC protocol is not supported.'
+        });
+    }
+}
+Object.defineProperty(JsonRpcVersionUnsupportedError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: -32006
+});
+class UserRejectedRequestError extends ProviderRpcError {
+    constructor(cause){
+        super(cause, {
+            code: UserRejectedRequestError.code,
+            name: 'UserRejectedRequestError',
+            shortMessage: 'User rejected the request.'
+        });
+    }
+}
+Object.defineProperty(UserRejectedRequestError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: 4001
+});
+class UnauthorizedProviderError extends ProviderRpcError {
+    constructor(cause){
+        super(cause, {
+            code: UnauthorizedProviderError.code,
+            name: 'UnauthorizedProviderError',
+            shortMessage: 'The requested method and/or account has not been authorized by the user.'
+        });
+    }
+}
+Object.defineProperty(UnauthorizedProviderError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: 4100
+});
+class UnsupportedProviderMethodError extends ProviderRpcError {
+    constructor(cause, { method } = {}){
+        super(cause, {
+            code: UnsupportedProviderMethodError.code,
+            name: 'UnsupportedProviderMethodError',
+            shortMessage: "The Provider does not support the requested method".concat(method ? ' " '.concat(method, '"') : '', ".")
+        });
+    }
+}
+Object.defineProperty(UnsupportedProviderMethodError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: 4200
+});
+class ProviderDisconnectedError extends ProviderRpcError {
+    constructor(cause){
+        super(cause, {
+            code: ProviderDisconnectedError.code,
+            name: 'ProviderDisconnectedError',
+            shortMessage: 'The Provider is disconnected from all chains.'
+        });
+    }
+}
+Object.defineProperty(ProviderDisconnectedError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: 4900
+});
+class ChainDisconnectedError extends ProviderRpcError {
+    constructor(cause){
+        super(cause, {
+            code: ChainDisconnectedError.code,
+            name: 'ChainDisconnectedError',
+            shortMessage: 'The Provider is not connected to the requested chain.'
+        });
+    }
+}
+Object.defineProperty(ChainDisconnectedError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: 4901
+});
+class SwitchChainError extends ProviderRpcError {
+    constructor(cause){
+        super(cause, {
+            code: SwitchChainError.code,
+            name: 'SwitchChainError',
+            shortMessage: 'An error occurred when attempting to switch chain.'
+        });
+    }
+}
+Object.defineProperty(SwitchChainError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: 4902
+});
+class UnsupportedNonOptionalCapabilityError extends ProviderRpcError {
+    constructor(cause){
+        super(cause, {
+            code: UnsupportedNonOptionalCapabilityError.code,
+            name: 'UnsupportedNonOptionalCapabilityError',
+            shortMessage: 'This Wallet does not support a capability that was not marked as optional.'
+        });
+    }
+}
+Object.defineProperty(UnsupportedNonOptionalCapabilityError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: 5700
+});
+class UnsupportedChainIdError extends ProviderRpcError {
+    constructor(cause){
+        super(cause, {
+            code: UnsupportedChainIdError.code,
+            name: 'UnsupportedChainIdError',
+            shortMessage: 'This Wallet does not support the requested chain ID.'
+        });
+    }
+}
+Object.defineProperty(UnsupportedChainIdError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: 5710
+});
+class DuplicateIdError extends ProviderRpcError {
+    constructor(cause){
+        super(cause, {
+            code: DuplicateIdError.code,
+            name: 'DuplicateIdError',
+            shortMessage: 'There is already a bundle submitted with this ID.'
+        });
+    }
+}
+Object.defineProperty(DuplicateIdError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: 5720
+});
+class UnknownBundleIdError extends ProviderRpcError {
+    constructor(cause){
+        super(cause, {
+            code: UnknownBundleIdError.code,
+            name: 'UnknownBundleIdError',
+            shortMessage: 'This bundle id is unknown / has not been submitted'
+        });
+    }
+}
+Object.defineProperty(UnknownBundleIdError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: 5730
+});
+class BundleTooLargeError extends ProviderRpcError {
+    constructor(cause){
+        super(cause, {
+            code: BundleTooLargeError.code,
+            name: 'BundleTooLargeError',
+            shortMessage: 'The call bundle is too large for the Wallet to process.'
+        });
+    }
+}
+Object.defineProperty(BundleTooLargeError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: 5740
+});
+class AtomicReadyWalletRejectedUpgradeError extends ProviderRpcError {
+    constructor(cause){
+        super(cause, {
+            code: AtomicReadyWalletRejectedUpgradeError.code,
+            name: 'AtomicReadyWalletRejectedUpgradeError',
+            shortMessage: 'The Wallet can support atomicity after an upgrade, but the user rejected the upgrade.'
+        });
+    }
+}
+Object.defineProperty(AtomicReadyWalletRejectedUpgradeError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: 5750
+});
+class AtomicityNotSupportedError extends ProviderRpcError {
+    constructor(cause){
+        super(cause, {
+            code: AtomicityNotSupportedError.code,
+            name: 'AtomicityNotSupportedError',
+            shortMessage: 'The wallet does not support atomic execution but the request requires it.'
+        });
+    }
+}
+Object.defineProperty(AtomicityNotSupportedError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: 5760
+});
+class UnknownRpcError extends RpcError {
+    constructor(cause){
+        super(cause, {
+            name: 'UnknownRpcError',
+            shortMessage: 'An unknown RPC error occurred.'
+        });
+    }
+} //# sourceMappingURL=rpc.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/errors/getContractError.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getContractError",
+    ()=>getContractError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/contract.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$request$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/request.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/rpc.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+const EXECUTION_REVERTED_ERROR_CODE = 3;
+function getContractError(err, param) {
+    let { abi, address, args, docsPath, functionName, sender } = param;
+    const error = err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RawContractError"] ? err : err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] ? err.walk((err)=>'data' in err) || err.walk() : {};
+    const { code, data, details, message, shortMessage } = error;
+    const cause = (()=>{
+        if (err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiDecodingZeroDataError"]) return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ContractFunctionZeroDataError"]({
+            functionName
+        });
+        if ([
+            EXECUTION_REVERTED_ERROR_CODE,
+            __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InternalRpcError"].code
+        ].includes(code) && (data || details || message || shortMessage) || code === __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidInputRpcError"].code && details === 'execution reverted' && data) {
+            return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ContractFunctionRevertedError"]({
+                abi,
+                data: typeof data === 'object' ? data.data : data,
+                functionName,
+                message: error instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$request$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RpcRequestError"] ? details : shortMessage !== null && shortMessage !== void 0 ? shortMessage : message
+            });
+        }
+        return err;
+    })();
+    return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ContractFunctionExecutionError"](cause, {
+        abi,
+        args,
+        contractAddress: address,
+        docsPath,
+        functionName,
+        sender
+    });
+} //# sourceMappingURL=getContractError.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/**
+ * Retrieves and returns an action from the client (if exists), and falls
+ * back to the tree-shakable action.
+ *
+ * Useful for extracting overridden actions from a client (ie. if a consumer
+ * wants to override the `sendTransaction` implementation).
+ */ __turbopack_context__.s([
+    "getAction",
+    ()=>getAction
+]);
+function getAction(client, actionFn, // Some minifiers drop `Function.prototype.name`, or replace it with short letters,
+// meaning that `actionFn.name` will not always work. For that case, the consumer
+// needs to pass the name explicitly.
+name) {
+    const action_implicit = client[actionFn.name];
+    if (typeof action_implicit === 'function') return action_implicit;
+    const action_explicit = client[name];
+    if (typeof action_explicit === 'function') return action_explicit;
+    return (params)=>actionFn(client, params);
+} //# sourceMappingURL=getAction.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/constants/contract.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "aggregate3Signature",
+    ()=>aggregate3Signature
+]);
+const aggregate3Signature = '0x82ad56cb'; //# sourceMappingURL=contract.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeDeployData.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "encodeDeployData",
+    ()=>encodeDeployData
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/concat.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeAbiParameters.js [app-client] (ecmascript)");
+;
+;
+;
+const docsPath = '/docs/contract/encodeDeployData';
+function encodeDeployData(parameters) {
+    const { abi, args, bytecode } = parameters;
+    if (!args || args.length === 0) return bytecode;
+    const description = abi.find((x)=>'type' in x && x.type === 'constructor');
+    if (!description) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiConstructorNotFoundError"]({
+        docsPath
+    });
+    if (!('inputs' in description)) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiConstructorParamsNotFoundError"]({
+        docsPath
+    });
+    if (!description.inputs || description.inputs.length === 0) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiConstructorParamsNotFoundError"]({
+        docsPath
+    });
+    const data = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeAbiParameters"])(description.inputs, args);
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["concatHex"])([
+        bytecode,
+        data
+    ]);
+} //# sourceMappingURL=encodeDeployData.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/node.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "ExecutionRevertedError",
+    ()=>ExecutionRevertedError,
+    "FeeCapTooHighError",
+    ()=>FeeCapTooHighError,
+    "FeeCapTooLowError",
+    ()=>FeeCapTooLowError,
+    "InsufficientFundsError",
+    ()=>InsufficientFundsError,
+    "IntrinsicGasTooHighError",
+    ()=>IntrinsicGasTooHighError,
+    "IntrinsicGasTooLowError",
+    ()=>IntrinsicGasTooLowError,
+    "NonceMaxValueError",
+    ()=>NonceMaxValueError,
+    "NonceTooHighError",
+    ()=>NonceTooHighError,
+    "NonceTooLowError",
+    ()=>NonceTooLowError,
+    "TipAboveFeeCapError",
+    ()=>TipAboveFeeCapError,
+    "TransactionTypeNotSupportedError",
+    ()=>TransactionTypeNotSupportedError,
+    "UnknownNodeError",
+    ()=>UnknownNodeError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/unit/formatGwei.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+;
+class ExecutionRevertedError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ cause, message } = {}){
+        var _message_replace;
+        const reason = message === null || message === void 0 ? void 0 : (_message_replace = message.replace('execution reverted: ', '')) === null || _message_replace === void 0 ? void 0 : _message_replace.replace('execution reverted', '');
+        super("Execution reverted ".concat(reason ? "with reason: ".concat(reason) : 'for an unknown reason', "."), {
+            cause,
+            name: 'ExecutionRevertedError'
+        });
+    }
+}
+Object.defineProperty(ExecutionRevertedError, "code", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: 3
+});
+Object.defineProperty(ExecutionRevertedError, "nodeMessage", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: /execution reverted/
+});
+class FeeCapTooHighError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ cause, maxFeePerGas } = {}){
+        super("The fee cap (`maxFeePerGas`".concat(maxFeePerGas ? " = ".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatGwei"])(maxFeePerGas), " gwei") : '', ") cannot be higher than the maximum allowed value (2^256-1)."), {
+            cause,
+            name: 'FeeCapTooHighError'
+        });
+    }
+}
+Object.defineProperty(FeeCapTooHighError, "nodeMessage", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: /max fee per gas higher than 2\^256-1|fee cap higher than 2\^256-1/
+});
+class FeeCapTooLowError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ cause, maxFeePerGas } = {}){
+        super("The fee cap (`maxFeePerGas`".concat(maxFeePerGas ? " = ".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatGwei"])(maxFeePerGas)) : '', " gwei) cannot be lower than the block base fee."), {
+            cause,
+            name: 'FeeCapTooLowError'
+        });
+    }
+}
+Object.defineProperty(FeeCapTooLowError, "nodeMessage", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: /max fee per gas less than block base fee|fee cap less than block base fee|transaction is outdated/
+});
+class NonceTooHighError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ cause, nonce } = {}){
+        super("Nonce provided for the transaction ".concat(nonce ? "(".concat(nonce, ") ") : '', "is higher than the next one expected."), {
+            cause,
+            name: 'NonceTooHighError'
+        });
+    }
+}
+Object.defineProperty(NonceTooHighError, "nodeMessage", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: /nonce too high/
+});
+class NonceTooLowError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ cause, nonce } = {}){
+        super([
+            "Nonce provided for the transaction ".concat(nonce ? "(".concat(nonce, ") ") : '', "is lower than the current nonce of the account."),
+            'Try increasing the nonce or find the latest nonce with `getTransactionCount`.'
+        ].join('\n'), {
+            cause,
+            name: 'NonceTooLowError'
+        });
+    }
+}
+Object.defineProperty(NonceTooLowError, "nodeMessage", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: /nonce too low|transaction already imported|already known/
+});
+class NonceMaxValueError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ cause, nonce } = {}){
+        super("Nonce provided for the transaction ".concat(nonce ? "(".concat(nonce, ") ") : '', "exceeds the maximum allowed nonce."), {
+            cause,
+            name: 'NonceMaxValueError'
+        });
+    }
+}
+Object.defineProperty(NonceMaxValueError, "nodeMessage", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: /nonce has max value/
+});
+class InsufficientFundsError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ cause } = {}){
+        super([
+            'The total cost (gas * gas fee + value) of executing this transaction exceeds the balance of the account.'
+        ].join('\n'), {
+            cause,
+            metaMessages: [
+                'This error could arise when the account does not have enough funds to:',
+                ' - pay for the total gas fee,',
+                ' - pay for the value to send.',
+                ' ',
+                'The cost of the transaction is calculated as `gas * gas fee + value`, where:',
+                ' - `gas` is the amount of gas needed for transaction to execute,',
+                ' - `gas fee` is the gas fee,',
+                ' - `value` is the amount of ether to send to the recipient.'
+            ],
+            name: 'InsufficientFundsError'
+        });
+    }
+}
+Object.defineProperty(InsufficientFundsError, "nodeMessage", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: /insufficient funds|exceeds transaction sender account balance/
+});
+class IntrinsicGasTooHighError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ cause, gas } = {}){
+        super("The amount of gas ".concat(gas ? "(".concat(gas, ") ") : '', "provided for the transaction exceeds the limit allowed for the block."), {
+            cause,
+            name: 'IntrinsicGasTooHighError'
+        });
+    }
+}
+Object.defineProperty(IntrinsicGasTooHighError, "nodeMessage", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: /intrinsic gas too high|gas limit reached/
+});
+class IntrinsicGasTooLowError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ cause, gas } = {}){
+        super("The amount of gas ".concat(gas ? "(".concat(gas, ") ") : '', "provided for the transaction is too low."), {
+            cause,
+            name: 'IntrinsicGasTooLowError'
+        });
+    }
+}
+Object.defineProperty(IntrinsicGasTooLowError, "nodeMessage", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: /intrinsic gas too low/
+});
+class TransactionTypeNotSupportedError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ cause }){
+        super('The transaction type is not supported for this chain.', {
+            cause,
+            name: 'TransactionTypeNotSupportedError'
+        });
+    }
+}
+Object.defineProperty(TransactionTypeNotSupportedError, "nodeMessage", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: /transaction type not valid/
+});
+class TipAboveFeeCapError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ cause, maxPriorityFeePerGas, maxFeePerGas } = {}){
+        super([
+            "The provided tip (`maxPriorityFeePerGas`".concat(maxPriorityFeePerGas ? " = ".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatGwei"])(maxPriorityFeePerGas), " gwei") : '', ") cannot be higher than the fee cap (`maxFeePerGas`").concat(maxFeePerGas ? " = ".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatGwei"])(maxFeePerGas), " gwei") : '', ").")
+        ].join('\n'), {
+            cause,
+            name: 'TipAboveFeeCapError'
+        });
+    }
+}
+Object.defineProperty(TipAboveFeeCapError, "nodeMessage", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: /max priority fee per gas higher than max fee per gas|tip higher than fee cap/
+});
+class UnknownNodeError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ cause }){
+        super("An error occurred while executing: ".concat(cause === null || cause === void 0 ? void 0 : cause.shortMessage), {
+            cause,
+            name: 'UnknownNodeError'
+        });
+    }
+} //# sourceMappingURL=node.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/errors/getNodeError.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "containsNodeError",
+    ()=>containsNodeError,
+    "getNodeError",
+    ()=>getNodeError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/node.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$request$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/request.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/rpc.js [app-client] (ecmascript)");
+;
+;
+;
+;
+function containsNodeError(err) {
+    return err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TransactionRejectedRpcError"] || err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidInputRpcError"] || err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$request$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RpcRequestError"] && err.code === __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ExecutionRevertedError"].code;
+}
+function getNodeError(err, args) {
+    const message = (err.details || '').toLowerCase();
+    const executionRevertedError = err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] ? err.walk((e)=>(e === null || e === void 0 ? void 0 : e.code) === __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ExecutionRevertedError"].code) : err;
+    if (executionRevertedError instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"]) return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ExecutionRevertedError"]({
+        cause: err,
+        message: executionRevertedError.details
+    });
+    if (__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ExecutionRevertedError"].nodeMessage.test(message)) return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ExecutionRevertedError"]({
+        cause: err,
+        message: err.details
+    });
+    if (__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FeeCapTooHighError"].nodeMessage.test(message)) return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FeeCapTooHighError"]({
+        cause: err,
+        maxFeePerGas: args === null || args === void 0 ? void 0 : args.maxFeePerGas
+    });
+    if (__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FeeCapTooLowError"].nodeMessage.test(message)) return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FeeCapTooLowError"]({
+        cause: err,
+        maxFeePerGas: args === null || args === void 0 ? void 0 : args.maxFeePerGas
+    });
+    if (__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["NonceTooHighError"].nodeMessage.test(message)) return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["NonceTooHighError"]({
+        cause: err,
+        nonce: args === null || args === void 0 ? void 0 : args.nonce
+    });
+    if (__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["NonceTooLowError"].nodeMessage.test(message)) return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["NonceTooLowError"]({
+        cause: err,
+        nonce: args === null || args === void 0 ? void 0 : args.nonce
+    });
+    if (__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["NonceMaxValueError"].nodeMessage.test(message)) return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["NonceMaxValueError"]({
+        cause: err,
+        nonce: args === null || args === void 0 ? void 0 : args.nonce
+    });
+    if (__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InsufficientFundsError"].nodeMessage.test(message)) return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InsufficientFundsError"]({
+        cause: err
+    });
+    if (__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["IntrinsicGasTooHighError"].nodeMessage.test(message)) return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["IntrinsicGasTooHighError"]({
+        cause: err,
+        gas: args === null || args === void 0 ? void 0 : args.gas
+    });
+    if (__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["IntrinsicGasTooLowError"].nodeMessage.test(message)) return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["IntrinsicGasTooLowError"]({
+        cause: err,
+        gas: args === null || args === void 0 ? void 0 : args.gas
+    });
+    if (__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TransactionTypeNotSupportedError"].nodeMessage.test(message)) return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TransactionTypeNotSupportedError"]({
+        cause: err
+    });
+    if (__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TipAboveFeeCapError"].nodeMessage.test(message)) return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TipAboveFeeCapError"]({
+        cause: err,
+        maxFeePerGas: args === null || args === void 0 ? void 0 : args.maxFeePerGas,
+        maxPriorityFeePerGas: args === null || args === void 0 ? void 0 : args.maxPriorityFeePerGas
+    });
+    return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UnknownNodeError"]({
+        cause: err
+    });
+} //# sourceMappingURL=getNodeError.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/errors/getCallError.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getCallError",
+    ()=>getCallError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/contract.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/node.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getNodeError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/errors/getNodeError.js [app-client] (ecmascript)");
+;
+;
+;
+function getCallError(err, param) {
+    let { docsPath, ...args } = param;
+    const cause = (()=>{
+        const cause = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getNodeError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getNodeError"])(err, args);
+        if (cause instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UnknownNodeError"]) return err;
+        return cause;
+    })();
+    return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CallExecutionError"](cause, {
+        docsPath,
+        ...args
+    });
+} //# sourceMappingURL=getCallError.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/formatters/extract.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/**
+ * @description Picks out the keys from `value` that exist in the formatter..
+ */ __turbopack_context__.s([
+    "extract",
+    ()=>extract
+]);
+function extract(value_, param) {
+    let { format } = param;
+    if (!format) return {};
+    const value = {};
+    function extract_(formatted) {
+        const keys = Object.keys(formatted);
+        for (const key of keys){
+            if (key in value_) value[key] = value_[key];
+            if (formatted[key] && typeof formatted[key] === 'object' && !Array.isArray(formatted[key])) extract_(formatted[key]);
+        }
+    }
+    const formatted = format(value_ || {});
+    extract_(formatted);
+    return value;
+} //# sourceMappingURL=extract.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/formatters/formatter.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "defineFormatter",
+    ()=>defineFormatter
+]);
+function defineFormatter(type, format) {
+    return (param)=>{
+        let { exclude, format: overrides } = param;
+        return {
+            exclude,
+            format: (args, action)=>{
+                const formatted = format(args, action);
+                if (exclude) {
+                    for (const key of exclude){
+                        delete formatted[key];
+                    }
+                }
+                return {
+                    ...formatted,
+                    ...overrides(args, action)
+                };
+            },
+            type
+        };
+    };
+} //# sourceMappingURL=formatter.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/formatters/transactionRequest.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "defineTransactionRequest",
+    ()=>defineTransactionRequest,
+    "formatTransactionRequest",
+    ()=>formatTransactionRequest,
+    "rpcTransactionType",
+    ()=>rpcTransactionType
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$formatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/formatter.js [app-client] (ecmascript)");
+;
+;
+const rpcTransactionType = {
+    legacy: '0x0',
+    eip2930: '0x1',
+    eip1559: '0x2',
+    eip4844: '0x3',
+    eip7702: '0x4'
+};
+function formatTransactionRequest(request, _) {
+    const rpcRequest = {};
+    if (typeof request.authorizationList !== 'undefined') rpcRequest.authorizationList = formatAuthorizationList(request.authorizationList);
+    if (typeof request.accessList !== 'undefined') rpcRequest.accessList = request.accessList;
+    if (typeof request.blobVersionedHashes !== 'undefined') rpcRequest.blobVersionedHashes = request.blobVersionedHashes;
+    if (typeof request.blobs !== 'undefined') {
+        if (typeof request.blobs[0] !== 'string') rpcRequest.blobs = request.blobs.map((x)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToHex"])(x));
+        else rpcRequest.blobs = request.blobs;
+    }
+    if (typeof request.data !== 'undefined') rpcRequest.data = request.data;
+    if (request.account) rpcRequest.from = request.account.address;
+    if (typeof request.from !== 'undefined') rpcRequest.from = request.from;
+    if (typeof request.gas !== 'undefined') rpcRequest.gas = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(request.gas);
+    if (typeof request.gasPrice !== 'undefined') rpcRequest.gasPrice = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(request.gasPrice);
+    if (typeof request.maxFeePerBlobGas !== 'undefined') rpcRequest.maxFeePerBlobGas = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(request.maxFeePerBlobGas);
+    if (typeof request.maxFeePerGas !== 'undefined') rpcRequest.maxFeePerGas = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(request.maxFeePerGas);
+    if (typeof request.maxPriorityFeePerGas !== 'undefined') rpcRequest.maxPriorityFeePerGas = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(request.maxPriorityFeePerGas);
+    if (typeof request.nonce !== 'undefined') rpcRequest.nonce = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(request.nonce);
+    if (typeof request.to !== 'undefined') rpcRequest.to = request.to;
+    if (typeof request.type !== 'undefined') rpcRequest.type = rpcTransactionType[request.type];
+    if (typeof request.value !== 'undefined') rpcRequest.value = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(request.value);
+    return rpcRequest;
+}
+const defineTransactionRequest = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$formatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["defineFormatter"])('transactionRequest', formatTransactionRequest);
+//////////////////////////////////////////////////////////////////////////////
+function formatAuthorizationList(authorizationList) {
+    return authorizationList.map((authorization)=>({
+            address: authorization.address,
+            r: authorization.r ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(BigInt(authorization.r)) : authorization.r,
+            s: authorization.s ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(BigInt(authorization.s)) : authorization.s,
+            chainId: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(authorization.chainId),
+            nonce: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(authorization.nonce),
+            ...typeof authorization.yParity !== 'undefined' ? {
+                yParity: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(authorization.yParity)
+            } : {},
+            ...typeof authorization.v !== 'undefined' && typeof authorization.yParity === 'undefined' ? {
+                v: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(authorization.v)
+            } : {}
+        }));
+} //# sourceMappingURL=transactionRequest.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/promise/withResolvers.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/** @internal */ __turbopack_context__.s([
+    "withResolvers",
+    ()=>withResolvers
+]);
+function withResolvers() {
+    let resolve = ()=>undefined;
+    let reject = ()=>undefined;
+    const promise = new Promise((resolve_, reject_)=>{
+        resolve = resolve_;
+        reject = reject_;
+    });
+    return {
+        promise,
+        resolve,
+        reject
+    };
+} //# sourceMappingURL=withResolvers.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/promise/createBatchScheduler.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "createBatchScheduler",
+    ()=>createBatchScheduler
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$withResolvers$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/promise/withResolvers.js [app-client] (ecmascript)");
+;
+const schedulerCache = /*#__PURE__*/ new Map();
+function createBatchScheduler(param) {
+    let { fn, id, shouldSplitBatch, wait = 0, sort } = param;
+    const exec = async ()=>{
+        const scheduler = getScheduler();
+        flush();
+        const args = scheduler.map((param)=>{
+            let { args } = param;
+            return args;
+        });
+        if (args.length === 0) return;
+        fn(args).then((data)=>{
+            if (sort && Array.isArray(data)) data.sort(sort);
+            for(let i = 0; i < scheduler.length; i++){
+                const { resolve } = scheduler[i];
+                resolve === null || resolve === void 0 ? void 0 : resolve([
+                    data[i],
+                    data
+                ]);
+            }
+        }).catch((err)=>{
+            for(let i = 0; i < scheduler.length; i++){
+                const { reject } = scheduler[i];
+                reject === null || reject === void 0 ? void 0 : reject(err);
+            }
+        });
+    };
+    const flush = ()=>schedulerCache.delete(id);
+    const getBatchedArgs = ()=>getScheduler().map((param)=>{
+            let { args } = param;
+            return args;
+        });
+    const getScheduler = ()=>schedulerCache.get(id) || [];
+    const setScheduler = (item)=>schedulerCache.set(id, [
+            ...getScheduler(),
+            item
+        ]);
+    return {
+        flush,
+        async schedule (args) {
+            const { promise, resolve, reject } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$withResolvers$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["withResolvers"])();
+            const split = shouldSplitBatch === null || shouldSplitBatch === void 0 ? void 0 : shouldSplitBatch([
+                ...getBatchedArgs(),
+                args
+            ]);
+            if (split) exec();
+            const hasActiveScheduler = getScheduler().length > 0;
+            if (hasActiveScheduler) {
+                setScheduler({
+                    args,
+                    resolve,
+                    reject
+                });
+                return promise;
+            }
+            setScheduler({
+                args,
+                resolve,
+                reject
+            });
+            setTimeout(exec, wait);
+            return promise;
+        }
+    };
+} //# sourceMappingURL=createBatchScheduler.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/stateOverride.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "serializeAccountStateOverride",
+    ()=>serializeAccountStateOverride,
+    "serializeStateMapping",
+    ()=>serializeStateMapping,
+    "serializeStateOverride",
+    ()=>serializeStateOverride
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/address.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$data$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/data.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$stateOverride$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/stateOverride.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/address/isAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+function serializeStateMapping(stateMapping) {
+    if (!stateMapping || stateMapping.length === 0) return undefined;
+    return stateMapping.reduce((acc, param)=>{
+        let { slot, value } = param;
+        if (slot.length !== 66) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$data$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidBytesLengthError"]({
+            size: slot.length,
+            targetSize: 66,
+            type: 'hex'
+        });
+        if (value.length !== 66) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$data$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidBytesLengthError"]({
+            size: value.length,
+            targetSize: 66,
+            type: 'hex'
+        });
+        acc[slot] = value;
+        return acc;
+    }, {});
+}
+function serializeAccountStateOverride(parameters) {
+    const { balance, nonce, state, stateDiff, code } = parameters;
+    const rpcAccountStateOverride = {};
+    if (code !== undefined) rpcAccountStateOverride.code = code;
+    if (balance !== undefined) rpcAccountStateOverride.balance = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(balance);
+    if (nonce !== undefined) rpcAccountStateOverride.nonce = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(nonce);
+    if (state !== undefined) rpcAccountStateOverride.state = serializeStateMapping(state);
+    if (stateDiff !== undefined) {
+        if (rpcAccountStateOverride.state) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$stateOverride$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["StateAssignmentConflictError"]();
+        rpcAccountStateOverride.stateDiff = serializeStateMapping(stateDiff);
+    }
+    return rpcAccountStateOverride;
+}
+function serializeStateOverride(parameters) {
+    if (!parameters) return undefined;
+    const rpcStateOverride = {};
+    for (const { address, ...accountState } of parameters){
+        if (!(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isAddress"])(address, {
+            strict: false
+        })) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidAddressError"]({
+            address
+        });
+        if (rpcStateOverride[address]) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$stateOverride$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AccountStateConflictError"]({
+            address: address
+        });
+        rpcStateOverride[address] = serializeAccountStateOverride(accountState);
+    }
+    return rpcStateOverride;
+} //# sourceMappingURL=stateOverride.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/constants/number.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "maxInt104",
+    ()=>maxInt104,
+    "maxInt112",
+    ()=>maxInt112,
+    "maxInt120",
+    ()=>maxInt120,
+    "maxInt128",
+    ()=>maxInt128,
+    "maxInt136",
+    ()=>maxInt136,
+    "maxInt144",
+    ()=>maxInt144,
+    "maxInt152",
+    ()=>maxInt152,
+    "maxInt16",
+    ()=>maxInt16,
+    "maxInt160",
+    ()=>maxInt160,
+    "maxInt168",
+    ()=>maxInt168,
+    "maxInt176",
+    ()=>maxInt176,
+    "maxInt184",
+    ()=>maxInt184,
+    "maxInt192",
+    ()=>maxInt192,
+    "maxInt200",
+    ()=>maxInt200,
+    "maxInt208",
+    ()=>maxInt208,
+    "maxInt216",
+    ()=>maxInt216,
+    "maxInt224",
+    ()=>maxInt224,
+    "maxInt232",
+    ()=>maxInt232,
+    "maxInt24",
+    ()=>maxInt24,
+    "maxInt240",
+    ()=>maxInt240,
+    "maxInt248",
+    ()=>maxInt248,
+    "maxInt256",
+    ()=>maxInt256,
+    "maxInt32",
+    ()=>maxInt32,
+    "maxInt40",
+    ()=>maxInt40,
+    "maxInt48",
+    ()=>maxInt48,
+    "maxInt56",
+    ()=>maxInt56,
+    "maxInt64",
+    ()=>maxInt64,
+    "maxInt72",
+    ()=>maxInt72,
+    "maxInt8",
+    ()=>maxInt8,
+    "maxInt80",
+    ()=>maxInt80,
+    "maxInt88",
+    ()=>maxInt88,
+    "maxInt96",
+    ()=>maxInt96,
+    "maxUint104",
+    ()=>maxUint104,
+    "maxUint112",
+    ()=>maxUint112,
+    "maxUint120",
+    ()=>maxUint120,
+    "maxUint128",
+    ()=>maxUint128,
+    "maxUint136",
+    ()=>maxUint136,
+    "maxUint144",
+    ()=>maxUint144,
+    "maxUint152",
+    ()=>maxUint152,
+    "maxUint16",
+    ()=>maxUint16,
+    "maxUint160",
+    ()=>maxUint160,
+    "maxUint168",
+    ()=>maxUint168,
+    "maxUint176",
+    ()=>maxUint176,
+    "maxUint184",
+    ()=>maxUint184,
+    "maxUint192",
+    ()=>maxUint192,
+    "maxUint200",
+    ()=>maxUint200,
+    "maxUint208",
+    ()=>maxUint208,
+    "maxUint216",
+    ()=>maxUint216,
+    "maxUint224",
+    ()=>maxUint224,
+    "maxUint232",
+    ()=>maxUint232,
+    "maxUint24",
+    ()=>maxUint24,
+    "maxUint240",
+    ()=>maxUint240,
+    "maxUint248",
+    ()=>maxUint248,
+    "maxUint256",
+    ()=>maxUint256,
+    "maxUint32",
+    ()=>maxUint32,
+    "maxUint40",
+    ()=>maxUint40,
+    "maxUint48",
+    ()=>maxUint48,
+    "maxUint56",
+    ()=>maxUint56,
+    "maxUint64",
+    ()=>maxUint64,
+    "maxUint72",
+    ()=>maxUint72,
+    "maxUint8",
+    ()=>maxUint8,
+    "maxUint80",
+    ()=>maxUint80,
+    "maxUint88",
+    ()=>maxUint88,
+    "maxUint96",
+    ()=>maxUint96,
+    "minInt104",
+    ()=>minInt104,
+    "minInt112",
+    ()=>minInt112,
+    "minInt120",
+    ()=>minInt120,
+    "minInt128",
+    ()=>minInt128,
+    "minInt136",
+    ()=>minInt136,
+    "minInt144",
+    ()=>minInt144,
+    "minInt152",
+    ()=>minInt152,
+    "minInt16",
+    ()=>minInt16,
+    "minInt160",
+    ()=>minInt160,
+    "minInt168",
+    ()=>minInt168,
+    "minInt176",
+    ()=>minInt176,
+    "minInt184",
+    ()=>minInt184,
+    "minInt192",
+    ()=>minInt192,
+    "minInt200",
+    ()=>minInt200,
+    "minInt208",
+    ()=>minInt208,
+    "minInt216",
+    ()=>minInt216,
+    "minInt224",
+    ()=>minInt224,
+    "minInt232",
+    ()=>minInt232,
+    "minInt24",
+    ()=>minInt24,
+    "minInt240",
+    ()=>minInt240,
+    "minInt248",
+    ()=>minInt248,
+    "minInt256",
+    ()=>minInt256,
+    "minInt32",
+    ()=>minInt32,
+    "minInt40",
+    ()=>minInt40,
+    "minInt48",
+    ()=>minInt48,
+    "minInt56",
+    ()=>minInt56,
+    "minInt64",
+    ()=>minInt64,
+    "minInt72",
+    ()=>minInt72,
+    "minInt8",
+    ()=>minInt8,
+    "minInt80",
+    ()=>minInt80,
+    "minInt88",
+    ()=>minInt88,
+    "minInt96",
+    ()=>minInt96
+]);
+const maxInt8 = 2n ** (8n - 1n) - 1n;
+const maxInt16 = 2n ** (16n - 1n) - 1n;
+const maxInt24 = 2n ** (24n - 1n) - 1n;
+const maxInt32 = 2n ** (32n - 1n) - 1n;
+const maxInt40 = 2n ** (40n - 1n) - 1n;
+const maxInt48 = 2n ** (48n - 1n) - 1n;
+const maxInt56 = 2n ** (56n - 1n) - 1n;
+const maxInt64 = 2n ** (64n - 1n) - 1n;
+const maxInt72 = 2n ** (72n - 1n) - 1n;
+const maxInt80 = 2n ** (80n - 1n) - 1n;
+const maxInt88 = 2n ** (88n - 1n) - 1n;
+const maxInt96 = 2n ** (96n - 1n) - 1n;
+const maxInt104 = 2n ** (104n - 1n) - 1n;
+const maxInt112 = 2n ** (112n - 1n) - 1n;
+const maxInt120 = 2n ** (120n - 1n) - 1n;
+const maxInt128 = 2n ** (128n - 1n) - 1n;
+const maxInt136 = 2n ** (136n - 1n) - 1n;
+const maxInt144 = 2n ** (144n - 1n) - 1n;
+const maxInt152 = 2n ** (152n - 1n) - 1n;
+const maxInt160 = 2n ** (160n - 1n) - 1n;
+const maxInt168 = 2n ** (168n - 1n) - 1n;
+const maxInt176 = 2n ** (176n - 1n) - 1n;
+const maxInt184 = 2n ** (184n - 1n) - 1n;
+const maxInt192 = 2n ** (192n - 1n) - 1n;
+const maxInt200 = 2n ** (200n - 1n) - 1n;
+const maxInt208 = 2n ** (208n - 1n) - 1n;
+const maxInt216 = 2n ** (216n - 1n) - 1n;
+const maxInt224 = 2n ** (224n - 1n) - 1n;
+const maxInt232 = 2n ** (232n - 1n) - 1n;
+const maxInt240 = 2n ** (240n - 1n) - 1n;
+const maxInt248 = 2n ** (248n - 1n) - 1n;
+const maxInt256 = 2n ** (256n - 1n) - 1n;
+const minInt8 = -(2n ** (8n - 1n));
+const minInt16 = -(2n ** (16n - 1n));
+const minInt24 = -(2n ** (24n - 1n));
+const minInt32 = -(2n ** (32n - 1n));
+const minInt40 = -(2n ** (40n - 1n));
+const minInt48 = -(2n ** (48n - 1n));
+const minInt56 = -(2n ** (56n - 1n));
+const minInt64 = -(2n ** (64n - 1n));
+const minInt72 = -(2n ** (72n - 1n));
+const minInt80 = -(2n ** (80n - 1n));
+const minInt88 = -(2n ** (88n - 1n));
+const minInt96 = -(2n ** (96n - 1n));
+const minInt104 = -(2n ** (104n - 1n));
+const minInt112 = -(2n ** (112n - 1n));
+const minInt120 = -(2n ** (120n - 1n));
+const minInt128 = -(2n ** (128n - 1n));
+const minInt136 = -(2n ** (136n - 1n));
+const minInt144 = -(2n ** (144n - 1n));
+const minInt152 = -(2n ** (152n - 1n));
+const minInt160 = -(2n ** (160n - 1n));
+const minInt168 = -(2n ** (168n - 1n));
+const minInt176 = -(2n ** (176n - 1n));
+const minInt184 = -(2n ** (184n - 1n));
+const minInt192 = -(2n ** (192n - 1n));
+const minInt200 = -(2n ** (200n - 1n));
+const minInt208 = -(2n ** (208n - 1n));
+const minInt216 = -(2n ** (216n - 1n));
+const minInt224 = -(2n ** (224n - 1n));
+const minInt232 = -(2n ** (232n - 1n));
+const minInt240 = -(2n ** (240n - 1n));
+const minInt248 = -(2n ** (248n - 1n));
+const minInt256 = -(2n ** (256n - 1n));
+const maxUint8 = 2n ** 8n - 1n;
+const maxUint16 = 2n ** 16n - 1n;
+const maxUint24 = 2n ** 24n - 1n;
+const maxUint32 = 2n ** 32n - 1n;
+const maxUint40 = 2n ** 40n - 1n;
+const maxUint48 = 2n ** 48n - 1n;
+const maxUint56 = 2n ** 56n - 1n;
+const maxUint64 = 2n ** 64n - 1n;
+const maxUint72 = 2n ** 72n - 1n;
+const maxUint80 = 2n ** 80n - 1n;
+const maxUint88 = 2n ** 88n - 1n;
+const maxUint96 = 2n ** 96n - 1n;
+const maxUint104 = 2n ** 104n - 1n;
+const maxUint112 = 2n ** 112n - 1n;
+const maxUint120 = 2n ** 120n - 1n;
+const maxUint128 = 2n ** 128n - 1n;
+const maxUint136 = 2n ** 136n - 1n;
+const maxUint144 = 2n ** 144n - 1n;
+const maxUint152 = 2n ** 152n - 1n;
+const maxUint160 = 2n ** 160n - 1n;
+const maxUint168 = 2n ** 168n - 1n;
+const maxUint176 = 2n ** 176n - 1n;
+const maxUint184 = 2n ** 184n - 1n;
+const maxUint192 = 2n ** 192n - 1n;
+const maxUint200 = 2n ** 200n - 1n;
+const maxUint208 = 2n ** 208n - 1n;
+const maxUint216 = 2n ** 216n - 1n;
+const maxUint224 = 2n ** 224n - 1n;
+const maxUint232 = 2n ** 232n - 1n;
+const maxUint240 = 2n ** 240n - 1n;
+const maxUint248 = 2n ** 248n - 1n;
+const maxUint256 = 2n ** 256n - 1n; //# sourceMappingURL=number.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/transaction/assertRequest.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "assertRequest",
+    ()=>assertRequest
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/accounts/utils/parseAccount.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$number$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/number.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/address.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/node.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/address/isAddress.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+function assertRequest(args) {
+    const { account: account_, maxFeePerGas, maxPriorityFeePerGas, to } = args;
+    const account = account_ ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAccount"])(account_) : undefined;
+    if (account && !(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isAddress"])(account.address)) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidAddressError"]({
+        address: account.address
+    });
+    if (to && !(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isAddress"])(to)) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidAddressError"]({
+        address: to
+    });
+    if (maxFeePerGas && maxFeePerGas > __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$number$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["maxUint256"]) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FeeCapTooHighError"]({
+        maxFeePerGas
+    });
+    if (maxPriorityFeePerGas && maxFeePerGas && maxPriorityFeePerGas > maxFeePerGas) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TipAboveFeeCapError"]({
+        maxFeePerGas,
+        maxPriorityFeePerGas
+    });
+} //# sourceMappingURL=assertRequest.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/call.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "call",
+    ()=>call,
+    "getRevertErrorData",
+    ()=>getRevertErrorData
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$abitype$2f$dist$2f$esm$2f$human$2d$readable$2f$parseAbi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/abitype/dist/esm/human-readable/parseAbi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$core$2f$BlockOverrides$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/ox/_esm/core/BlockOverrides.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/accounts/utils/parseAccount.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/abis.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/contract.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$contracts$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/contracts.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$chain$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/chain.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/contract.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeFunctionResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeFunctionResult.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeDeployData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeDeployData.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeFunctionData.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$chain$2f$getChainContractAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/chain/getChainContractAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getCallError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/errors/getCallError.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$extract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/extract.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transactionRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/transactionRequest.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$createBatchScheduler$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/promise/createBatchScheduler.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stateOverride$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/stateOverride.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$transaction$2f$assertRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/transaction/assertRequest.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+async function call(client, args) {
+    var _client_batch;
+    var _client_experimental_blockTag;
+    const { account: account_ = client.account, authorizationList, batch = Boolean((_client_batch = client.batch) === null || _client_batch === void 0 ? void 0 : _client_batch.multicall), blockNumber, blockTag = (_client_experimental_blockTag = client.experimental_blockTag) !== null && _client_experimental_blockTag !== void 0 ? _client_experimental_blockTag : 'latest', accessList, blobs, blockOverrides, code, data: data_, factory, factoryData, gas, gasPrice, maxFeePerBlobGas, maxFeePerGas, maxPriorityFeePerGas, nonce, to, value, stateOverride, ...rest } = args;
+    const account = account_ ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAccount"])(account_) : undefined;
+    if (code && (factory || factoryData)) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"]('Cannot provide both `code` & `factory`/`factoryData` as parameters.');
+    if (code && to) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"]('Cannot provide both `code` & `to` as parameters.');
+    // Check if the call is deployless via bytecode.
+    const deploylessCallViaBytecode = code && data_;
+    // Check if the call is deployless via a factory.
+    const deploylessCallViaFactory = factory && factoryData && to && data_;
+    const deploylessCall = deploylessCallViaBytecode || deploylessCallViaFactory;
+    const data = (()=>{
+        if (deploylessCallViaBytecode) return toDeploylessCallViaBytecodeData({
+            code,
+            data: data_
+        });
+        if (deploylessCallViaFactory) return toDeploylessCallViaFactoryData({
+            data: data_,
+            factory,
+            factoryData,
+            to
+        });
+        return data_;
+    })();
+    try {
+        var _client_chain_formatters_transactionRequest, _client_chain_formatters, _client_chain;
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$transaction$2f$assertRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assertRequest"])(args);
+        const blockNumberHex = typeof blockNumber === 'bigint' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(blockNumber) : undefined;
+        const block = blockNumberHex || blockTag;
+        const rpcBlockOverrides = blockOverrides ? __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$core$2f$BlockOverrides$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toRpc"](blockOverrides) : undefined;
+        const rpcStateOverride = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stateOverride$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["serializeStateOverride"])(stateOverride);
+        const chainFormat = (_client_chain = client.chain) === null || _client_chain === void 0 ? void 0 : (_client_chain_formatters = _client_chain.formatters) === null || _client_chain_formatters === void 0 ? void 0 : (_client_chain_formatters_transactionRequest = _client_chain_formatters.transactionRequest) === null || _client_chain_formatters_transactionRequest === void 0 ? void 0 : _client_chain_formatters_transactionRequest.format;
+        const format = chainFormat || __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transactionRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatTransactionRequest"];
+        const request = format({
+            // Pick out extra data that might exist on the chain's transaction request type.
+            ...(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$extract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["extract"])(rest, {
+                format: chainFormat
+            }),
+            accessList,
+            account,
+            authorizationList,
+            blobs,
+            data,
+            gas,
+            gasPrice,
+            maxFeePerBlobGas,
+            maxFeePerGas,
+            maxPriorityFeePerGas,
+            nonce,
+            to: deploylessCall ? undefined : to,
+            value
+        }, 'call');
+        if (batch && shouldPerformMulticall({
+            request
+        }) && !rpcStateOverride && !rpcBlockOverrides) {
+            try {
+                return await scheduleMulticall(client, {
+                    ...request,
+                    blockNumber,
+                    blockTag
+                });
+            } catch (err) {
+                if (!(err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$chain$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ClientChainNotConfiguredError"]) && !(err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$chain$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ChainDoesNotSupportContract"])) throw err;
+            }
+        }
+        const params = (()=>{
+            const base = [
+                request,
+                block
+            ];
+            if (rpcStateOverride && rpcBlockOverrides) return [
+                ...base,
+                rpcStateOverride,
+                rpcBlockOverrides
+            ];
+            if (rpcStateOverride) return [
+                ...base,
+                rpcStateOverride
+            ];
+            if (rpcBlockOverrides) return [
+                ...base,
+                {},
+                rpcBlockOverrides
+            ];
+            return base;
+        })();
+        const response = await client.request({
+            method: 'eth_call',
+            params
+        });
+        if (response === '0x') return {
+            data: undefined
+        };
+        return {
+            data: response
+        };
+    } catch (err) {
+        const data = getRevertErrorData(err);
+        // Check for CCIP-Read offchain lookup signature.
+        const { offchainLookup, offchainLookupSignature } = await __turbopack_context__.A("[project]/giftpicker/node_modules/viem/_esm/utils/ccip.js [app-client] (ecmascript, async loader)");
+        if (client.ccipRead !== false && (data === null || data === void 0 ? void 0 : data.slice(0, 10)) === offchainLookupSignature && to) return {
+            data: await offchainLookup(client, {
+                data,
+                to
+            })
+        };
+        // Check for counterfactual deployment error.
+        if (deploylessCall && (data === null || data === void 0 ? void 0 : data.slice(0, 10)) === '0x101bb98d') throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CounterfactualDeploymentFailedError"]({
+            factory
+        });
+        throw (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getCallError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getCallError"])(err, {
+            ...args,
+            account,
+            chain: client.chain
+        });
+    }
+}
+// We only want to perform a scheduled multicall if:
+// - The request has calldata,
+// - The request has a target address,
+// - The target address is not already the aggregate3 signature,
+// - The request has no other properties (`nonce`, `gas`, etc cannot be sent with a multicall).
+function shouldPerformMulticall(param) {
+    let { request } = param;
+    const { data, to, ...request_ } = request;
+    if (!data) return false;
+    if (data.startsWith(__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["aggregate3Signature"])) return false;
+    if (!to) return false;
+    if (Object.values(request_).filter((x)=>typeof x !== 'undefined').length > 0) return false;
+    return true;
+}
+async function scheduleMulticall(client, args) {
+    var _client_batch;
+    const { batchSize = 1024, deployless = false, wait = 0 } = typeof ((_client_batch = client.batch) === null || _client_batch === void 0 ? void 0 : _client_batch.multicall) === 'object' ? client.batch.multicall : {};
+    var _client_experimental_blockTag;
+    const { blockNumber, blockTag = (_client_experimental_blockTag = client.experimental_blockTag) !== null && _client_experimental_blockTag !== void 0 ? _client_experimental_blockTag : 'latest', data, to } = args;
+    const multicallAddress = (()=>{
+        if (deployless) return null;
+        if (args.multicallAddress) return args.multicallAddress;
+        if (client.chain) {
+            return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$chain$2f$getChainContractAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getChainContractAddress"])({
+                blockNumber,
+                chain: client.chain,
+                contract: 'multicall3'
+            });
+        }
+        throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$chain$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ClientChainNotConfiguredError"]();
+    })();
+    const blockNumberHex = typeof blockNumber === 'bigint' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(blockNumber) : undefined;
+    const block = blockNumberHex || blockTag;
+    const { schedule } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$createBatchScheduler$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createBatchScheduler"])({
+        id: "".concat(client.uid, ".").concat(block),
+        wait,
+        shouldSplitBatch (args) {
+            const size = args.reduce((size, param)=>{
+                let { data } = param;
+                return size + (data.length - 2);
+            }, 0);
+            return size > batchSize * 2;
+        },
+        fn: async (requests)=>{
+            const calls = requests.map((request)=>({
+                    allowFailure: true,
+                    callData: request.data,
+                    target: request.to
+                }));
+            const calldata = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeFunctionData"])({
+                abi: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["multicall3Abi"],
+                args: [
+                    calls
+                ],
+                functionName: 'aggregate3'
+            });
+            const data = await client.request({
+                method: 'eth_call',
+                params: [
+                    {
+                        ...multicallAddress === null ? {
+                            data: toDeploylessCallViaBytecodeData({
+                                code: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$contracts$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["multicall3Bytecode"],
+                                data: calldata
+                            })
+                        } : {
+                            to: multicallAddress,
+                            data: calldata
+                        }
+                    },
+                    block
+                ]
+            });
+            return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeFunctionResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["decodeFunctionResult"])({
+                abi: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["multicall3Abi"],
+                args: [
+                    calls
+                ],
+                functionName: 'aggregate3',
+                data: data || '0x'
+            });
+        }
+    });
+    const [{ returnData, success }] = await schedule({
+        data,
+        to
+    });
+    if (!success) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RawContractError"]({
+        data: returnData
+    });
+    if (returnData === '0x') return {
+        data: undefined
+    };
+    return {
+        data: returnData
+    };
+}
+function toDeploylessCallViaBytecodeData(parameters) {
+    const { code, data } = parameters;
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeDeployData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeDeployData"])({
+        abi: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$abitype$2f$dist$2f$esm$2f$human$2d$readable$2f$parseAbi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAbi"])([
+            'constructor(bytes, bytes)'
+        ]),
+        bytecode: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$contracts$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["deploylessCallViaBytecodeBytecode"],
+        args: [
+            code,
+            data
+        ]
+    });
+}
+function toDeploylessCallViaFactoryData(parameters) {
+    const { data, factory, factoryData, to } = parameters;
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeDeployData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeDeployData"])({
+        abi: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$abitype$2f$dist$2f$esm$2f$human$2d$readable$2f$parseAbi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAbi"])([
+            'constructor(address, bytes, address, bytes)'
+        ]),
+        bytecode: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$contracts$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["deploylessCallViaFactoryBytecode"],
+        args: [
+            to,
+            data,
+            factory,
+            factoryData
+        ]
+    });
+}
+function getRevertErrorData(err) {
+    var _error_data;
+    if (!(err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"])) return undefined;
+    const error = err.walk();
+    return typeof (error === null || error === void 0 ? void 0 : error.data) === 'object' ? (_error_data = error.data) === null || _error_data === void 0 ? void 0 : _error_data.data : error.data;
+} //# sourceMappingURL=call.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/readContract.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "readContract",
+    ()=>readContract
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeFunctionResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeFunctionResult.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeFunctionData.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getContractError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/errors/getContractError.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$call$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/call.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+async function readContract(client, parameters) {
+    const { abi, address, args, functionName, ...rest } = parameters;
+    const calldata = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeFunctionData"])({
+        abi,
+        args,
+        functionName
+    });
+    try {
+        const { data } = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$call$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["call"], 'call')({
+            ...rest,
+            data: calldata,
+            to: address
+        });
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeFunctionResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["decodeFunctionResult"])({
+            abi,
+            args,
+            functionName,
+            data: data || '0x'
+        });
+    } catch (error) {
+        throw (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getContractError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getContractError"])(error, {
+            abi,
+            address,
+            args,
+            docsPath: '/docs/contract/readContract',
+            functionName
+        });
+    }
+} //# sourceMappingURL=readContract.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/multicall.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "multicall",
+    ()=>multicall
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/abis.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$contracts$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/contracts.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/contract.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeFunctionResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeFunctionResult.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeFunctionData.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$chain$2f$getChainContractAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/chain/getChainContractAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getContractError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/errors/getContractError.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/readContract.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+async function multicall(client, parameters) {
+    var _client_batch;
+    const { account, authorizationList, allowFailure = true, blockNumber, blockOverrides, blockTag, stateOverride } = parameters;
+    const contracts = parameters.contracts;
+    var _parameters_batchSize, _parameters_deployless;
+    const { batchSize = (_parameters_batchSize = parameters.batchSize) !== null && _parameters_batchSize !== void 0 ? _parameters_batchSize : 1024, deployless = (_parameters_deployless = parameters.deployless) !== null && _parameters_deployless !== void 0 ? _parameters_deployless : false } = typeof ((_client_batch = client.batch) === null || _client_batch === void 0 ? void 0 : _client_batch.multicall) === 'object' ? client.batch.multicall : {};
+    const multicallAddress = (()=>{
+        if (parameters.multicallAddress) return parameters.multicallAddress;
+        if (deployless) return null;
+        if (client.chain) {
+            return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$chain$2f$getChainContractAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getChainContractAddress"])({
+                blockNumber,
+                chain: client.chain,
+                contract: 'multicall3'
+            });
+        }
+        throw new Error('client chain not configured. multicallAddress is required.');
+    })();
+    const chunkedCalls = [
+        []
+    ];
+    let currentChunk = 0;
+    let currentChunkSize = 0;
+    for(let i = 0; i < contracts.length; i++){
+        const { abi, address, args, functionName } = contracts[i];
+        try {
+            const callData = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeFunctionData"])({
+                abi,
+                args,
+                functionName
+            });
+            currentChunkSize += (callData.length - 2) / 2;
+            // Check to see if we need to create a new chunk.
+            if (// Check if batching is enabled.
+            batchSize > 0 && // Check if the current size of the batch exceeds the size limit.
+            currentChunkSize > batchSize && // Check if the current chunk is not already empty.
+            chunkedCalls[currentChunk].length > 0) {
+                currentChunk++;
+                currentChunkSize = (callData.length - 2) / 2;
+                chunkedCalls[currentChunk] = [];
+            }
+            chunkedCalls[currentChunk] = [
+                ...chunkedCalls[currentChunk],
+                {
+                    allowFailure: true,
+                    callData,
+                    target: address
+                }
+            ];
+        } catch (err) {
+            const error = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getContractError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getContractError"])(err, {
+                abi,
+                address,
+                args,
+                docsPath: '/docs/contract/multicall',
+                functionName,
+                sender: account
+            });
+            if (!allowFailure) throw error;
+            chunkedCalls[currentChunk] = [
+                ...chunkedCalls[currentChunk],
+                {
+                    allowFailure: true,
+                    callData: '0x',
+                    target: address
+                }
+            ];
+        }
+    }
+    const aggregate3Results = await Promise.allSettled(chunkedCalls.map((calls)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["readContract"], 'readContract')({
+            ...multicallAddress === null ? {
+                code: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$contracts$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["multicall3Bytecode"]
+            } : {
+                address: multicallAddress
+            },
+            abi: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["multicall3Abi"],
+            account,
+            args: [
+                calls
+            ],
+            authorizationList,
+            blockNumber,
+            blockOverrides,
+            blockTag,
+            functionName: 'aggregate3',
+            stateOverride
+        })));
+    const results = [];
+    for(let i = 0; i < aggregate3Results.length; i++){
+        const result = aggregate3Results[i];
+        // If an error occurred in a `readContract` invocation (ie. network error),
+        // then append the failure reason to each contract result.
+        if (result.status === 'rejected') {
+            if (!allowFailure) throw result.reason;
+            for(let j = 0; j < chunkedCalls[i].length; j++){
+                results.push({
+                    status: 'failure',
+                    error: result.reason,
+                    result: undefined
+                });
+            }
+            continue;
+        }
+        // If the `readContract` call was successful, then decode the results.
+        const aggregate3Result = result.value;
+        for(let j = 0; j < aggregate3Result.length; j++){
+            // Extract the response from `readContract`
+            const { returnData, success } = aggregate3Result[j];
+            // Extract the request call data from the original call.
+            const { callData } = chunkedCalls[i][j];
+            // Extract the contract config for this call from the `contracts` argument
+            // for decoding.
+            const { abi, address, functionName, args } = contracts[results.length];
+            try {
+                if (callData === '0x') throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiDecodingZeroDataError"]();
+                if (!success) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RawContractError"]({
+                    data: returnData
+                });
+                const result = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeFunctionResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["decodeFunctionResult"])({
+                    abi,
+                    args,
+                    data: returnData,
+                    functionName
+                });
+                results.push(allowFailure ? {
+                    result,
+                    status: 'success'
+                } : result);
+            } catch (err) {
+                const error = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getContractError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getContractError"])(err, {
+                    abi,
+                    address,
+                    args,
+                    docsPath: '/docs/contract/multicall',
+                    functionName
+                });
+                if (!allowFailure) throw error;
+                results.push({
+                    error,
+                    result: undefined,
+                    status: 'failure'
+                });
+            }
+        }
+    }
+    if (results.length !== contracts.length) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"]('multicall results mismatch');
+    return results;
+} //# sourceMappingURL=multicall.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/ens/normalize.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "normalize",
+    ()=>normalize
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$core$2f$Ens$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/ox/_esm/core/Ens.js [app-client] (ecmascript)");
+;
+function normalize(name) {
+    return __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$core$2f$Ens$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["normalize"](name);
+} //# sourceMappingURL=normalize.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/ens.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "EnsAvatarInvalidMetadataError",
+    ()=>EnsAvatarInvalidMetadataError,
+    "EnsAvatarInvalidNftUriError",
+    ()=>EnsAvatarInvalidNftUriError,
+    "EnsAvatarUnsupportedNamespaceError",
+    ()=>EnsAvatarUnsupportedNamespaceError,
+    "EnsAvatarUriResolutionError",
+    ()=>EnsAvatarUriResolutionError,
+    "EnsInvalidChainIdError",
+    ()=>EnsInvalidChainIdError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+class EnsAvatarInvalidMetadataError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ data }){
+        super('Unable to extract image from metadata. The metadata may be malformed or invalid.', {
+            metaMessages: [
+                '- Metadata must be a JSON object with at least an `image`, `image_url` or `image_data` property.',
+                '',
+                "Provided data: ".concat(JSON.stringify(data))
+            ],
+            name: 'EnsAvatarInvalidMetadataError'
+        });
+    }
+}
+class EnsAvatarInvalidNftUriError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ reason }){
+        super("ENS NFT avatar URI is invalid. ".concat(reason), {
+            name: 'EnsAvatarInvalidNftUriError'
+        });
+    }
+}
+class EnsAvatarUriResolutionError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ uri }){
+        super('Unable to resolve ENS avatar URI "'.concat(uri, '". The URI may be malformed, invalid, or does not respond with a valid image.'), {
+            name: 'EnsAvatarUriResolutionError'
+        });
+    }
+}
+class EnsAvatarUnsupportedNamespaceError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ namespace }){
+        super('ENS NFT avatar namespace "'.concat(namespace, '" is not supported. Must be "erc721" or "erc1155".'), {
+            name: 'EnsAvatarUnsupportedNamespaceError'
+        });
+    }
+}
+class EnsInvalidChainIdError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ chainId }){
+        super("Invalid ENSIP-11 chainId: ".concat(chainId, ". Must be between 0 and 0x7fffffff, or 1."), {
+            name: 'EnsInvalidChainIdError'
+        });
+    }
+} //# sourceMappingURL=ens.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/ens/avatar/utils.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getGateway",
+    ()=>getGateway,
+    "getJsonImage",
+    ()=>getJsonImage,
+    "getMetadataAvatarUri",
+    ()=>getMetadataAvatarUri,
+    "getNftTokenUri",
+    ()=>getNftTokenUri,
+    "isImageUri",
+    ()=>isImageUri,
+    "parseAvatarUri",
+    ()=>parseAvatarUri,
+    "parseNftUri",
+    ()=>parseNftUri,
+    "resolveAvatarUri",
+    ()=>resolveAvatarUri
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/readContract.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$ens$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/ens.js [app-client] (ecmascript)");
+;
+;
+const networkRegex = RegExp("(?<protocol>https?:\\/\\/[^/]*|ipfs:\\/|ipns:\\/|ar:\\/)?(?<root>\\/)?(?<subpath>ipfs\\/|ipns\\/)?(?<target>[\\w\\-.]+)(?<subtarget>\\/.*)?");
+const ipfsHashRegex = RegExp("^(Qm[1-9A-HJ-NP-Za-km-z]{44,}|b[A-Za-z2-7]{58,}|B[A-Z2-7]{58,}|z[1-9A-HJ-NP-Za-km-z]{48,}|F[0-9A-F]{50,})(\\/(?<target>[\\w\\-.]+))?(?<subtarget>\\/.*)?$");
+const base64Regex = /^data:([a-zA-Z\-/+]*);base64,([^"].*)/;
+const dataURIRegex = /^data:([a-zA-Z\-/+]*)?(;[a-zA-Z0-9].*?)?(,)/;
+async function isImageUri(uri) {
+    try {
+        const res = await fetch(uri, {
+            method: 'HEAD'
+        });
+        // retrieve content type header to check if content is image
+        if (res.status === 200) {
+            const contentType = res.headers.get('content-type');
+            return contentType === null || contentType === void 0 ? void 0 : contentType.startsWith('image/');
+        }
+        return false;
+    } catch (error) {
+        // if error is not cors related then fail
+        if (typeof error === 'object' && typeof error.response !== 'undefined') {
+            return false;
+        }
+        // fail in NodeJS, since the error is not cors but any other network issue
+        if (!Object.hasOwn(globalThis, 'Image')) return false;
+        // in case of cors, use image api to validate if given url is an actual image
+        return new Promise((resolve)=>{
+            const img = new Image();
+            img.onload = ()=>{
+                resolve(true);
+            };
+            img.onerror = ()=>{
+                resolve(false);
+            };
+            img.src = uri;
+        });
+    }
+}
+function getGateway(custom, defaultGateway) {
+    if (!custom) return defaultGateway;
+    if (custom.endsWith('/')) return custom.slice(0, -1);
+    return custom;
+}
+function resolveAvatarUri(param) {
+    let { uri, gatewayUrls } = param;
+    const isEncoded = base64Regex.test(uri);
+    if (isEncoded) return {
+        uri,
+        isOnChain: true,
+        isEncoded
+    };
+    const ipfsGateway = getGateway(gatewayUrls === null || gatewayUrls === void 0 ? void 0 : gatewayUrls.ipfs, 'https://ipfs.io');
+    const arweaveGateway = getGateway(gatewayUrls === null || gatewayUrls === void 0 ? void 0 : gatewayUrls.arweave, 'https://arweave.net');
+    const networkRegexMatch = uri.match(networkRegex);
+    const { protocol, subpath, target, subtarget = '' } = (networkRegexMatch === null || networkRegexMatch === void 0 ? void 0 : networkRegexMatch.groups) || {};
+    const isIPNS = protocol === 'ipns:/' || subpath === 'ipns/';
+    const isIPFS = protocol === 'ipfs:/' || subpath === 'ipfs/' || ipfsHashRegex.test(uri);
+    if (uri.startsWith('http') && !isIPNS && !isIPFS) {
+        let replacedUri = uri;
+        if (gatewayUrls === null || gatewayUrls === void 0 ? void 0 : gatewayUrls.arweave) replacedUri = uri.replace(/https:\/\/arweave.net/g, gatewayUrls === null || gatewayUrls === void 0 ? void 0 : gatewayUrls.arweave);
+        return {
+            uri: replacedUri,
+            isOnChain: false,
+            isEncoded: false
+        };
+    }
+    if ((isIPNS || isIPFS) && target) {
+        return {
+            uri: "".concat(ipfsGateway, "/").concat(isIPNS ? 'ipns' : 'ipfs', "/").concat(target).concat(subtarget),
+            isOnChain: false,
+            isEncoded: false
+        };
+    }
+    if (protocol === 'ar:/' && target) {
+        return {
+            uri: "".concat(arweaveGateway, "/").concat(target).concat(subtarget || ''),
+            isOnChain: false,
+            isEncoded: false
+        };
+    }
+    let parsedUri = uri.replace(dataURIRegex, '');
+    if (parsedUri.startsWith('<svg')) {
+        // if svg, base64 encode
+        parsedUri = "data:image/svg+xml;base64,".concat(btoa(parsedUri));
+    }
+    if (parsedUri.startsWith('data:') || parsedUri.startsWith('{')) {
+        return {
+            uri: parsedUri,
+            isOnChain: true,
+            isEncoded: false
+        };
+    }
+    throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$ens$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["EnsAvatarUriResolutionError"]({
+        uri
+    });
+}
+function getJsonImage(data) {
+    // validation check for json data, must include one of theses properties
+    if (typeof data !== 'object' || !('image' in data) && !('image_url' in data) && !('image_data' in data)) {
+        throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$ens$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["EnsAvatarInvalidMetadataError"]({
+            data
+        });
+    }
+    return data.image || data.image_url || data.image_data;
+}
+async function getMetadataAvatarUri(param) {
+    let { gatewayUrls, uri } = param;
+    try {
+        const res = await fetch(uri).then((res)=>res.json());
+        const image = await parseAvatarUri({
+            gatewayUrls,
+            uri: getJsonImage(res)
+        });
+        return image;
+    } catch (e) {
+        throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$ens$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["EnsAvatarUriResolutionError"]({
+            uri
+        });
+    }
+}
+async function parseAvatarUri(param) {
+    let { gatewayUrls, uri } = param;
+    const { uri: resolvedURI, isOnChain } = resolveAvatarUri({
+        uri,
+        gatewayUrls
+    });
+    if (isOnChain) return resolvedURI;
+    // check if resolvedURI is an image, if it is return the url
+    const isImage = await isImageUri(resolvedURI);
+    if (isImage) return resolvedURI;
+    throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$ens$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["EnsAvatarUriResolutionError"]({
+        uri
+    });
+}
+function parseNftUri(uri_) {
+    let uri = uri_;
+    // parse valid nft spec (CAIP-22/CAIP-29)
+    // @see: https://github.com/ChainAgnostic/CAIPs/tree/master/CAIPs
+    if (uri.startsWith('did:nft:')) {
+        // convert DID to CAIP
+        uri = uri.replace('did:nft:', '').replace(/_/g, '/');
+    }
+    const [reference, asset_namespace, tokenID] = uri.split('/');
+    const [eip_namespace, chainID] = reference.split(':');
+    const [erc_namespace, contractAddress] = asset_namespace.split(':');
+    if (!eip_namespace || eip_namespace.toLowerCase() !== 'eip155') throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$ens$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["EnsAvatarInvalidNftUriError"]({
+        reason: 'Only EIP-155 supported'
+    });
+    if (!chainID) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$ens$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["EnsAvatarInvalidNftUriError"]({
+        reason: 'Chain ID not found'
+    });
+    if (!contractAddress) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$ens$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["EnsAvatarInvalidNftUriError"]({
+        reason: 'Contract address not found'
+    });
+    if (!tokenID) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$ens$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["EnsAvatarInvalidNftUriError"]({
+        reason: 'Token ID not found'
+    });
+    if (!erc_namespace) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$ens$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["EnsAvatarInvalidNftUriError"]({
+        reason: 'ERC namespace not found'
+    });
+    return {
+        chainID: Number.parseInt(chainID, 10),
+        namespace: erc_namespace.toLowerCase(),
+        contractAddress: contractAddress,
+        tokenID
+    };
+}
+async function getNftTokenUri(client, param) {
+    let { nft } = param;
+    if (nft.namespace === 'erc721') {
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["readContract"])(client, {
+            address: nft.contractAddress,
+            abi: [
+                {
+                    name: 'tokenURI',
+                    type: 'function',
+                    stateMutability: 'view',
+                    inputs: [
+                        {
+                            name: 'tokenId',
+                            type: 'uint256'
+                        }
+                    ],
+                    outputs: [
+                        {
+                            name: '',
+                            type: 'string'
+                        }
+                    ]
+                }
+            ],
+            functionName: 'tokenURI',
+            args: [
+                BigInt(nft.tokenID)
+            ]
+        });
+    }
+    if (nft.namespace === 'erc1155') {
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["readContract"])(client, {
+            address: nft.contractAddress,
+            abi: [
+                {
+                    name: 'uri',
+                    type: 'function',
+                    stateMutability: 'view',
+                    inputs: [
+                        {
+                            name: '_id',
+                            type: 'uint256'
+                        }
+                    ],
+                    outputs: [
+                        {
+                            name: '',
+                            type: 'string'
+                        }
+                    ]
+                }
+            ],
+            functionName: 'uri',
+            args: [
+                BigInt(nft.tokenID)
+            ]
+        });
+    }
+    throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$ens$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["EnsAvatarUnsupportedNamespaceError"]({
+        namespace: nft.namespace
+    });
+} //# sourceMappingURL=utils.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/ens/avatar/parseAvatarRecord.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "parseAvatarRecord",
+    ()=>parseAvatarRecord
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$avatar$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/ens/avatar/utils.js [app-client] (ecmascript)");
+;
+async function parseAvatarRecord(client, param) {
+    let { gatewayUrls, record } = param;
+    if (/eip155:/i.test(record)) return parseNftAvatarUri(client, {
+        gatewayUrls,
+        record
+    });
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$avatar$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAvatarUri"])({
+        uri: record,
+        gatewayUrls
+    });
+}
+async function parseNftAvatarUri(client, param) {
+    let { gatewayUrls, record } = param;
+    // parse NFT URI into properties
+    const nft = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$avatar$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseNftUri"])(record);
+    // fetch tokenURI from the NFT contract
+    const nftUri = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$avatar$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getNftTokenUri"])(client, {
+        nft
+    });
+    // resolve the URI from the fetched tokenURI
+    const { uri: resolvedNftUri, isOnChain, isEncoded } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$avatar$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["resolveAvatarUri"])({
+        uri: nftUri,
+        gatewayUrls
+    });
+    // if the resolved URI is on chain, return the data
+    if (isOnChain && (resolvedNftUri.includes('data:application/json;base64,') || resolvedNftUri.startsWith('{'))) {
+        const encodedJson = isEncoded ? atob(resolvedNftUri.replace('data:application/json;base64,', '')) : resolvedNftUri;
+        const decoded = JSON.parse(encodedJson);
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$avatar$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAvatarUri"])({
+            uri: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$avatar$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getJsonImage"])(decoded),
+            gatewayUrls
+        });
+    }
+    let uriTokenId = nft.tokenID;
+    if (nft.namespace === 'erc1155') uriTokenId = uriTokenId.replace('0x', '').padStart(64, '0');
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$avatar$2f$utils$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getMetadataAvatarUri"])({
+        gatewayUrls,
+        uri: resolvedNftUri.replace(/(?:0x)?{id}/, uriTokenId)
+    });
+} //# sourceMappingURL=parseAvatarRecord.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/ens/errors.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "isNullUniversalResolverError",
+    ()=>isNullUniversalResolverError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/contract.js [app-client] (ecmascript)");
+;
+;
+function isNullUniversalResolverError(err) {
+    var _cause_data, _cause_data1, _cause_data2, _cause_data3, _cause_data4, _cause_data5;
+    if (!(err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"])) return false;
+    const cause = err.walk((e)=>e instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ContractFunctionRevertedError"]);
+    if (!(cause instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ContractFunctionRevertedError"])) return false;
+    if (((_cause_data = cause.data) === null || _cause_data === void 0 ? void 0 : _cause_data.errorName) === 'HttpError') return true;
+    if (((_cause_data1 = cause.data) === null || _cause_data1 === void 0 ? void 0 : _cause_data1.errorName) === 'ResolverError') return true;
+    if (((_cause_data2 = cause.data) === null || _cause_data2 === void 0 ? void 0 : _cause_data2.errorName) === 'ResolverNotContract') return true;
+    if (((_cause_data3 = cause.data) === null || _cause_data3 === void 0 ? void 0 : _cause_data3.errorName) === 'ResolverNotFound') return true;
+    if (((_cause_data4 = cause.data) === null || _cause_data4 === void 0 ? void 0 : _cause_data4.errorName) === 'ReverseAddressMismatch') return true;
+    if (((_cause_data5 = cause.data) === null || _cause_data5 === void 0 ? void 0 : _cause_data5.errorName) === 'UnsupportedResolverProfile') return true;
+    return false;
+} //# sourceMappingURL=errors.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeFunctionData.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "decodeFunctionData",
+    ()=>decodeFunctionData
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$slice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/slice.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toFunctionSelector$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/toFunctionSelector.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeAbiParameters.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/formatAbiItem.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+function decodeFunctionData(parameters) {
+    const { abi, data } = parameters;
+    const signature = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$slice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["slice"])(data, 0, 4);
+    const description = abi.find((x)=>x.type === 'function' && signature === (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toFunctionSelector$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toFunctionSelector"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatAbiItem"])(x)));
+    if (!description) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiFunctionSignatureNotFoundError"](signature, {
+        docsPath: '/docs/contract/decodeFunctionData'
+    });
+    return {
+        functionName: description.name,
+        args: 'inputs' in description && description.inputs && description.inputs.length > 0 ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["decodeAbiParameters"])(description.inputs, (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$slice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["slice"])(data, 4)) : undefined
+    };
+} //# sourceMappingURL=decodeFunctionData.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeErrorResult.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "encodeErrorResult",
+    ()=>encodeErrorResult
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/concat.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toFunctionSelector$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/toFunctionSelector.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeAbiParameters.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/formatAbiItem.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$getAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/getAbiItem.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+const docsPath = '/docs/contract/encodeErrorResult';
+function encodeErrorResult(parameters) {
+    const { abi, errorName, args } = parameters;
+    let abiItem = abi[0];
+    if (errorName) {
+        const item = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$getAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAbiItem"])({
+            abi,
+            args,
+            name: errorName
+        });
+        if (!item) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiErrorNotFoundError"](errorName, {
+            docsPath
+        });
+        abiItem = item;
+    }
+    if (abiItem.type !== 'error') throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiErrorNotFoundError"](undefined, {
+        docsPath
+    });
+    const definition = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatAbiItem"])(abiItem);
+    const signature = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toFunctionSelector$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toFunctionSelector"])(definition);
+    let data = '0x';
+    if (args && args.length > 0) {
+        if (!abiItem.inputs) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiErrorInputsNotFoundError"](abiItem.name, {
+            docsPath
+        });
+        data = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeAbiParameters"])(abiItem.inputs, args);
+    }
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["concatHex"])([
+        signature,
+        data
+    ]);
+} //# sourceMappingURL=encodeErrorResult.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeFunctionResult.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "encodeFunctionResult",
+    ()=>encodeFunctionResult
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeAbiParameters.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$getAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/getAbiItem.js [app-client] (ecmascript)");
+;
+;
+;
+const docsPath = '/docs/contract/encodeFunctionResult';
+function encodeFunctionResult(parameters) {
+    const { abi, functionName, result } = parameters;
+    let abiItem = abi[0];
+    if (functionName) {
+        const item = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$getAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAbiItem"])({
+            abi,
+            name: functionName
+        });
+        if (!item) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiFunctionNotFoundError"](functionName, {
+            docsPath
+        });
+        abiItem = item;
+    }
+    if (abiItem.type !== 'function') throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiFunctionNotFoundError"](undefined, {
+        docsPath
+    });
+    if (!abiItem.outputs) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiFunctionOutputsNotFoundError"](abiItem.name, {
+        docsPath
+    });
+    const values = (()=>{
+        if (abiItem.outputs.length === 0) return [];
+        if (abiItem.outputs.length === 1) return [
+            result
+        ];
+        if (Array.isArray(result)) return result;
+        throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidArrayError"](result);
+    })();
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeAbiParameters"])(abiItem.outputs, values);
+} //# sourceMappingURL=encodeFunctionResult.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/ens/localBatchGatewayRequest.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "localBatchGatewayRequest",
+    ()=>localBatchGatewayRequest,
+    "localBatchGatewayUrl",
+    ()=>localBatchGatewayUrl
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/abis.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$solidity$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/solidity.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeFunctionData.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeErrorResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeErrorResult.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeFunctionResult.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+const localBatchGatewayUrl = 'x-batch-gateway:true';
+async function localBatchGatewayRequest(parameters) {
+    const { data, ccipRequest } = parameters;
+    const { args: [queries] } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["decodeFunctionData"])({
+        abi: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["batchGatewayAbi"],
+        data
+    });
+    const failures = [];
+    const responses = [];
+    await Promise.all(queries.map(async (query, i)=>{
+        try {
+            responses[i] = query.urls.includes(localBatchGatewayUrl) ? await localBatchGatewayRequest({
+                data: query.data,
+                ccipRequest
+            }) : await ccipRequest(query);
+            failures[i] = false;
+        } catch (err) {
+            failures[i] = true;
+            responses[i] = encodeError(err);
+        }
+    }));
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeFunctionResult"])({
+        abi: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["batchGatewayAbi"],
+        functionName: 'query',
+        result: [
+            failures,
+            responses
+        ]
+    });
+}
+function encodeError(error) {
+    if (error.name === 'HttpRequestError' && error.status) return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeErrorResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeErrorResult"])({
+        abi: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["batchGatewayAbi"],
+        errorName: 'HttpError',
+        args: [
+            error.status,
+            error.shortMessage
+        ]
+    });
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeErrorResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeErrorResult"])({
+        abi: [
+            __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$solidity$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["solidityError"]
+        ],
+        errorName: 'Error',
+        args: [
+            'shortMessage' in error ? error.shortMessage : error.message
+        ]
+    });
+} //# sourceMappingURL=localBatchGatewayRequest.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/ens/encodedLabelToLabelhash.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "encodedLabelToLabelhash",
+    ()=>encodedLabelToLabelhash
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/isHex.js [app-client] (ecmascript)");
+;
+function encodedLabelToLabelhash(label) {
+    if (label.length !== 66) return null;
+    if (label.indexOf('[') !== 0) return null;
+    if (label.indexOf(']') !== 65) return null;
+    const hash = "0x".concat(label.slice(1, 65));
+    if (!(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isHex"])(hash)) return null;
+    return hash;
+} //# sourceMappingURL=encodedLabelToLabelhash.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/ens/namehash.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "namehash",
+    ()=>namehash
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/concat.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/keccak256.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$encodedLabelToLabelhash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/ens/encodedLabelToLabelhash.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+function namehash(name) {
+    let result = new Uint8Array(32).fill(0);
+    if (!name) return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToHex"])(result);
+    const labels = name.split('.');
+    // Iterate in reverse order building up hash
+    for(let i = labels.length - 1; i >= 0; i -= 1){
+        const hashFromEncodedLabel = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$encodedLabelToLabelhash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodedLabelToLabelhash"])(labels[i]);
+        const hashed = hashFromEncodedLabel ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toBytes"])(hashFromEncodedLabel) : (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["keccak256"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringToBytes"])(labels[i]), 'bytes');
+        result = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["keccak256"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["concat"])([
+            result,
+            hashed
+        ]), 'bytes');
+    }
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToHex"])(result);
+} //# sourceMappingURL=namehash.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/ens/encodeLabelhash.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "encodeLabelhash",
+    ()=>encodeLabelhash
+]);
+function encodeLabelhash(hash) {
+    return "[".concat(hash.slice(2), "]");
+} //# sourceMappingURL=encodeLabelhash.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/ens/labelhash.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "labelhash",
+    ()=>labelhash
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/keccak256.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$encodedLabelToLabelhash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/ens/encodedLabelToLabelhash.js [app-client] (ecmascript)");
+;
+;
+;
+;
+function labelhash(label) {
+    const result = new Uint8Array(32).fill(0);
+    if (!label) return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToHex"])(result);
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$encodedLabelToLabelhash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodedLabelToLabelhash"])(label) || (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["keccak256"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringToBytes"])(label));
+} //# sourceMappingURL=labelhash.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/ens/packetToBytes.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "packetToBytes",
+    ()=>packetToBytes
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$encodeLabelhash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/ens/encodeLabelhash.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$labelhash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/ens/labelhash.js [app-client] (ecmascript)");
+;
+;
+;
+function packetToBytes(packet) {
+    // strip leading and trailing `.`
+    const value = packet.replace(/^\.|\.$/gm, '');
+    if (value.length === 0) return new Uint8Array(1);
+    const bytes = new Uint8Array((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringToBytes"])(value).byteLength + 2);
+    let offset = 0;
+    const list = value.split('.');
+    for(let i = 0; i < list.length; i++){
+        let encoded = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringToBytes"])(list[i]);
+        // if the length is > 255, make the encoded label value a labelhash
+        // this is compatible with the universal resolver
+        if (encoded.byteLength > 255) encoded = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringToBytes"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$encodeLabelhash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeLabelhash"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$labelhash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["labelhash"])(list[i])));
+        bytes[offset] = encoded.length;
+        bytes.set(encoded, offset + 1);
+        offset += encoded.length + 1;
+    }
+    if (bytes.byteLength !== offset + 1) return bytes.slice(0, offset + 1);
+    return bytes;
+} //# sourceMappingURL=packetToBytes.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/ens/getEnsText.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getEnsText",
+    ()=>getEnsText
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/abis.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeFunctionResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeFunctionResult.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeFunctionData.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$chain$2f$getChainContractAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/chain/getChainContractAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$errors$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/ens/errors.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$localBatchGatewayRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/ens/localBatchGatewayRequest.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$namehash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/ens/namehash.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$packetToBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/ens/packetToBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/readContract.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+async function getEnsText(client, parameters) {
+    const { blockNumber, blockTag, key, name, gatewayUrls, strict } = parameters;
+    const { chain } = client;
+    const universalResolverAddress = (()=>{
+        if (parameters.universalResolverAddress) return parameters.universalResolverAddress;
+        if (!chain) throw new Error('client chain not configured. universalResolverAddress is required.');
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$chain$2f$getChainContractAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getChainContractAddress"])({
+            blockNumber,
+            chain,
+            contract: 'ensUniversalResolver'
+        });
+    })();
+    const tlds = chain === null || chain === void 0 ? void 0 : chain.ensTlds;
+    if (tlds && !tlds.some((tld)=>name.endsWith(tld))) return null;
+    try {
+        const readContractParameters = {
+            address: universalResolverAddress,
+            abi: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["universalResolverResolveAbi"],
+            args: [
+                (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toHex"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$packetToBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["packetToBytes"])(name)),
+                (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeFunctionData"])({
+                    abi: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["textResolverAbi"],
+                    functionName: 'text',
+                    args: [
+                        (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$namehash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["namehash"])(name),
+                        key
+                    ]
+                }),
+                gatewayUrls !== null && gatewayUrls !== void 0 ? gatewayUrls : [
+                    __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$localBatchGatewayRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["localBatchGatewayUrl"]
+                ]
+            ],
+            functionName: 'resolveWithGateways',
+            blockNumber,
+            blockTag
+        };
+        const readContractAction = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["readContract"], 'readContract');
+        const res = await readContractAction(readContractParameters);
+        if (res[0] === '0x') return null;
+        const record = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeFunctionResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["decodeFunctionResult"])({
+            abi: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["textResolverAbi"],
+            functionName: 'text',
+            data: res[0]
+        });
+        return record === '' ? null : record;
+    } catch (err) {
+        if (strict) throw err;
+        if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$errors$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isNullUniversalResolverError"])(err)) return null;
+        throw err;
+    }
+} //# sourceMappingURL=getEnsText.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/ens/getEnsAvatar.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getEnsAvatar",
+    ()=>getEnsAvatar
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$avatar$2f$parseAvatarRecord$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/ens/avatar/parseAvatarRecord.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$ens$2f$getEnsText$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/ens/getEnsText.js [app-client] (ecmascript)");
+;
+;
+;
+async function getEnsAvatar(client, param) {
+    let { blockNumber, blockTag, assetGatewayUrls, name, gatewayUrls, strict, universalResolverAddress } = param;
+    const record = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$ens$2f$getEnsText$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getEnsText"], 'getEnsText')({
+        blockNumber,
+        blockTag,
+        key: 'avatar',
+        name,
+        universalResolverAddress,
+        gatewayUrls,
+        strict
+    });
+    if (!record) return null;
+    try {
+        return await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$avatar$2f$parseAvatarRecord$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAvatarRecord"])(client, {
+            record,
+            gatewayUrls: assetGatewayUrls
+        });
+    } catch (e) {
+        return null;
+    }
+} //# sourceMappingURL=getEnsAvatar.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/chain/defineChain.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "defineChain",
+    ()=>defineChain
+]);
+function defineChain(chain) {
+    return {
+        formatters: undefined,
+        fees: undefined,
+        serializers: undefined,
+        ...chain
+    };
+} //# sourceMappingURL=defineChain.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/chains/definitions/mainnet.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "mainnet",
+    ()=>mainnet
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$chain$2f$defineChain$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/chain/defineChain.js [app-client] (ecmascript)");
+;
+const mainnet = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$chain$2f$defineChain$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["defineChain"])({
+    id: 1,
+    name: 'Ethereum',
+    nativeCurrency: {
+        name: 'Ether',
+        symbol: 'ETH',
+        decimals: 18
+    },
+    blockTime: 12_000,
+    rpcUrls: {
+        default: {
+            http: [
+                'https://eth.merkle.io'
+            ]
+        }
+    },
+    blockExplorers: {
+        default: {
+            name: 'Etherscan',
+            url: 'https://etherscan.io',
+            apiUrl: 'https://api.etherscan.io/api'
+        }
+    },
+    contracts: {
+        ensUniversalResolver: {
+            address: '0xeeeeeeee14d718c2b47d9923deab1335e144eeee',
+            blockCreated: 23_085_558
+        },
+        multicall3: {
+            address: '0xca11bde05977b3631167028862be2a173976ca11',
+            blockCreated: 14_353_601
+        }
+    }
+}); //# sourceMappingURL=mainnet.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/ens/getEnsName.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getEnsName",
+    ()=>getEnsName
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/abis.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$chain$2f$getChainContractAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/chain/getChainContractAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$errors$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/ens/errors.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$localBatchGatewayRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/ens/localBatchGatewayRequest.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/readContract.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+async function getEnsName(client, parameters) {
+    const { address, blockNumber, blockTag, coinType = 60n, gatewayUrls, strict } = parameters;
+    const { chain } = client;
+    const universalResolverAddress = (()=>{
+        if (parameters.universalResolverAddress) return parameters.universalResolverAddress;
+        if (!chain) throw new Error('client chain not configured. universalResolverAddress is required.');
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$chain$2f$getChainContractAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getChainContractAddress"])({
+            blockNumber,
+            chain,
+            contract: 'ensUniversalResolver'
+        });
+    })();
+    try {
+        const readContractParameters = {
+            address: universalResolverAddress,
+            abi: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["universalResolverReverseAbi"],
+            args: [
+                address,
+                coinType,
+                gatewayUrls !== null && gatewayUrls !== void 0 ? gatewayUrls : [
+                    __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$localBatchGatewayRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["localBatchGatewayUrl"]
+                ]
+            ],
+            functionName: 'reverseWithGateways',
+            blockNumber,
+            blockTag
+        };
+        const readContractAction = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["readContract"], 'readContract');
+        const [name] = await readContractAction(readContractParameters);
+        return name || null;
+    } catch (err) {
+        if (strict) throw err;
+        if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$errors$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isNullUniversalResolverError"])(err)) return null;
+        throw err;
+    }
+} //# sourceMappingURL=getEnsName.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/ens/getEnsAddress.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getEnsAddress",
+    ()=>getEnsAddress
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/abis.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeFunctionResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeFunctionResult.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeFunctionData.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$chain$2f$getChainContractAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/chain/getChainContractAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$trim$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/trim.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$errors$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/ens/errors.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$localBatchGatewayRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/ens/localBatchGatewayRequest.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$namehash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/ens/namehash.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$packetToBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/ens/packetToBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/readContract.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+async function getEnsAddress(client, parameters) {
+    const { blockNumber, blockTag, coinType, name, gatewayUrls, strict } = parameters;
+    const { chain } = client;
+    const universalResolverAddress = (()=>{
+        if (parameters.universalResolverAddress) return parameters.universalResolverAddress;
+        if (!chain) throw new Error('client chain not configured. universalResolverAddress is required.');
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$chain$2f$getChainContractAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getChainContractAddress"])({
+            blockNumber,
+            chain,
+            contract: 'ensUniversalResolver'
+        });
+    })();
+    const tlds = chain === null || chain === void 0 ? void 0 : chain.ensTlds;
+    if (tlds && !tlds.some((tld)=>name.endsWith(tld))) return null;
+    const args = (()=>{
+        if (coinType != null) return [
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$namehash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["namehash"])(name),
+            BigInt(coinType)
+        ];
+        return [
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$namehash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["namehash"])(name)
+        ];
+    })();
+    try {
+        const functionData = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeFunctionData"])({
+            abi: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["addressResolverAbi"],
+            functionName: 'addr',
+            args
+        });
+        const readContractParameters = {
+            address: universalResolverAddress,
+            abi: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["universalResolverResolveAbi"],
+            functionName: 'resolveWithGateways',
+            args: [
+                (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toHex"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$packetToBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["packetToBytes"])(name)),
+                functionData,
+                gatewayUrls !== null && gatewayUrls !== void 0 ? gatewayUrls : [
+                    __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$localBatchGatewayRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["localBatchGatewayUrl"]
+                ]
+            ],
+            blockNumber,
+            blockTag
+        };
+        const readContractAction = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["readContract"], 'readContract');
+        const res = await readContractAction(readContractParameters);
+        if (res[0] === '0x') return null;
+        const address = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeFunctionResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["decodeFunctionResult"])({
+            abi: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["addressResolverAbi"],
+            args,
+            functionName: 'addr',
+            data: res[0]
+        });
+        if (address === '0x') return null;
+        if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$trim$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["trim"])(address) === '0x00') return null;
+        return address;
+    } catch (err) {
+        if (strict) throw err;
+        if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$errors$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isNullUniversalResolverError"])(err)) return null;
+        throw err;
+    }
+} //# sourceMappingURL=getEnsAddress.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/ens/getEnsResolver.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getEnsResolver",
+    ()=>getEnsResolver
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$chain$2f$getChainContractAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/chain/getChainContractAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$packetToBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/ens/packetToBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/readContract.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+async function getEnsResolver(client, parameters) {
+    const { blockNumber, blockTag, name } = parameters;
+    const { chain } = client;
+    const universalResolverAddress = (()=>{
+        if (parameters.universalResolverAddress) return parameters.universalResolverAddress;
+        if (!chain) throw new Error('client chain not configured. universalResolverAddress is required.');
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$chain$2f$getChainContractAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getChainContractAddress"])({
+            blockNumber,
+            chain,
+            contract: 'ensUniversalResolver'
+        });
+    })();
+    const tlds = chain === null || chain === void 0 ? void 0 : chain.ensTlds;
+    if (tlds && !tlds.some((tld)=>name.endsWith(tld))) throw new Error("".concat(name, " is not a valid ENS TLD (").concat(tlds === null || tlds === void 0 ? void 0 : tlds.join(', '), ') for chain "').concat(chain.name, '" (id: ').concat(chain.id, ")."));
+    const [resolverAddress] = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["readContract"], 'readContract')({
+        address: universalResolverAddress,
+        abi: [
+            {
+                inputs: [
+                    {
+                        type: 'bytes'
+                    }
+                ],
+                name: 'findResolver',
+                outputs: [
+                    {
+                        type: 'address'
+                    },
+                    {
+                        type: 'bytes32'
+                    },
+                    {
+                        type: 'uint256'
+                    }
+                ],
+                stateMutability: 'view',
+                type: 'function'
+            }
+        ],
+        functionName: 'findResolver',
+        args: [
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toHex"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$ens$2f$packetToBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["packetToBytes"])(name))
+        ],
+        blockNumber,
+        blockTag
+    });
+    return resolverAddress;
+} //# sourceMappingURL=getEnsResolver.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/createAccessList.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "createAccessList",
+    ()=>createAccessList
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/accounts/utils/parseAccount.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getCallError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/errors/getCallError.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$extract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/extract.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transactionRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/transactionRequest.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$transaction$2f$assertRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/transaction/assertRequest.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+async function createAccessList(client, args) {
+    const { account: account_ = client.account, blockNumber, blockTag = 'latest', blobs, data, gas, gasPrice, maxFeePerBlobGas, maxFeePerGas, maxPriorityFeePerGas, to, value, ...rest } = args;
+    const account = account_ ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAccount"])(account_) : undefined;
+    try {
+        var _client_chain_formatters_transactionRequest, _client_chain_formatters, _client_chain;
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$transaction$2f$assertRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assertRequest"])(args);
+        const blockNumberHex = typeof blockNumber === 'bigint' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(blockNumber) : undefined;
+        const block = blockNumberHex || blockTag;
+        const chainFormat = (_client_chain = client.chain) === null || _client_chain === void 0 ? void 0 : (_client_chain_formatters = _client_chain.formatters) === null || _client_chain_formatters === void 0 ? void 0 : (_client_chain_formatters_transactionRequest = _client_chain_formatters.transactionRequest) === null || _client_chain_formatters_transactionRequest === void 0 ? void 0 : _client_chain_formatters_transactionRequest.format;
+        const format = chainFormat || __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transactionRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatTransactionRequest"];
+        const request = format({
+            // Pick out extra data that might exist on the chain's transaction request type.
+            ...(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$extract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["extract"])(rest, {
+                format: chainFormat
+            }),
+            account,
+            blobs,
+            data,
+            gas,
+            gasPrice,
+            maxFeePerBlobGas,
+            maxFeePerGas,
+            maxPriorityFeePerGas,
+            to,
+            value
+        }, 'createAccessList');
+        const response = await client.request({
+            method: 'eth_createAccessList',
+            params: [
+                request,
+                block
+            ]
+        });
+        return {
+            accessList: response.accessList,
+            gasUsed: BigInt(response.gasUsed)
+        };
+    } catch (err) {
+        throw (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getCallError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getCallError"])(err, {
+            ...args,
+            account,
+            chain: client.chain
+        });
+    }
+} //# sourceMappingURL=createAccessList.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/filters/createFilterRequestScope.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/**
+ * Scopes `request` to the filter ID. If the client is a fallback, it will
+ * listen for responses and scope the child transport `request` function
+ * to the successful filter ID.
+ */ __turbopack_context__.s([
+    "createFilterRequestScope",
+    ()=>createFilterRequestScope
+]);
+function createFilterRequestScope(client, param) {
+    let { method } = param;
+    var _client_transport_onResponse, _client_transport;
+    const requestMap = {};
+    if (client.transport.type === 'fallback') (_client_transport_onResponse = (_client_transport = client.transport).onResponse) === null || _client_transport_onResponse === void 0 ? void 0 : _client_transport_onResponse.call(_client_transport, (param)=>{
+        let { method: method_, response: id, status, transport } = param;
+        if (status === 'success' && method === method_) requestMap[id] = transport.request;
+    });
+    return (id)=>requestMap[id] || client.request;
+} //# sourceMappingURL=createFilterRequestScope.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/createBlockFilter.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "createBlockFilter",
+    ()=>createBlockFilter
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$filters$2f$createFilterRequestScope$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/filters/createFilterRequestScope.js [app-client] (ecmascript)");
+;
+async function createBlockFilter(client) {
+    const getRequest = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$filters$2f$createFilterRequestScope$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createFilterRequestScope"])(client, {
+        method: 'eth_newBlockFilter'
+    });
+    const id = await client.request({
+        method: 'eth_newBlockFilter'
+    });
+    return {
+        id,
+        request: getRequest(id),
+        type: 'block'
+    };
+} //# sourceMappingURL=createBlockFilter.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/log.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "FilterTypeNotSupportedError",
+    ()=>FilterTypeNotSupportedError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+class FilterTypeNotSupportedError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(type){
+        super('Filter type "'.concat(type, '" is not supported.'), {
+            name: 'FilterTypeNotSupportedError'
+        });
+    }
+} //# sourceMappingURL=log.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeEventTopics.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "encodeEventTopics",
+    ()=>encodeEventTopics
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$log$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/log.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/keccak256.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toEventSelector$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/toEventSelector.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeAbiParameters.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/formatAbiItem.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$getAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/getAbiItem.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+const docsPath = '/docs/contract/encodeEventTopics';
+function encodeEventTopics(parameters) {
+    const { abi, eventName, args } = parameters;
+    let abiItem = abi[0];
+    if (eventName) {
+        const item = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$getAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAbiItem"])({
+            abi,
+            name: eventName
+        });
+        if (!item) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiEventNotFoundError"](eventName, {
+            docsPath
+        });
+        abiItem = item;
+    }
+    if (abiItem.type !== 'event') throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiEventNotFoundError"](undefined, {
+        docsPath
+    });
+    const definition = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatAbiItem"])(abiItem);
+    const signature = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toEventSelector$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toEventSelector"])(definition);
+    let topics = [];
+    if (args && 'inputs' in abiItem) {
+        var _abiItem_inputs;
+        const indexedInputs = (_abiItem_inputs = abiItem.inputs) === null || _abiItem_inputs === void 0 ? void 0 : _abiItem_inputs.filter((param)=>'indexed' in param && param.indexed);
+        var _indexedInputs_map;
+        const args_ = Array.isArray(args) ? args : Object.values(args).length > 0 ? (_indexedInputs_map = indexedInputs === null || indexedInputs === void 0 ? void 0 : indexedInputs.map((x)=>args[x.name])) !== null && _indexedInputs_map !== void 0 ? _indexedInputs_map : [] : [];
+        if (args_.length > 0) {
+            var _indexedInputs_map1;
+            topics = (_indexedInputs_map1 = indexedInputs === null || indexedInputs === void 0 ? void 0 : indexedInputs.map((param, i)=>{
+                if (Array.isArray(args_[i])) return args_[i].map((_, j)=>encodeArg({
+                        param,
+                        value: args_[i][j]
+                    }));
+                return typeof args_[i] !== 'undefined' && args_[i] !== null ? encodeArg({
+                    param,
+                    value: args_[i]
+                }) : null;
+            })) !== null && _indexedInputs_map1 !== void 0 ? _indexedInputs_map1 : [];
+        }
+    }
+    return [
+        signature,
+        ...topics
+    ];
+}
+function encodeArg(param) {
+    let { param: param1, value } = param;
+    if (param1.type === 'string' || param1.type === 'bytes') return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["keccak256"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toBytes"])(value));
+    if (param1.type === 'tuple' || param1.type.match(/^(.*)\[(\d+)?\]$/)) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$log$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FilterTypeNotSupportedError"](param1.type);
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeAbiParameters"])([
+        param1
+    ], [
+        value
+    ]);
+} //# sourceMappingURL=encodeEventTopics.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/createContractEventFilter.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "createContractEventFilter",
+    ()=>createContractEventFilter
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeEventTopics$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeEventTopics.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$filters$2f$createFilterRequestScope$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/filters/createFilterRequestScope.js [app-client] (ecmascript)");
+;
+;
+;
+async function createContractEventFilter(client, parameters) {
+    const { address, abi, args, eventName, fromBlock, strict, toBlock } = parameters;
+    const getRequest = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$filters$2f$createFilterRequestScope$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createFilterRequestScope"])(client, {
+        method: 'eth_newFilter'
+    });
+    const topics = eventName ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeEventTopics$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeEventTopics"])({
+        abi,
+        args,
+        eventName
+    }) : undefined;
+    const id = await client.request({
+        method: 'eth_newFilter',
+        params: [
+            {
+                address,
+                fromBlock: typeof fromBlock === 'bigint' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(fromBlock) : fromBlock,
+                toBlock: typeof toBlock === 'bigint' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(toBlock) : toBlock,
+                topics
+            }
+        ]
+    });
+    return {
+        abi,
+        args,
+        eventName,
+        id,
+        request: getRequest(id),
+        strict: Boolean(strict),
+        type: 'event'
+    };
+} //# sourceMappingURL=createContractEventFilter.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/createEventFilter.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "createEventFilter",
+    ()=>createEventFilter
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeEventTopics$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeEventTopics.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$filters$2f$createFilterRequestScope$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/filters/createFilterRequestScope.js [app-client] (ecmascript)");
+;
+;
+;
+async function createEventFilter(client) {
+    let { address, args, event, events: events_, fromBlock, strict, toBlock } = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    const events = events_ !== null && events_ !== void 0 ? events_ : event ? [
+        event
+    ] : undefined;
+    const getRequest = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$filters$2f$createFilterRequestScope$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createFilterRequestScope"])(client, {
+        method: 'eth_newFilter'
+    });
+    let topics = [];
+    if (events) {
+        const encoded = events.flatMap((event)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeEventTopics$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeEventTopics"])({
+                abi: [
+                    event
+                ],
+                eventName: event.name,
+                args
+            }));
+        // TODO: Clean up type casting
+        topics = [
+            encoded
+        ];
+        if (event) topics = topics[0];
+    }
+    const id = await client.request({
+        method: 'eth_newFilter',
+        params: [
+            {
+                address,
+                fromBlock: typeof fromBlock === 'bigint' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(fromBlock) : fromBlock,
+                toBlock: typeof toBlock === 'bigint' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(toBlock) : toBlock,
+                ...topics.length ? {
+                    topics
+                } : {}
+            }
+        ]
+    });
+    return {
+        abi: events,
+        args,
+        eventName: event ? event.name : undefined,
+        fromBlock,
+        id,
+        request: getRequest(id),
+        strict: Boolean(strict),
+        toBlock,
+        type: 'event'
+    };
+} //# sourceMappingURL=createEventFilter.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/createPendingTransactionFilter.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "createPendingTransactionFilter",
+    ()=>createPendingTransactionFilter
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$filters$2f$createFilterRequestScope$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/filters/createFilterRequestScope.js [app-client] (ecmascript)");
+;
+async function createPendingTransactionFilter(client) {
+    const getRequest = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$filters$2f$createFilterRequestScope$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createFilterRequestScope"])(client, {
+        method: 'eth_newPendingTransactionFilter'
+    });
+    const id = await client.request({
+        method: 'eth_newPendingTransactionFilter'
+    });
+    return {
+        id,
+        request: getRequest(id),
+        type: 'transaction'
+    };
+} //# sourceMappingURL=createPendingTransactionFilter.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/accounts/utils/publicKeyToAddress.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "publicKeyToAddress",
+    ()=>publicKeyToAddress
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$getAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/address/getAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/keccak256.js [app-client] (ecmascript)");
+;
+;
+function publicKeyToAddress(publicKey) {
+    const address = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["keccak256"])("0x".concat(publicKey.substring(4))).substring(26);
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$getAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["checksumAddress"])("0x".concat(address));
+} //# sourceMappingURL=publicKeyToAddress.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/signature/recoverPublicKey.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "recoverPublicKey",
+    ()=>recoverPublicKey
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/isHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/size.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/fromHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+;
+;
+;
+;
+async function recoverPublicKey(param) {
+    let { hash, signature } = param;
+    const hashHex = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isHex"])(hash) ? hash : (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toHex"])(hash);
+    const { secp256k1 } = await __turbopack_context__.A("[project]/giftpicker/node_modules/@noble/curves/esm/secp256k1.js [app-client] (ecmascript, async loader)");
+    const signature_ = (()=>{
+        // typeof signature: `Signature`
+        if (typeof signature === 'object' && 'r' in signature && 's' in signature) {
+            const { r, s, v, yParity } = signature;
+            const yParityOrV = Number(yParity !== null && yParity !== void 0 ? yParity : v);
+            const recoveryBit = toRecoveryBit(yParityOrV);
+            return new secp256k1.Signature((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBigInt"])(r), (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBigInt"])(s)).addRecoveryBit(recoveryBit);
+        }
+        // typeof signature: `Hex | ByteArray`
+        const signatureHex = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isHex"])(signature) ? signature : (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toHex"])(signature);
+        if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(signatureHex) !== 65) throw new Error('invalid signature length');
+        const yParityOrV = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToNumber"])("0x".concat(signatureHex.slice(130)));
+        const recoveryBit = toRecoveryBit(yParityOrV);
+        return secp256k1.Signature.fromCompact(signatureHex.substring(2, 130)).addRecoveryBit(recoveryBit);
+    })();
+    const publicKey = signature_.recoverPublicKey(hashHex.substring(2)).toHex(false);
+    return "0x".concat(publicKey);
+}
+function toRecoveryBit(yParityOrV) {
+    if (yParityOrV === 0 || yParityOrV === 1) return yParityOrV;
+    if (yParityOrV === 27) return 0;
+    if (yParityOrV === 28) return 1;
+    throw new Error('Invalid yParityOrV value');
+} //# sourceMappingURL=recoverPublicKey.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/signature/recoverAddress.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "recoverAddress",
+    ()=>recoverAddress
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$publicKeyToAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/accounts/utils/publicKeyToAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$signature$2f$recoverPublicKey$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/signature/recoverPublicKey.js [app-client] (ecmascript)");
+;
+;
+async function recoverAddress(param) {
+    let { hash, signature } = param;
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$publicKeyToAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["publicKeyToAddress"])(await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$signature$2f$recoverPublicKey$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["recoverPublicKey"])({
+        hash,
+        signature
+    }));
+} //# sourceMappingURL=recoverAddress.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toRlp.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "bytesToRlp",
+    ()=>bytesToRlp,
+    "hexToRlp",
+    ()=>hexToRlp,
+    "toRlp",
+    ()=>toRlp
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$cursor$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/cursor.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+;
+;
+;
+;
+function toRlp(bytes) {
+    let to = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 'hex';
+    const encodable = getEncodable(bytes);
+    const cursor = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$cursor$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createCursor"])(new Uint8Array(encodable.length));
+    encodable.encode(cursor);
+    if (to === 'hex') return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToHex"])(cursor.bytes);
+    return cursor.bytes;
+}
+function bytesToRlp(bytes) {
+    let to = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 'bytes';
+    return toRlp(bytes, to);
+}
+function hexToRlp(hex) {
+    let to = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 'hex';
+    return toRlp(hex, to);
+}
+function getEncodable(bytes) {
+    if (Array.isArray(bytes)) return getEncodableList(bytes.map((x)=>getEncodable(x)));
+    return getEncodableBytes(bytes);
+}
+function getEncodableList(list) {
+    const bodyLength = list.reduce((acc, x)=>acc + x.length, 0);
+    const sizeOfBodyLength = getSizeOfLength(bodyLength);
+    const length = (()=>{
+        if (bodyLength <= 55) return 1 + bodyLength;
+        return 1 + sizeOfBodyLength + bodyLength;
+    })();
+    return {
+        length,
+        encode (cursor) {
+            if (bodyLength <= 55) {
+                cursor.pushByte(0xc0 + bodyLength);
+            } else {
+                cursor.pushByte(0xc0 + 55 + sizeOfBodyLength);
+                if (sizeOfBodyLength === 1) cursor.pushUint8(bodyLength);
+                else if (sizeOfBodyLength === 2) cursor.pushUint16(bodyLength);
+                else if (sizeOfBodyLength === 3) cursor.pushUint24(bodyLength);
+                else cursor.pushUint32(bodyLength);
+            }
+            for (const { encode } of list){
+                encode(cursor);
+            }
+        }
+    };
+}
+function getEncodableBytes(bytesOrHex) {
+    const bytes = typeof bytesOrHex === 'string' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBytes"])(bytesOrHex) : bytesOrHex;
+    const sizeOfBytesLength = getSizeOfLength(bytes.length);
+    const length = (()=>{
+        if (bytes.length === 1 && bytes[0] < 0x80) return 1;
+        if (bytes.length <= 55) return 1 + bytes.length;
+        return 1 + sizeOfBytesLength + bytes.length;
+    })();
+    return {
+        length,
+        encode (cursor) {
+            if (bytes.length === 1 && bytes[0] < 0x80) {
+                cursor.pushBytes(bytes);
+            } else if (bytes.length <= 55) {
+                cursor.pushByte(0x80 + bytes.length);
+                cursor.pushBytes(bytes);
+            } else {
+                cursor.pushByte(0x80 + 55 + sizeOfBytesLength);
+                if (sizeOfBytesLength === 1) cursor.pushUint8(bytes.length);
+                else if (sizeOfBytesLength === 2) cursor.pushUint16(bytes.length);
+                else if (sizeOfBytesLength === 3) cursor.pushUint24(bytes.length);
+                else cursor.pushUint32(bytes.length);
+                cursor.pushBytes(bytes);
+            }
+        }
+    };
+}
+function getSizeOfLength(length) {
+    if (length < 2 ** 8) return 1;
+    if (length < 2 ** 16) return 2;
+    if (length < 2 ** 24) return 3;
+    if (length < 2 ** 32) return 4;
+    throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"]('Length is too large.');
+} //# sourceMappingURL=toRlp.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/authorization/hashAuthorization.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "hashAuthorization",
+    ()=>hashAuthorization
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/concat.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toRlp$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toRlp.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/keccak256.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+function hashAuthorization(parameters) {
+    const { chainId, nonce, to } = parameters;
+    var _parameters_contractAddress;
+    const address = (_parameters_contractAddress = parameters.contractAddress) !== null && _parameters_contractAddress !== void 0 ? _parameters_contractAddress : parameters.address;
+    const hash = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["keccak256"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["concatHex"])([
+        '0x05',
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toRlp$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toRlp"])([
+            chainId ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(chainId) : '0x',
+            address,
+            nonce ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(nonce) : '0x'
+        ])
+    ]));
+    if (to === 'bytes') return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBytes"])(hash);
+    return hash;
+} //# sourceMappingURL=hashAuthorization.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/authorization/recoverAuthorizationAddress.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "recoverAuthorizationAddress",
+    ()=>recoverAuthorizationAddress
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$signature$2f$recoverAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/signature/recoverAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$authorization$2f$hashAuthorization$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/authorization/hashAuthorization.js [app-client] (ecmascript)");
+;
+;
+async function recoverAuthorizationAddress(parameters) {
+    const { authorization, signature } = parameters;
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$signature$2f$recoverAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["recoverAddress"])({
+        hash: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$authorization$2f$hashAuthorization$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hashAuthorization"])(authorization),
+        signature: signature !== null && signature !== void 0 ? signature : authorization
+    });
+} //# sourceMappingURL=recoverAuthorizationAddress.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/estimateGas.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "EstimateGasExecutionError",
+    ()=>EstimateGasExecutionError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatEther$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/unit/formatEther.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/unit/formatGwei.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/transaction.js [app-client] (ecmascript)");
+;
+;
+;
+;
+class EstimateGasExecutionError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(cause, { account, docsPath, chain, data, gas, gasPrice, maxFeePerGas, maxPriorityFeePerGas, nonce, to, value }){
+        var _chain_nativeCurrency;
+        const prettyArgs = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["prettyPrint"])({
+            from: account === null || account === void 0 ? void 0 : account.address,
+            to,
+            value: typeof value !== 'undefined' && "".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatEther$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatEther"])(value), " ").concat((chain === null || chain === void 0 ? void 0 : (_chain_nativeCurrency = chain.nativeCurrency) === null || _chain_nativeCurrency === void 0 ? void 0 : _chain_nativeCurrency.symbol) || 'ETH'),
+            data,
+            gas,
+            gasPrice: typeof gasPrice !== 'undefined' && "".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatGwei"])(gasPrice), " gwei"),
+            maxFeePerGas: typeof maxFeePerGas !== 'undefined' && "".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatGwei"])(maxFeePerGas), " gwei"),
+            maxPriorityFeePerGas: typeof maxPriorityFeePerGas !== 'undefined' && "".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatGwei"])(maxPriorityFeePerGas), " gwei"),
+            nonce
+        });
+        super(cause.shortMessage, {
+            cause,
+            docsPath,
+            metaMessages: [
+                ...cause.metaMessages ? [
+                    ...cause.metaMessages,
+                    ' '
+                ] : [],
+                'Estimate Gas Arguments:',
+                prettyArgs
+            ].filter(Boolean),
+            name: 'EstimateGasExecutionError'
+        });
+        Object.defineProperty(this, "cause", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.cause = cause;
+    }
+} //# sourceMappingURL=estimateGas.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/errors/getEstimateGasError.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getEstimateGasError",
+    ()=>getEstimateGasError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$estimateGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/estimateGas.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/node.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getNodeError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/errors/getNodeError.js [app-client] (ecmascript)");
+;
+;
+;
+function getEstimateGasError(err, param) {
+    let { docsPath, ...args } = param;
+    const cause = (()=>{
+        const cause = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getNodeError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getNodeError"])(err, args);
+        if (cause instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UnknownNodeError"]) return err;
+        return cause;
+    })();
+    return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$estimateGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["EstimateGasExecutionError"](cause, {
+        docsPath,
+        ...args
+    });
+} //# sourceMappingURL=getEstimateGasError.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/fee.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "BaseFeeScalarError",
+    ()=>BaseFeeScalarError,
+    "Eip1559FeesNotSupportedError",
+    ()=>Eip1559FeesNotSupportedError,
+    "MaxFeePerGasTooLowError",
+    ()=>MaxFeePerGasTooLowError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/unit/formatGwei.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+;
+class BaseFeeScalarError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(){
+        super('`baseFeeMultiplier` must be greater than 1.', {
+            name: 'BaseFeeScalarError'
+        });
+    }
+}
+class Eip1559FeesNotSupportedError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(){
+        super('Chain does not support EIP-1559 fees.', {
+            name: 'Eip1559FeesNotSupportedError'
+        });
+    }
+}
+class MaxFeePerGasTooLowError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ maxPriorityFeePerGas }){
+        super("`maxFeePerGas` cannot be less than the `maxPriorityFeePerGas` (".concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$unit$2f$formatGwei$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatGwei"])(maxPriorityFeePerGas), " gwei)."), {
+            name: 'MaxFeePerGasTooLowError'
+        });
+    }
+} //# sourceMappingURL=fee.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/block.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "BlockNotFoundError",
+    ()=>BlockNotFoundError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+class BlockNotFoundError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ blockHash, blockNumber }){
+        let identifier = 'Block';
+        if (blockHash) identifier = 'Block at hash "'.concat(blockHash, '"');
+        if (blockNumber) identifier = 'Block at number "'.concat(blockNumber, '"');
+        super("".concat(identifier, " could not be found."), {
+            name: 'BlockNotFoundError'
+        });
+    }
+} //# sourceMappingURL=block.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/formatters/transaction.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "defineTransaction",
+    ()=>defineTransaction,
+    "formatTransaction",
+    ()=>formatTransaction,
+    "transactionType",
+    ()=>transactionType
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/fromHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$formatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/formatter.js [app-client] (ecmascript)");
+;
+;
+const transactionType = {
+    '0x0': 'legacy',
+    '0x1': 'eip2930',
+    '0x2': 'eip1559',
+    '0x3': 'eip4844',
+    '0x4': 'eip7702'
+};
+function formatTransaction(transaction, _) {
+    const transaction_ = {
+        ...transaction,
+        blockHash: transaction.blockHash ? transaction.blockHash : null,
+        blockNumber: transaction.blockNumber ? BigInt(transaction.blockNumber) : null,
+        chainId: transaction.chainId ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToNumber"])(transaction.chainId) : undefined,
+        gas: transaction.gas ? BigInt(transaction.gas) : undefined,
+        gasPrice: transaction.gasPrice ? BigInt(transaction.gasPrice) : undefined,
+        maxFeePerBlobGas: transaction.maxFeePerBlobGas ? BigInt(transaction.maxFeePerBlobGas) : undefined,
+        maxFeePerGas: transaction.maxFeePerGas ? BigInt(transaction.maxFeePerGas) : undefined,
+        maxPriorityFeePerGas: transaction.maxPriorityFeePerGas ? BigInt(transaction.maxPriorityFeePerGas) : undefined,
+        nonce: transaction.nonce ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToNumber"])(transaction.nonce) : undefined,
+        to: transaction.to ? transaction.to : null,
+        transactionIndex: transaction.transactionIndex ? Number(transaction.transactionIndex) : null,
+        type: transaction.type ? transactionType[transaction.type] : undefined,
+        typeHex: transaction.type ? transaction.type : undefined,
+        value: transaction.value ? BigInt(transaction.value) : undefined,
+        v: transaction.v ? BigInt(transaction.v) : undefined
+    };
+    if (transaction.authorizationList) transaction_.authorizationList = formatAuthorizationList(transaction.authorizationList);
+    transaction_.yParity = (()=>{
+        // If `yParity` is provided, we will use it.
+        if (transaction.yParity) return Number(transaction.yParity);
+        // If no `yParity` provided, try derive from `v`.
+        if (typeof transaction_.v === 'bigint') {
+            if (transaction_.v === 0n || transaction_.v === 27n) return 0;
+            if (transaction_.v === 1n || transaction_.v === 28n) return 1;
+            if (transaction_.v >= 35n) return transaction_.v % 2n === 0n ? 1 : 0;
+        }
+        return undefined;
+    })();
+    if (transaction_.type === 'legacy') {
+        delete transaction_.accessList;
+        delete transaction_.maxFeePerBlobGas;
+        delete transaction_.maxFeePerGas;
+        delete transaction_.maxPriorityFeePerGas;
+        delete transaction_.yParity;
+    }
+    if (transaction_.type === 'eip2930') {
+        delete transaction_.maxFeePerBlobGas;
+        delete transaction_.maxFeePerGas;
+        delete transaction_.maxPriorityFeePerGas;
+    }
+    if (transaction_.type === 'eip1559') {
+        delete transaction_.maxFeePerBlobGas;
+    }
+    return transaction_;
+}
+const defineTransaction = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$formatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["defineFormatter"])('transaction', formatTransaction);
+//////////////////////////////////////////////////////////////////////////////
+function formatAuthorizationList(authorizationList) {
+    return authorizationList.map((authorization)=>({
+            address: authorization.address,
+            chainId: Number(authorization.chainId),
+            nonce: Number(authorization.nonce),
+            r: authorization.r,
+            s: authorization.s,
+            yParity: Number(authorization.yParity)
+        }));
+} //# sourceMappingURL=transaction.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/formatters/block.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "defineBlock",
+    ()=>defineBlock,
+    "formatBlock",
+    ()=>formatBlock
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$formatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/formatter.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/transaction.js [app-client] (ecmascript)");
+;
+;
+function formatBlock(block, _) {
+    var _block_transactions;
+    const transactions = ((_block_transactions = block.transactions) !== null && _block_transactions !== void 0 ? _block_transactions : []).map((transaction)=>{
+        if (typeof transaction === 'string') return transaction;
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatTransaction"])(transaction);
+    });
+    return {
+        ...block,
+        baseFeePerGas: block.baseFeePerGas ? BigInt(block.baseFeePerGas) : null,
+        blobGasUsed: block.blobGasUsed ? BigInt(block.blobGasUsed) : undefined,
+        difficulty: block.difficulty ? BigInt(block.difficulty) : undefined,
+        excessBlobGas: block.excessBlobGas ? BigInt(block.excessBlobGas) : undefined,
+        gasLimit: block.gasLimit ? BigInt(block.gasLimit) : undefined,
+        gasUsed: block.gasUsed ? BigInt(block.gasUsed) : undefined,
+        hash: block.hash ? block.hash : null,
+        logsBloom: block.logsBloom ? block.logsBloom : null,
+        nonce: block.nonce ? block.nonce : null,
+        number: block.number ? BigInt(block.number) : null,
+        size: block.size ? BigInt(block.size) : undefined,
+        timestamp: block.timestamp ? BigInt(block.timestamp) : undefined,
+        transactions,
+        totalDifficulty: block.totalDifficulty ? BigInt(block.totalDifficulty) : null
+    };
+}
+const defineBlock = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$formatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["defineFormatter"])('block', formatBlock); //# sourceMappingURL=block.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getBlock.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getBlock",
+    ()=>getBlock
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$block$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/block.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$block$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/block.js [app-client] (ecmascript)");
+;
+;
+;
+var _client_experimental_blockTag;
+async function getBlock(client) {
+    let { blockHash, blockNumber, blockTag = (_client_experimental_blockTag = client.experimental_blockTag) !== null && _client_experimental_blockTag !== void 0 ? _client_experimental_blockTag : 'latest', includeTransactions: includeTransactions_ } = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    var _client_chain_formatters_block, _client_chain_formatters, _client_chain;
+    const includeTransactions = includeTransactions_ !== null && includeTransactions_ !== void 0 ? includeTransactions_ : false;
+    const blockNumberHex = blockNumber !== undefined ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(blockNumber) : undefined;
+    let block = null;
+    if (blockHash) {
+        block = await client.request({
+            method: 'eth_getBlockByHash',
+            params: [
+                blockHash,
+                includeTransactions
+            ]
+        }, {
+            dedupe: true
+        });
+    } else {
+        block = await client.request({
+            method: 'eth_getBlockByNumber',
+            params: [
+                blockNumberHex || blockTag,
+                includeTransactions
+            ]
+        }, {
+            dedupe: Boolean(blockNumberHex)
+        });
+    }
+    if (!block) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$block$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BlockNotFoundError"]({
+        blockHash,
+        blockNumber
+    });
+    const format = ((_client_chain = client.chain) === null || _client_chain === void 0 ? void 0 : (_client_chain_formatters = _client_chain.formatters) === null || _client_chain_formatters === void 0 ? void 0 : (_client_chain_formatters_block = _client_chain_formatters.block) === null || _client_chain_formatters_block === void 0 ? void 0 : _client_chain_formatters_block.format) || __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$block$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatBlock"];
+    return format(block, 'getBlock');
+} //# sourceMappingURL=getBlock.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getGasPrice.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/**
+ * Returns the current price of gas (in wei).
+ *
+ * - Docs: https://viem.sh/docs/actions/public/getGasPrice
+ * - JSON-RPC Methods: [`eth_gasPrice`](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_gasprice)
+ *
+ * @param client - Client to use
+ * @returns The gas price (in wei). {@link GetGasPriceReturnType}
+ *
+ * @example
+ * import { createPublicClient, http } from 'viem'
+ * import { mainnet } from 'viem/chains'
+ * import { getGasPrice } from 'viem/public'
+ *
+ * const client = createPublicClient({
+ *   chain: mainnet,
+ *   transport: http(),
+ * })
+ * const gasPrice = await getGasPrice(client)
+ */ __turbopack_context__.s([
+    "getGasPrice",
+    ()=>getGasPrice
+]);
+async function getGasPrice(client) {
+    const gasPrice = await client.request({
+        method: 'eth_gasPrice'
+    });
+    return BigInt(gasPrice);
+} //# sourceMappingURL=getGasPrice.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/estimateMaxPriorityFeePerGas.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "estimateMaxPriorityFeePerGas",
+    ()=>estimateMaxPriorityFeePerGas,
+    "internal_estimateMaxPriorityFeePerGas",
+    ()=>internal_estimateMaxPriorityFeePerGas
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$fee$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/fee.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/fromHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getBlock.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getGasPrice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getGasPrice.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+async function estimateMaxPriorityFeePerGas(client, args) {
+    return internal_estimateMaxPriorityFeePerGas(client, args);
+}
+async function internal_estimateMaxPriorityFeePerGas(client, args) {
+    const { block: block_, chain = client.chain, request } = args || {};
+    try {
+        var _chain_fees, _chain_fees1;
+        var _chain_fees_maxPriorityFeePerGas;
+        const maxPriorityFeePerGas = (_chain_fees_maxPriorityFeePerGas = chain === null || chain === void 0 ? void 0 : (_chain_fees = chain.fees) === null || _chain_fees === void 0 ? void 0 : _chain_fees.maxPriorityFeePerGas) !== null && _chain_fees_maxPriorityFeePerGas !== void 0 ? _chain_fees_maxPriorityFeePerGas : chain === null || chain === void 0 ? void 0 : (_chain_fees1 = chain.fees) === null || _chain_fees1 === void 0 ? void 0 : _chain_fees1.defaultPriorityFee;
+        if (typeof maxPriorityFeePerGas === 'function') {
+            const block = block_ || await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBlock"], 'getBlock')({});
+            const maxPriorityFeePerGas_ = await maxPriorityFeePerGas({
+                block,
+                client,
+                request
+            });
+            if (maxPriorityFeePerGas_ === null) throw new Error();
+            return maxPriorityFeePerGas_;
+        }
+        if (typeof maxPriorityFeePerGas !== 'undefined') return maxPriorityFeePerGas;
+        const maxPriorityFeePerGasHex = await client.request({
+            method: 'eth_maxPriorityFeePerGas'
+        });
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBigInt"])(maxPriorityFeePerGasHex);
+    } catch (e) {
+        // If the RPC Provider does not support `eth_maxPriorityFeePerGas`
+        // fall back to calculating it manually via `gasPrice - baseFeePerGas`.
+        // See: https://github.com/ethereum/pm/issues/328#:~:text=eth_maxPriorityFeePerGas%20after%20London%20will%20effectively%20return%20eth_gasPrice%20%2D%20baseFee
+        const [block, gasPrice] = await Promise.all([
+            block_ ? Promise.resolve(block_) : (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBlock"], 'getBlock')({}),
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getGasPrice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getGasPrice"], 'getGasPrice')({})
+        ]);
+        if (typeof block.baseFeePerGas !== 'bigint') throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$fee$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Eip1559FeesNotSupportedError"]();
+        const maxPriorityFeePerGas = gasPrice - block.baseFeePerGas;
+        if (maxPriorityFeePerGas < 0n) return 0n;
+        return maxPriorityFeePerGas;
+    }
+} //# sourceMappingURL=estimateMaxPriorityFeePerGas.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/estimateFeesPerGas.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "estimateFeesPerGas",
+    ()=>estimateFeesPerGas,
+    "internal_estimateFeesPerGas",
+    ()=>internal_estimateFeesPerGas
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$fee$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/fee.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$estimateMaxPriorityFeePerGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/estimateMaxPriorityFeePerGas.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getBlock.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getGasPrice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getGasPrice.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+async function estimateFeesPerGas(client, args) {
+    return internal_estimateFeesPerGas(client, args);
+}
+async function internal_estimateFeesPerGas(client, args) {
+    var _baseFeeMultiplier_toString_split_, _chain_fees;
+    const { block: block_, chain = client.chain, request, type = 'eip1559' } = args || {};
+    const baseFeeMultiplier = await (async ()=>{
+        var _chain_fees, _chain_fees1;
+        if (typeof (chain === null || chain === void 0 ? void 0 : (_chain_fees = chain.fees) === null || _chain_fees === void 0 ? void 0 : _chain_fees.baseFeeMultiplier) === 'function') return chain.fees.baseFeeMultiplier({
+            block: block_,
+            client,
+            request
+        });
+        var _chain_fees_baseFeeMultiplier;
+        return (_chain_fees_baseFeeMultiplier = chain === null || chain === void 0 ? void 0 : (_chain_fees1 = chain.fees) === null || _chain_fees1 === void 0 ? void 0 : _chain_fees1.baseFeeMultiplier) !== null && _chain_fees_baseFeeMultiplier !== void 0 ? _chain_fees_baseFeeMultiplier : 1.2;
+    })();
+    if (baseFeeMultiplier < 1) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$fee$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseFeeScalarError"]();
+    var _baseFeeMultiplier_toString_split__length;
+    const decimals = (_baseFeeMultiplier_toString_split__length = (_baseFeeMultiplier_toString_split_ = baseFeeMultiplier.toString().split('.')[1]) === null || _baseFeeMultiplier_toString_split_ === void 0 ? void 0 : _baseFeeMultiplier_toString_split_.length) !== null && _baseFeeMultiplier_toString_split__length !== void 0 ? _baseFeeMultiplier_toString_split__length : 0;
+    const denominator = 10 ** decimals;
+    const multiply = (base)=>base * BigInt(Math.ceil(baseFeeMultiplier * denominator)) / BigInt(denominator);
+    const block = block_ ? block_ : await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBlock"], 'getBlock')({});
+    if (typeof (chain === null || chain === void 0 ? void 0 : (_chain_fees = chain.fees) === null || _chain_fees === void 0 ? void 0 : _chain_fees.estimateFeesPerGas) === 'function') {
+        const fees = await chain.fees.estimateFeesPerGas({
+            block: block_,
+            client,
+            multiply,
+            request,
+            type
+        });
+        if (fees !== null) return fees;
+    }
+    if (type === 'eip1559') {
+        if (typeof block.baseFeePerGas !== 'bigint') throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$fee$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Eip1559FeesNotSupportedError"]();
+        const maxPriorityFeePerGas = typeof (request === null || request === void 0 ? void 0 : request.maxPriorityFeePerGas) === 'bigint' ? request.maxPriorityFeePerGas : await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$estimateMaxPriorityFeePerGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["internal_estimateMaxPriorityFeePerGas"])(client, {
+            block: block,
+            chain,
+            request
+        });
+        const baseFeePerGas = multiply(block.baseFeePerGas);
+        var _request_maxFeePerGas;
+        const maxFeePerGas = (_request_maxFeePerGas = request === null || request === void 0 ? void 0 : request.maxFeePerGas) !== null && _request_maxFeePerGas !== void 0 ? _request_maxFeePerGas : baseFeePerGas + maxPriorityFeePerGas;
+        return {
+            maxFeePerGas,
+            maxPriorityFeePerGas
+        };
+    }
+    var _request_gasPrice;
+    const gasPrice = (_request_gasPrice = request === null || request === void 0 ? void 0 : request.gasPrice) !== null && _request_gasPrice !== void 0 ? _request_gasPrice : multiply(await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getGasPrice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getGasPrice"], 'getGasPrice')({}));
+    return {
+        gasPrice
+    };
+} //# sourceMappingURL=estimateFeesPerGas.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getTransactionCount.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getTransactionCount",
+    ()=>getTransactionCount
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/fromHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+;
+;
+async function getTransactionCount(client, param) {
+    let { address, blockTag = 'latest', blockNumber } = param;
+    const count = await client.request({
+        method: 'eth_getTransactionCount',
+        params: [
+            address,
+            typeof blockNumber === 'bigint' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(blockNumber) : blockTag
+        ]
+    }, {
+        dedupe: Boolean(blockNumber)
+    });
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToNumber"])(count);
+} //# sourceMappingURL=getTransactionCount.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/blob/blobsToCommitments.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "blobsToCommitments",
+    ()=>blobsToCommitments
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+;
+;
+function blobsToCommitments(parameters) {
+    const { kzg } = parameters;
+    var _parameters_to;
+    const to = (_parameters_to = parameters.to) !== null && _parameters_to !== void 0 ? _parameters_to : typeof parameters.blobs[0] === 'string' ? 'hex' : 'bytes';
+    const blobs = typeof parameters.blobs[0] === 'string' ? parameters.blobs.map((x)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBytes"])(x)) : parameters.blobs;
+    const commitments = [];
+    for (const blob of blobs)commitments.push(Uint8Array.from(kzg.blobToKzgCommitment(blob)));
+    return to === 'bytes' ? commitments : commitments.map((x)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToHex"])(x));
+} //# sourceMappingURL=blobsToCommitments.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/blob/blobsToProofs.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "blobsToProofs",
+    ()=>blobsToProofs
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+;
+;
+function blobsToProofs(parameters) {
+    const { kzg } = parameters;
+    var _parameters_to;
+    const to = (_parameters_to = parameters.to) !== null && _parameters_to !== void 0 ? _parameters_to : typeof parameters.blobs[0] === 'string' ? 'hex' : 'bytes';
+    const blobs = typeof parameters.blobs[0] === 'string' ? parameters.blobs.map((x)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBytes"])(x)) : parameters.blobs;
+    const commitments = typeof parameters.commitments[0] === 'string' ? parameters.commitments.map((x)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBytes"])(x)) : parameters.commitments;
+    const proofs = [];
+    for(let i = 0; i < blobs.length; i++){
+        const blob = blobs[i];
+        const commitment = commitments[i];
+        proofs.push(Uint8Array.from(kzg.computeBlobKzgProof(blob, commitment)));
+    }
+    return to === 'bytes' ? proofs : proofs.map((x)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToHex"])(x));
+} //# sourceMappingURL=blobsToProofs.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/hash/sha256.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "sha256",
+    ()=>sha256
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f40$noble$2f$hashes$2f$esm$2f$sha256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/@noble/hashes/esm/sha256.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/isHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+;
+;
+;
+;
+function sha256(value, to_) {
+    const to = to_ || 'hex';
+    const bytes = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f40$noble$2f$hashes$2f$esm$2f$sha256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["sha256"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isHex"])(value, {
+        strict: false
+    }) ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toBytes"])(value) : value);
+    if (to === 'bytes') return bytes;
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toHex"])(bytes);
+} //# sourceMappingURL=sha256.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/blob/commitmentToVersionedHash.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "commitmentToVersionedHash",
+    ()=>commitmentToVersionedHash
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$sha256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/sha256.js [app-client] (ecmascript)");
+;
+;
+function commitmentToVersionedHash(parameters) {
+    const { commitment, version = 1 } = parameters;
+    var _parameters_to;
+    const to = (_parameters_to = parameters.to) !== null && _parameters_to !== void 0 ? _parameters_to : typeof commitment === 'string' ? 'hex' : 'bytes';
+    const versionedHash = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$sha256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["sha256"])(commitment, 'bytes');
+    versionedHash.set([
+        version
+    ], 0);
+    return to === 'bytes' ? versionedHash : (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToHex"])(versionedHash);
+} //# sourceMappingURL=commitmentToVersionedHash.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/blob/commitmentsToVersionedHashes.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "commitmentsToVersionedHashes",
+    ()=>commitmentsToVersionedHashes
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$blob$2f$commitmentToVersionedHash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/blob/commitmentToVersionedHash.js [app-client] (ecmascript)");
+;
+function commitmentsToVersionedHashes(parameters) {
+    const { commitments, version } = parameters;
+    var _parameters_to;
+    const to = (_parameters_to = parameters.to) !== null && _parameters_to !== void 0 ? _parameters_to : typeof commitments[0] === 'string' ? 'hex' : 'bytes';
+    const hashes = [];
+    for (const commitment of commitments){
+        hashes.push((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$blob$2f$commitmentToVersionedHash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["commitmentToVersionedHash"])({
+            commitment,
+            to,
+            version
+        }));
+    }
+    return hashes;
+} //# sourceMappingURL=commitmentsToVersionedHashes.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/constants/blob.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+// https://github.com/ethereum/EIPs/blob/master/EIPS/eip-4844.md#parameters
+/** Blob limit per transaction. */ __turbopack_context__.s([
+    "bytesPerBlob",
+    ()=>bytesPerBlob,
+    "bytesPerFieldElement",
+    ()=>bytesPerFieldElement,
+    "fieldElementsPerBlob",
+    ()=>fieldElementsPerBlob,
+    "maxBytesPerTransaction",
+    ()=>maxBytesPerTransaction
+]);
+const blobsPerTransaction = 6;
+const bytesPerFieldElement = 32;
+const fieldElementsPerBlob = 4096;
+const bytesPerBlob = bytesPerFieldElement * fieldElementsPerBlob;
+const maxBytesPerTransaction = bytesPerBlob * blobsPerTransaction - // terminator byte (0x80).
+1 - // zero byte (0x00) appended to each field element.
+1 * fieldElementsPerBlob * blobsPerTransaction; //# sourceMappingURL=blob.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/constants/kzg.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+// https://github.com/ethereum/EIPs/blob/master/EIPS/eip-4844.md#parameters
+__turbopack_context__.s([
+    "versionedHashVersionKzg",
+    ()=>versionedHashVersionKzg
+]);
+const versionedHashVersionKzg = 1; //# sourceMappingURL=kzg.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/blob.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "BlobSizeTooLargeError",
+    ()=>BlobSizeTooLargeError,
+    "EmptyBlobError",
+    ()=>EmptyBlobError,
+    "InvalidVersionedHashSizeError",
+    ()=>InvalidVersionedHashSizeError,
+    "InvalidVersionedHashVersionError",
+    ()=>InvalidVersionedHashVersionError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$kzg$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/kzg.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+;
+class BlobSizeTooLargeError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ maxSize, size }){
+        super('Blob size is too large.', {
+            metaMessages: [
+                "Max: ".concat(maxSize, " bytes"),
+                "Given: ".concat(size, " bytes")
+            ],
+            name: 'BlobSizeTooLargeError'
+        });
+    }
+}
+class EmptyBlobError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(){
+        super('Blob data must not be empty.', {
+            name: 'EmptyBlobError'
+        });
+    }
+}
+class InvalidVersionedHashSizeError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ hash, size }){
+        super('Versioned hash "'.concat(hash, '" size is invalid.'), {
+            metaMessages: [
+                'Expected: 32',
+                "Received: ".concat(size)
+            ],
+            name: 'InvalidVersionedHashSizeError'
+        });
+    }
+}
+class InvalidVersionedHashVersionError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ hash, version }){
+        super('Versioned hash "'.concat(hash, '" version is invalid.'), {
+            metaMessages: [
+                "Expected: ".concat(__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$kzg$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["versionedHashVersionKzg"]),
+                "Received: ".concat(version)
+            ],
+            name: 'InvalidVersionedHashVersionError'
+        });
+    }
+} //# sourceMappingURL=blob.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/blob/toBlobs.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "toBlobs",
+    ()=>toBlobs
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$blob$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/blob.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$blob$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/blob.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$cursor$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/cursor.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/size.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+function toBlobs(parameters) {
+    var _parameters_to;
+    const to = (_parameters_to = parameters.to) !== null && _parameters_to !== void 0 ? _parameters_to : typeof parameters.data === 'string' ? 'hex' : 'bytes';
+    const data = typeof parameters.data === 'string' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBytes"])(parameters.data) : parameters.data;
+    const size_ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(data);
+    if (!size_) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$blob$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["EmptyBlobError"]();
+    if (size_ > __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$blob$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["maxBytesPerTransaction"]) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$blob$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BlobSizeTooLargeError"]({
+        maxSize: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$blob$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["maxBytesPerTransaction"],
+        size: size_
+    });
+    const blobs = [];
+    let active = true;
+    let position = 0;
+    while(active){
+        const blob = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$cursor$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createCursor"])(new Uint8Array(__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$blob$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesPerBlob"]));
+        let size = 0;
+        while(size < __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$blob$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["fieldElementsPerBlob"]){
+            const bytes = data.slice(position, position + (__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$blob$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesPerFieldElement"] - 1));
+            // Push a zero byte so the field element doesn't overflow the BLS modulus.
+            blob.pushByte(0x00);
+            // Push the current segment of data bytes.
+            blob.pushBytes(bytes);
+            // If we detect that the current segment of data bytes is less than 31 bytes,
+            // we can stop processing and push a terminator byte to indicate the end of the blob.
+            if (bytes.length < 31) {
+                blob.pushByte(0x80);
+                active = false;
+                break;
+            }
+            size++;
+            position += 31;
+        }
+        blobs.push(blob);
+    }
+    return to === 'bytes' ? blobs.map((x)=>x.bytes) : blobs.map((x)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToHex"])(x.bytes));
+} //# sourceMappingURL=toBlobs.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/blob/toBlobSidecars.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "toBlobSidecars",
+    ()=>toBlobSidecars
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$blob$2f$blobsToCommitments$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/blob/blobsToCommitments.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$blob$2f$blobsToProofs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/blob/blobsToProofs.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$blob$2f$toBlobs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/blob/toBlobs.js [app-client] (ecmascript)");
+;
+;
+;
+function toBlobSidecars(parameters) {
+    const { data, kzg, to } = parameters;
+    var _parameters_blobs;
+    const blobs = (_parameters_blobs = parameters.blobs) !== null && _parameters_blobs !== void 0 ? _parameters_blobs : (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$blob$2f$toBlobs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toBlobs"])({
+        data: data,
+        to
+    });
+    var _parameters_commitments;
+    const commitments = (_parameters_commitments = parameters.commitments) !== null && _parameters_commitments !== void 0 ? _parameters_commitments : (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$blob$2f$blobsToCommitments$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["blobsToCommitments"])({
+        blobs,
+        kzg: kzg,
+        to
+    });
+    var _parameters_proofs;
+    const proofs = (_parameters_proofs = parameters.proofs) !== null && _parameters_proofs !== void 0 ? _parameters_proofs : (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$blob$2f$blobsToProofs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["blobsToProofs"])({
+        blobs,
+        commitments,
+        kzg: kzg,
+        to
+    });
+    const sidecars = [];
+    for(let i = 0; i < blobs.length; i++)sidecars.push({
+        blob: blobs[i],
+        commitment: commitments[i],
+        proof: proofs[i]
+    });
+    return sidecars;
+} //# sourceMappingURL=toBlobSidecars.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/transaction/getTransactionType.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getTransactionType",
+    ()=>getTransactionType
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/transaction.js [app-client] (ecmascript)");
+;
+function getTransactionType(transaction) {
+    if (transaction.type) return transaction.type;
+    if (typeof transaction.authorizationList !== 'undefined') return 'eip7702';
+    if (typeof transaction.blobs !== 'undefined' || typeof transaction.blobVersionedHashes !== 'undefined' || typeof transaction.maxFeePerBlobGas !== 'undefined' || typeof transaction.sidecars !== 'undefined') return 'eip4844';
+    if (typeof transaction.maxFeePerGas !== 'undefined' || typeof transaction.maxPriorityFeePerGas !== 'undefined') {
+        return 'eip1559';
+    }
+    if (typeof transaction.gasPrice !== 'undefined') {
+        if (typeof transaction.accessList !== 'undefined') return 'eip2930';
+        return 'legacy';
+    }
+    throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidSerializableTransactionError"]({
+        transaction
+    });
+} //# sourceMappingURL=getTransactionType.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/errors/getTransactionError.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getTransactionError",
+    ()=>getTransactionError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/node.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/transaction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getNodeError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/errors/getNodeError.js [app-client] (ecmascript)");
+;
+;
+;
+function getTransactionError(err, param) {
+    let { docsPath, ...args } = param;
+    const cause = (()=>{
+        const cause = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getNodeError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getNodeError"])(err, args);
+        if (cause instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UnknownNodeError"]) return err;
+        return cause;
+    })();
+    return new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TransactionExecutionError"](cause, {
+        docsPath,
+        ...args
+    });
+} //# sourceMappingURL=getTransactionError.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getChainId.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getChainId",
+    ()=>getChainId
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/fromHex.js [app-client] (ecmascript)");
+;
+async function getChainId(client) {
+    const chainIdHex = await client.request({
+        method: 'eth_chainId'
+    }, {
+        dedupe: true
+    });
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToNumber"])(chainIdHex);
+} //# sourceMappingURL=getChainId.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/fillTransaction.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "fillTransaction",
+    ()=>fillTransaction
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/accounts/utils/parseAccount.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$fee$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/fee.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getTransactionError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/errors/getTransactionError.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$extract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/extract.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/transaction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transactionRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/transactionRequest.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$transaction$2f$assertRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/transaction/assertRequest.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getBlock.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getChainId$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getChainId.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+async function fillTransaction(client, parameters) {
+    var _chain_formatters_transactionRequest, _chain_formatters;
+    const { account = client.account, accessList, authorizationList, chain = client.chain, blobVersionedHashes, blobs, data, gas, gasPrice, maxFeePerBlobGas, maxFeePerGas, maxPriorityFeePerGas, nonce: nonce_, nonceManager, to, type, value, ...rest } = parameters;
+    const nonce = await (async ()=>{
+        if (!account) return nonce_;
+        if (!nonceManager) return nonce_;
+        if (typeof nonce_ !== 'undefined') return nonce_;
+        const account_ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAccount"])(account);
+        const chainId = chain ? chain.id : await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getChainId$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getChainId"], 'getChainId')({});
+        return await nonceManager.consume({
+            address: account_.address,
+            chainId,
+            client
+        });
+    })();
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$transaction$2f$assertRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assertRequest"])(parameters);
+    const chainFormat = chain === null || chain === void 0 ? void 0 : (_chain_formatters = chain.formatters) === null || _chain_formatters === void 0 ? void 0 : (_chain_formatters_transactionRequest = _chain_formatters.transactionRequest) === null || _chain_formatters_transactionRequest === void 0 ? void 0 : _chain_formatters_transactionRequest.format;
+    const format = chainFormat || __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transactionRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatTransactionRequest"];
+    const request = format({
+        // Pick out extra data that might exist on the chain's transaction request type.
+        ...(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$extract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["extract"])(rest, {
+            format: chainFormat
+        }),
+        account: account ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAccount"])(account) : undefined,
+        accessList,
+        authorizationList,
+        blobs,
+        blobVersionedHashes,
+        data,
+        gas,
+        gasPrice,
+        maxFeePerBlobGas,
+        maxFeePerGas,
+        maxPriorityFeePerGas,
+        nonce,
+        to,
+        type,
+        value
+    }, 'fillTransaction');
+    try {
+        var _chain_formatters_transaction, _chain_formatters1, _feeMultiplier_toString_split_;
+        const response = await client.request({
+            method: 'eth_fillTransaction',
+            params: [
+                request
+            ]
+        });
+        const format = (chain === null || chain === void 0 ? void 0 : (_chain_formatters1 = chain.formatters) === null || _chain_formatters1 === void 0 ? void 0 : (_chain_formatters_transaction = _chain_formatters1.transaction) === null || _chain_formatters_transaction === void 0 ? void 0 : _chain_formatters_transaction.format) || __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatTransaction"];
+        const transaction = format(response.tx);
+        // Remove unnecessary fields.
+        delete transaction.blockHash;
+        delete transaction.blockNumber;
+        delete transaction.r;
+        delete transaction.s;
+        delete transaction.transactionIndex;
+        delete transaction.v;
+        delete transaction.yParity;
+        // Rewrite fields.
+        transaction.data = transaction.input;
+        var _parameters_gas;
+        // Preference supplied fees (some nodes do not take these preferences).
+        if (transaction.gas) transaction.gas = (_parameters_gas = parameters.gas) !== null && _parameters_gas !== void 0 ? _parameters_gas : transaction.gas;
+        var _parameters_gasPrice;
+        if (transaction.gasPrice) transaction.gasPrice = (_parameters_gasPrice = parameters.gasPrice) !== null && _parameters_gasPrice !== void 0 ? _parameters_gasPrice : transaction.gasPrice;
+        var _parameters_maxFeePerBlobGas;
+        if (transaction.maxFeePerBlobGas) transaction.maxFeePerBlobGas = (_parameters_maxFeePerBlobGas = parameters.maxFeePerBlobGas) !== null && _parameters_maxFeePerBlobGas !== void 0 ? _parameters_maxFeePerBlobGas : transaction.maxFeePerBlobGas;
+        var _parameters_maxFeePerGas;
+        if (transaction.maxFeePerGas) transaction.maxFeePerGas = (_parameters_maxFeePerGas = parameters.maxFeePerGas) !== null && _parameters_maxFeePerGas !== void 0 ? _parameters_maxFeePerGas : transaction.maxFeePerGas;
+        var _parameters_maxPriorityFeePerGas;
+        if (transaction.maxPriorityFeePerGas) transaction.maxPriorityFeePerGas = (_parameters_maxPriorityFeePerGas = parameters.maxPriorityFeePerGas) !== null && _parameters_maxPriorityFeePerGas !== void 0 ? _parameters_maxPriorityFeePerGas : transaction.maxPriorityFeePerGas;
+        var _parameters_nonce;
+        if (transaction.nonce) transaction.nonce = (_parameters_nonce = parameters.nonce) !== null && _parameters_nonce !== void 0 ? _parameters_nonce : transaction.nonce;
+        // Build fee multiplier function.
+        const feeMultiplier = await (async ()=>{
+            var _chain_fees, _chain_fees1;
+            if (typeof (chain === null || chain === void 0 ? void 0 : (_chain_fees = chain.fees) === null || _chain_fees === void 0 ? void 0 : _chain_fees.baseFeeMultiplier) === 'function') {
+                const block = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBlock"], 'getBlock')({});
+                return chain.fees.baseFeeMultiplier({
+                    block,
+                    client,
+                    request: parameters
+                });
+            }
+            var _chain_fees_baseFeeMultiplier;
+            return (_chain_fees_baseFeeMultiplier = chain === null || chain === void 0 ? void 0 : (_chain_fees1 = chain.fees) === null || _chain_fees1 === void 0 ? void 0 : _chain_fees1.baseFeeMultiplier) !== null && _chain_fees_baseFeeMultiplier !== void 0 ? _chain_fees_baseFeeMultiplier : 1.2;
+        })();
+        if (feeMultiplier < 1) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$fee$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseFeeScalarError"]();
+        var _feeMultiplier_toString_split__length;
+        const decimals = (_feeMultiplier_toString_split__length = (_feeMultiplier_toString_split_ = feeMultiplier.toString().split('.')[1]) === null || _feeMultiplier_toString_split_ === void 0 ? void 0 : _feeMultiplier_toString_split_.length) !== null && _feeMultiplier_toString_split__length !== void 0 ? _feeMultiplier_toString_split__length : 0;
+        const denominator = 10 ** decimals;
+        const multiplyFee = (base)=>base * BigInt(Math.ceil(feeMultiplier * denominator)) / BigInt(denominator);
+        // Apply fee multiplier.
+        if (transaction.maxFeePerGas && !parameters.maxFeePerGas) transaction.maxFeePerGas = multiplyFee(transaction.maxFeePerGas);
+        if (transaction.gasPrice && !parameters.gasPrice) transaction.gasPrice = multiplyFee(transaction.gasPrice);
+        return {
+            raw: response.raw,
+            transaction: {
+                from: request.from,
+                ...transaction
+            }
+        };
+    } catch (err) {
+        throw (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getTransactionError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getTransactionError"])(err, {
+            ...parameters,
+            chain: client.chain
+        });
+    }
+} //# sourceMappingURL=fillTransaction.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/wallet/prepareTransactionRequest.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "defaultParameters",
+    ()=>defaultParameters,
+    "eip1559NetworkCache",
+    ()=>eip1559NetworkCache,
+    "prepareTransactionRequest",
+    ()=>prepareTransactionRequest,
+    "supportsFillTransaction",
+    ()=>supportsFillTransaction
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/accounts/utils/parseAccount.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$estimateFeesPerGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/estimateFeesPerGas.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$estimateGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/estimateGas.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getBlock.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getTransactionCount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getTransactionCount.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$fee$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/fee.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$blob$2f$blobsToCommitments$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/blob/blobsToCommitments.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$blob$2f$blobsToProofs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/blob/blobsToProofs.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$blob$2f$commitmentsToVersionedHashes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/blob/commitmentsToVersionedHashes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$blob$2f$toBlobSidecars$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/blob/toBlobSidecars.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$lru$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/lru.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$transaction$2f$assertRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/transaction/assertRequest.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$transaction$2f$getTransactionType$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/transaction/getTransactionType.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$fillTransaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/fillTransaction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getChainId$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getChainId.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+const defaultParameters = [
+    'blobVersionedHashes',
+    'chainId',
+    'fees',
+    'gas',
+    'nonce',
+    'type'
+];
+const eip1559NetworkCache = /*#__PURE__*/ new Map();
+const supportsFillTransaction = /*#__PURE__*/ new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$lru$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LruMap"](128);
+async function prepareTransactionRequest(client, args) {
+    const { account: account_ = client.account, chain, nonceManager, parameters = defaultParameters } = args;
+    let chainId;
+    async function getChainId() {
+        if (chainId) return chainId;
+        if (chain) return chain.id;
+        if (typeof args.chainId !== 'undefined') return args.chainId;
+        const chainId_ = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getChainId$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getChainId"], 'getChainId')({});
+        chainId = chainId_;
+        return chainId;
+    }
+    const account = account_ ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAccount"])(account_) : account_;
+    let nonce = args.nonce;
+    if (parameters.includes('nonce') && typeof nonce === 'undefined' && account && nonceManager) {
+        const chainId = await getChainId();
+        nonce = await nonceManager.consume({
+            address: account.address,
+            chainId,
+            client
+        });
+    }
+    const attemptFill = // Do not attempt if `eth_fillTransaction` is not supported.
+    supportsFillTransaction.get(client.uid) !== false && // Should attempt `eth_fillTransaction` if "fees" or "gas" are required to be populated,
+    // otherwise, can just use the other individual calls.
+    [
+        'fees',
+        'gas'
+    ].some((parameter)=>{
+        var _args_parameters;
+        return (_args_parameters = args.parameters) === null || _args_parameters === void 0 ? void 0 : _args_parameters.includes(parameter);
+    });
+    const fillResult = attemptFill ? await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$fillTransaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["fillTransaction"], 'fillTransaction')({
+        ...args,
+        nonce
+    }).then((result)=>{
+        const { chainId, from, gas, gasPrice, nonce, maxFeePerBlobGas, maxFeePerGas, maxPriorityFeePerGas, type } = result.transaction;
+        supportsFillTransaction.set(client.uid, true);
+        return {
+            ...args,
+            ...chainId ? {
+                chainId
+            } : {},
+            ...from ? {
+                from
+            } : {},
+            ...gas ? {
+                gas
+            } : {},
+            ...gasPrice ? {
+                gasPrice
+            } : {},
+            ...nonce ? {
+                nonce
+            } : {},
+            ...maxFeePerBlobGas ? {
+                maxFeePerBlobGas
+            } : {},
+            ...maxFeePerGas ? {
+                maxFeePerGas
+            } : {},
+            ...maxPriorityFeePerGas ? {
+                maxPriorityFeePerGas
+            } : {},
+            ...type ? {
+                type
+            } : {}
+        };
+    }).catch((e)=>{
+        const error = e;
+        const unsupported = error.walk((e)=>{
+            const error = e;
+            return error.name === 'MethodNotFoundRpcError' || error.name === 'MethodNotSupportedRpcError';
+        });
+        if (unsupported) supportsFillTransaction.set(client.uid, false);
+        return args;
+    }) : args;
+    const { blobs, gas, kzg, type } = fillResult;
+    nonce !== null && nonce !== void 0 ? nonce : nonce = fillResult.nonce;
+    const request = {
+        ...fillResult,
+        ...account ? {
+            from: account === null || account === void 0 ? void 0 : account.address
+        } : {},
+        ...nonce ? {
+            nonce
+        } : {}
+    };
+    let block;
+    async function getBlock() {
+        if (block) return block;
+        block = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBlock"], 'getBlock')({
+            blockTag: 'latest'
+        });
+        return block;
+    }
+    if (parameters.includes('nonce') && typeof nonce === 'undefined' && account && !nonceManager) request.nonce = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getTransactionCount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getTransactionCount"], 'getTransactionCount')({
+        address: account.address,
+        blockTag: 'pending'
+    });
+    if ((parameters.includes('blobVersionedHashes') || parameters.includes('sidecars')) && blobs && kzg) {
+        const commitments = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$blob$2f$blobsToCommitments$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["blobsToCommitments"])({
+            blobs,
+            kzg
+        });
+        if (parameters.includes('blobVersionedHashes')) {
+            const versionedHashes = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$blob$2f$commitmentsToVersionedHashes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["commitmentsToVersionedHashes"])({
+                commitments,
+                to: 'hex'
+            });
+            request.blobVersionedHashes = versionedHashes;
+        }
+        if (parameters.includes('sidecars')) {
+            const proofs = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$blob$2f$blobsToProofs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["blobsToProofs"])({
+                blobs,
+                commitments,
+                kzg
+            });
+            const sidecars = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$blob$2f$toBlobSidecars$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toBlobSidecars"])({
+                blobs,
+                commitments,
+                proofs,
+                to: 'hex'
+            });
+            request.sidecars = sidecars;
+        }
+    }
+    if (parameters.includes('chainId')) request.chainId = await getChainId();
+    if ((parameters.includes('fees') || parameters.includes('type')) && typeof type === 'undefined') {
+        try {
+            request.type = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$transaction$2f$getTransactionType$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getTransactionType"])(request);
+        } catch (e) {
+            let isEip1559Network = eip1559NetworkCache.get(client.uid);
+            if (typeof isEip1559Network === 'undefined') {
+                const block = await getBlock();
+                isEip1559Network = typeof (block === null || block === void 0 ? void 0 : block.baseFeePerGas) === 'bigint';
+                eip1559NetworkCache.set(client.uid, isEip1559Network);
+            }
+            request.type = isEip1559Network ? 'eip1559' : 'legacy';
+        }
+    }
+    if (parameters.includes('fees')) {
+        // TODO(4844): derive blob base fees once https://github.com/ethereum/execution-apis/pull/486 is merged.
+        if (request.type !== 'legacy' && request.type !== 'eip2930') {
+            // EIP-1559 fees
+            if (typeof request.maxFeePerGas === 'undefined' || typeof request.maxPriorityFeePerGas === 'undefined') {
+                const block = await getBlock();
+                const { maxFeePerGas, maxPriorityFeePerGas } = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$estimateFeesPerGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["internal_estimateFeesPerGas"])(client, {
+                    block: block,
+                    chain,
+                    request: request
+                });
+                if (typeof request.maxPriorityFeePerGas === 'undefined' && request.maxFeePerGas && request.maxFeePerGas < maxPriorityFeePerGas) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$fee$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MaxFeePerGasTooLowError"]({
+                    maxPriorityFeePerGas
+                });
+                request.maxPriorityFeePerGas = maxPriorityFeePerGas;
+                request.maxFeePerGas = maxFeePerGas;
+            }
+        } else {
+            // Legacy fees
+            if (typeof request.maxFeePerGas !== 'undefined' || typeof request.maxPriorityFeePerGas !== 'undefined') throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$fee$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Eip1559FeesNotSupportedError"]();
+            if (typeof request.gasPrice === 'undefined') {
+                const block = await getBlock();
+                const { gasPrice: gasPrice_ } = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$estimateFeesPerGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["internal_estimateFeesPerGas"])(client, {
+                    block: block,
+                    chain,
+                    request: request,
+                    type: 'legacy'
+                });
+                request.gasPrice = gasPrice_;
+            }
+        }
+    }
+    if (parameters.includes('gas') && typeof gas === 'undefined') request.gas = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$estimateGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["estimateGas"], 'estimateGas')({
+        ...request,
+        account,
+        prepare: (account === null || account === void 0 ? void 0 : account.type) === 'local' ? [] : [
+            'blobVersionedHashes'
+        ]
+    });
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$transaction$2f$assertRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assertRequest"])(request);
+    delete request.parameters;
+    return request;
+} //# sourceMappingURL=prepareTransactionRequest.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/estimateGas.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "estimateGas",
+    ()=>estimateGas
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/accounts/utils/parseAccount.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$authorization$2f$recoverAuthorizationAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/authorization/recoverAuthorizationAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getEstimateGasError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/errors/getEstimateGasError.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$extract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/extract.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transactionRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/transactionRequest.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stateOverride$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/stateOverride.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$transaction$2f$assertRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/transaction/assertRequest.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$wallet$2f$prepareTransactionRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/wallet/prepareTransactionRequest.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+async function estimateGas(client, args) {
+    const { account: account_ = client.account, prepare = true } = args;
+    const account = account_ ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAccount"])(account_) : undefined;
+    const parameters = (()=>{
+        if (Array.isArray(prepare)) return prepare;
+        // Some RPC Providers do not compute versioned hashes from blobs. We will need
+        // to compute them.
+        if ((account === null || account === void 0 ? void 0 : account.type) !== 'local') return [
+            'blobVersionedHashes'
+        ];
+        return undefined;
+    })();
+    try {
+        var _client_chain_formatters_transactionRequest, _client_chain_formatters, _client_chain;
+        const { accessList, authorizationList, blobs, blobVersionedHashes, blockNumber, blockTag, data, gas, gasPrice, maxFeePerBlobGas, maxFeePerGas, maxPriorityFeePerGas, nonce, value, stateOverride, ...rest } = prepare ? await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$wallet$2f$prepareTransactionRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["prepareTransactionRequest"])(client, {
+            ...args,
+            parameters
+        }) : args;
+        const blockNumberHex = typeof blockNumber === 'bigint' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(blockNumber) : undefined;
+        const block = blockNumberHex || blockTag;
+        const rpcStateOverride = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stateOverride$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["serializeStateOverride"])(stateOverride);
+        const to = await (async ()=>{
+            // If `to` exists on the parameters, use that.
+            if (rest.to) return rest.to;
+            // If no `to` exists, and we are sending a EIP-7702 transaction, use the
+            // address of the first authorization in the list.
+            if (authorizationList && authorizationList.length > 0) return await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$authorization$2f$recoverAuthorizationAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["recoverAuthorizationAddress"])({
+                authorization: authorizationList[0]
+            }).catch(()=>{
+                throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"]('`to` is required. Could not infer from `authorizationList`');
+            });
+            // Otherwise, we are sending a deployment transaction.
+            return undefined;
+        })();
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$transaction$2f$assertRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assertRequest"])(args);
+        const chainFormat = (_client_chain = client.chain) === null || _client_chain === void 0 ? void 0 : (_client_chain_formatters = _client_chain.formatters) === null || _client_chain_formatters === void 0 ? void 0 : (_client_chain_formatters_transactionRequest = _client_chain_formatters.transactionRequest) === null || _client_chain_formatters_transactionRequest === void 0 ? void 0 : _client_chain_formatters_transactionRequest.format;
+        const format = chainFormat || __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transactionRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatTransactionRequest"];
+        const request = format({
+            // Pick out extra data that might exist on the chain's transaction request type.
+            ...(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$extract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["extract"])(rest, {
+                format: chainFormat
+            }),
+            account,
+            accessList,
+            authorizationList,
+            blobs,
+            blobVersionedHashes,
+            data,
+            gas,
+            gasPrice,
+            maxFeePerBlobGas,
+            maxFeePerGas,
+            maxPriorityFeePerGas,
+            nonce,
+            to,
+            value
+        }, 'estimateGas');
+        var _ref;
+        return BigInt(await client.request({
+            method: 'eth_estimateGas',
+            params: rpcStateOverride ? [
+                request,
+                (_ref = block !== null && block !== void 0 ? block : client.experimental_blockTag) !== null && _ref !== void 0 ? _ref : 'latest',
+                rpcStateOverride
+            ] : block ? [
+                request,
+                block
+            ] : [
+                request
+            ]
+        }));
+    } catch (err) {
+        throw (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getEstimateGasError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getEstimateGasError"])(err, {
+            ...args,
+            account,
+            chain: client.chain
+        });
+    }
+} //# sourceMappingURL=estimateGas.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/estimateContractGas.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "estimateContractGas",
+    ()=>estimateContractGas
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/accounts/utils/parseAccount.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeFunctionData.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getContractError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/errors/getContractError.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$estimateGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/estimateGas.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+async function estimateContractGas(client, parameters) {
+    const { abi, address, args, functionName, dataSuffix, ...request } = parameters;
+    const data = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeFunctionData"])({
+        abi,
+        args,
+        functionName
+    });
+    try {
+        const gas = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$estimateGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["estimateGas"], 'estimateGas')({
+            data: "".concat(data).concat(dataSuffix ? dataSuffix.replace('0x', '') : ''),
+            to: address,
+            ...request
+        });
+        return gas;
+    } catch (error) {
+        const account = request.account ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAccount"])(request.account) : undefined;
+        throw (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getContractError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getContractError"])(error, {
+            abi,
+            address,
+            args,
+            docsPath: '/docs/contract/estimateContractGas',
+            functionName,
+            sender: account === null || account === void 0 ? void 0 : account.address
+        });
+    }
+} //# sourceMappingURL=estimateContractGas.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getBlobBaseFee.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/**
+ * Returns the base fee per blob gas in wei.
+ *
+ * - Docs: https://viem.sh/docs/actions/public/getBlobBaseFee
+ * - JSON-RPC Methods: [`eth_blobBaseFee`](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_blobBaseFee)
+ *
+ * @param client - Client to use
+ * @returns The blob base fee (in wei). {@link GetBlobBaseFeeReturnType}
+ *
+ * @example
+ * import { createPublicClient, http } from 'viem'
+ * import { mainnet } from 'viem/chains'
+ * import { getBlobBaseFee } from 'viem/public'
+ *
+ * const client = createPublicClient({
+ *   chain: mainnet,
+ *   transport: http(),
+ * })
+ * const blobBaseFee = await getBlobBaseFee(client)
+ */ __turbopack_context__.s([
+    "getBlobBaseFee",
+    ()=>getBlobBaseFee
+]);
+async function getBlobBaseFee(client) {
+    const baseFee = await client.request({
+        method: 'eth_blobBaseFee'
+    });
+    return BigInt(baseFee);
+} //# sourceMappingURL=getBlobBaseFee.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/promise/withCache.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/** @internal */ __turbopack_context__.s([
+    "getCache",
+    ()=>getCache,
+    "promiseCache",
+    ()=>promiseCache,
+    "responseCache",
+    ()=>responseCache,
+    "withCache",
+    ()=>withCache
+]);
+const promiseCache = /*#__PURE__*/ new Map();
+const responseCache = /*#__PURE__*/ new Map();
+function getCache(cacheKey) {
+    const buildCache = (cacheKey, cache)=>({
+            clear: ()=>cache.delete(cacheKey),
+            get: ()=>cache.get(cacheKey),
+            set: (data)=>cache.set(cacheKey, data)
+        });
+    const promise = buildCache(cacheKey, promiseCache);
+    const response = buildCache(cacheKey, responseCache);
+    return {
+        clear: ()=>{
+            promise.clear();
+            response.clear();
+        },
+        promise,
+        response
+    };
+}
+async function withCache(fn, param) {
+    let { cacheKey, cacheTime = Number.POSITIVE_INFINITY } = param;
+    const cache = getCache(cacheKey);
+    // If a response exists in the cache, and it's not expired, return it
+    // and do not invoke the promise.
+    // If the max age is 0, the cache is disabled.
+    const response = cache.response.get();
+    if (response && cacheTime > 0) {
+        const age = Date.now() - response.created.getTime();
+        if (age < cacheTime) return response.data;
+    }
+    let promise = cache.promise.get();
+    if (!promise) {
+        promise = fn();
+        // Store the promise in the cache so that subsequent invocations
+        // will wait for the same promise to resolve (deduping).
+        cache.promise.set(promise);
+    }
+    try {
+        const data = await promise;
+        // Store the response in the cache so that subsequent invocations
+        // will return the same response.
+        cache.response.set({
+            created: new Date(),
+            data
+        });
+        return data;
+    } finally{
+        // Clear the promise cache so that subsequent invocations will
+        // invoke the promise again.
+        cache.promise.clear();
+    }
+} //# sourceMappingURL=withCache.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getBlockNumber.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getBlockNumber",
+    ()=>getBlockNumber,
+    "getBlockNumberCache",
+    ()=>getBlockNumberCache
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$withCache$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/promise/withCache.js [app-client] (ecmascript)");
+;
+const cacheKey = (id)=>"blockNumber.".concat(id);
+function getBlockNumberCache(id) {
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$withCache$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getCache"])(cacheKey(id));
+}
+async function getBlockNumber(client) {
+    let { cacheTime = client.cacheTime } = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    const blockNumberHex = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$withCache$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["withCache"])(()=>client.request({
+            method: 'eth_blockNumber'
+        }), {
+        cacheKey: cacheKey(client.uid),
+        cacheTime
+    });
+    return BigInt(blockNumberHex);
+} //# sourceMappingURL=getBlockNumber.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getBlockTransactionCount.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getBlockTransactionCount",
+    ()=>getBlockTransactionCount
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/fromHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+;
+;
+async function getBlockTransactionCount(client) {
+    let { blockHash, blockNumber, blockTag = 'latest' } = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    const blockNumberHex = blockNumber !== undefined ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(blockNumber) : undefined;
+    let count;
+    if (blockHash) {
+        count = await client.request({
+            method: 'eth_getBlockTransactionCountByHash',
+            params: [
+                blockHash
+            ]
+        }, {
+            dedupe: true
+        });
+    } else {
+        count = await client.request({
+            method: 'eth_getBlockTransactionCountByNumber',
+            params: [
+                blockNumberHex || blockTag
+            ]
+        }, {
+            dedupe: Boolean(blockNumberHex)
+        });
+    }
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToNumber"])(count);
+} //# sourceMappingURL=getBlockTransactionCount.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getCode.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getCode",
+    ()=>getCode
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+;
+async function getCode(client, param) {
+    let { address, blockNumber, blockTag = 'latest' } = param;
+    const blockNumberHex = blockNumber !== undefined ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(blockNumber) : undefined;
+    const hex = await client.request({
+        method: 'eth_getCode',
+        params: [
+            address,
+            blockNumberHex || blockTag
+        ]
+    }, {
+        dedupe: Boolean(blockNumberHex)
+    });
+    if (hex === '0x') return undefined;
+    return hex;
+} //# sourceMappingURL=getCode.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/address/isAddressEqual.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "isAddressEqual",
+    ()=>isAddressEqual
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/address.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/address/isAddress.js [app-client] (ecmascript)");
+;
+;
+function isAddressEqual(a, b) {
+    if (!(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isAddress"])(a, {
+        strict: false
+    })) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidAddressError"]({
+        address: a
+    });
+    if (!(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isAddress"])(b, {
+        strict: false
+    })) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidAddressError"]({
+        address: b
+    });
+    return a.toLowerCase() === b.toLowerCase();
+} //# sourceMappingURL=isAddressEqual.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeEventLog.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "decodeEventLog",
+    ()=>decodeEventLog
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$cursor$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/cursor.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/size.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toEventSelector$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/toEventSelector.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeAbiParameters.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/formatAbiItem.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+const docsPath = '/docs/contract/decodeEventLog';
+function decodeEventLog(parameters) {
+    const { abi, data, strict: strict_, topics } = parameters;
+    const strict = strict_ !== null && strict_ !== void 0 ? strict_ : true;
+    const [signature, ...argTopics] = topics;
+    if (!signature) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiEventSignatureEmptyTopicsError"]({
+        docsPath
+    });
+    const abiItem = abi.find((x)=>x.type === 'event' && signature === (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toEventSelector$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toEventSelector"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$formatAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatAbiItem"])(x)));
+    if (!(abiItem && 'name' in abiItem) || abiItem.type !== 'event') throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiEventSignatureNotFoundError"](signature, {
+        docsPath
+    });
+    const { name, inputs } = abiItem;
+    const isUnnamed = inputs === null || inputs === void 0 ? void 0 : inputs.some((x)=>!('name' in x && x.name));
+    const args = isUnnamed ? [] : {};
+    // Decode topics (indexed args).
+    const indexedInputs = inputs.map((x, i)=>[
+            x,
+            i
+        ]).filter((param)=>{
+        let [x] = param;
+        return 'indexed' in x && x.indexed;
+    });
+    for(let i = 0; i < indexedInputs.length; i++){
+        const [param, argIndex] = indexedInputs[i];
+        const topic = argTopics[i];
+        if (!topic) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DecodeLogTopicsMismatch"]({
+            abiItem,
+            param: param
+        });
+        args[isUnnamed ? argIndex : param.name || argIndex] = decodeTopic({
+            param,
+            value: topic
+        });
+    }
+    // Decode data (non-indexed args).
+    const nonIndexedInputs = inputs.filter((x)=>!('indexed' in x && x.indexed));
+    if (nonIndexedInputs.length > 0) {
+        if (data && data !== '0x') {
+            try {
+                const decodedData = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["decodeAbiParameters"])(nonIndexedInputs, data);
+                if (decodedData) {
+                    var _args_i;
+                    if (isUnnamed) for(let i = 0; i < inputs.length; i++)args[i] = (_args_i = args[i]) !== null && _args_i !== void 0 ? _args_i : decodedData.shift();
+                    else for(let i = 0; i < nonIndexedInputs.length; i++)args[nonIndexedInputs[i].name] = decodedData[i];
+                }
+            } catch (err) {
+                if (strict) {
+                    if (err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiDecodingDataSizeTooSmallError"] || err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$cursor$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["PositionOutOfBoundsError"]) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DecodeLogDataMismatch"]({
+                        abiItem,
+                        data: data,
+                        params: nonIndexedInputs,
+                        size: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(data)
+                    });
+                    throw err;
+                }
+            }
+        } else if (strict) {
+            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DecodeLogDataMismatch"]({
+                abiItem,
+                data: '0x',
+                params: nonIndexedInputs,
+                size: 0
+            });
+        }
+    }
+    return {
+        eventName: name,
+        args: Object.values(args).length > 0 ? args : undefined
+    };
+}
+function decodeTopic(param) {
+    let { param: param1, value } = param;
+    if (param1.type === 'string' || param1.type === 'bytes' || param1.type === 'tuple' || param1.type.match(/^(.*)\[(\d+)?\]$/)) return value;
+    const decodedArg = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["decodeAbiParameters"])([
+        param1
+    ], value) || [];
+    return decodedArg[0];
+} //# sourceMappingURL=decodeEventLog.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/abi/parseEventLogs.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+// TODO(v3): checksum address.
+__turbopack_context__.s([
+    "parseEventLogs",
+    ()=>parseEventLogs
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddressEqual$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/address/isAddressEqual.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toBytes.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/keccak256.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toEventSelector$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/toEventSelector.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeEventLog$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeEventLog.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+function parseEventLogs(parameters) {
+    const { abi, args, logs, strict = true } = parameters;
+    const eventName = (()=>{
+        if (!parameters.eventName) return undefined;
+        if (Array.isArray(parameters.eventName)) return parameters.eventName;
+        return [
+            parameters.eventName
+        ];
+    })();
+    return logs.map((log)=>{
+        try {
+            const abiItem = abi.find((abiItem)=>abiItem.type === 'event' && log.topics[0] === (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$toEventSelector$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toEventSelector"])(abiItem));
+            if (!abiItem) return null;
+            const event = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeEventLog$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["decodeEventLog"])({
+                ...log,
+                abi: [
+                    abiItem
+                ],
+                strict
+            });
+            // Check that the decoded event name matches the provided event name.
+            if (eventName && !eventName.includes(event.eventName)) return null;
+            // Check that the decoded event args match the provided args.
+            if (!includesArgs({
+                args: event.args,
+                inputs: abiItem.inputs,
+                matchArgs: args
+            })) return null;
+            return {
+                ...event,
+                ...log
+            };
+        } catch (err) {
+            let eventName;
+            let isUnnamed;
+            if (err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiEventSignatureNotFoundError"]) return null;
+            if (err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DecodeLogDataMismatch"] || err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DecodeLogTopicsMismatch"]) {
+                var _err_abiItem_inputs;
+                // If strict mode is on, and log data/topics do not match event definition, skip.
+                if (strict) return null;
+                eventName = err.abiItem.name;
+                isUnnamed = (_err_abiItem_inputs = err.abiItem.inputs) === null || _err_abiItem_inputs === void 0 ? void 0 : _err_abiItem_inputs.some((x)=>!('name' in x && x.name));
+            }
+            // Set args to empty if there is an error decoding (e.g. indexed/non-indexed params mismatch).
+            return {
+                ...log,
+                args: isUnnamed ? [] : {},
+                eventName
+            };
+        }
+    }).filter(Boolean);
+}
+function includesArgs(parameters) {
+    const { args, inputs, matchArgs } = parameters;
+    if (!matchArgs) return true;
+    if (!args) return false;
+    function isEqual(input, value, arg) {
+        try {
+            if (input.type === 'address') return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddressEqual$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isAddressEqual"])(value, arg);
+            if (input.type === 'string' || input.type === 'bytes') return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["keccak256"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toBytes"])(value)) === arg;
+            return value === arg;
+        } catch (e) {
+            return false;
+        }
+    }
+    if (Array.isArray(args) && Array.isArray(matchArgs)) {
+        return matchArgs.every((value, index)=>{
+            if (value === null || value === undefined) return true;
+            const input = inputs[index];
+            if (!input) return false;
+            const value_ = Array.isArray(value) ? value : [
+                value
+            ];
+            return value_.some((value)=>isEqual(input, value, args[index]));
+        });
+    }
+    if (typeof args === 'object' && !Array.isArray(args) && typeof matchArgs === 'object' && !Array.isArray(matchArgs)) return Object.entries(matchArgs).every((param)=>{
+        let [key, value] = param;
+        if (value === null || value === undefined) return true;
+        const input = inputs.find((input)=>input.name === key);
+        if (!input) return false;
+        const value_ = Array.isArray(value) ? value : [
+            value
+        ];
+        return value_.some((value)=>isEqual(input, value, args[key]));
+    });
+    return false;
+} //# sourceMappingURL=parseEventLogs.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/formatters/log.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "formatLog",
+    ()=>formatLog
+]);
+function formatLog(log) {
+    let { args, eventName } = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    return {
+        ...log,
+        blockHash: log.blockHash ? log.blockHash : null,
+        blockNumber: log.blockNumber ? BigInt(log.blockNumber) : null,
+        logIndex: log.logIndex ? Number(log.logIndex) : null,
+        transactionHash: log.transactionHash ? log.transactionHash : null,
+        transactionIndex: log.transactionIndex ? Number(log.transactionIndex) : null,
+        ...eventName ? {
+            args,
+            eventName
+        } : {}
+    };
+} //# sourceMappingURL=log.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getLogs.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getLogs",
+    ()=>getLogs
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeEventTopics$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeEventTopics.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$parseEventLogs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/parseEventLogs.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$log$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/log.js [app-client] (ecmascript)");
+;
+;
+;
+;
+async function getLogs(client) {
+    let { address, blockHash, fromBlock, toBlock, event, events: events_, args, strict: strict_ } = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    const strict = strict_ !== null && strict_ !== void 0 ? strict_ : false;
+    const events = events_ !== null && events_ !== void 0 ? events_ : event ? [
+        event
+    ] : undefined;
+    let topics = [];
+    if (events) {
+        const encoded = events.flatMap((event)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeEventTopics$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeEventTopics"])({
+                abi: [
+                    event
+                ],
+                eventName: event.name,
+                args: events_ ? undefined : args
+            }));
+        // TODO: Clean up type casting
+        topics = [
+            encoded
+        ];
+        if (event) topics = topics[0];
+    }
+    let logs;
+    if (blockHash) {
+        logs = await client.request({
+            method: 'eth_getLogs',
+            params: [
+                {
+                    address,
+                    topics,
+                    blockHash
+                }
+            ]
+        });
+    } else {
+        logs = await client.request({
+            method: 'eth_getLogs',
+            params: [
+                {
+                    address,
+                    topics,
+                    fromBlock: typeof fromBlock === 'bigint' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(fromBlock) : fromBlock,
+                    toBlock: typeof toBlock === 'bigint' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(toBlock) : toBlock
+                }
+            ]
+        });
+    }
+    const formattedLogs = logs.map((log)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$log$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatLog"])(log));
+    if (!events) return formattedLogs;
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$parseEventLogs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseEventLogs"])({
+        abi: events,
+        args: args,
+        logs: formattedLogs,
+        strict
+    });
+} //# sourceMappingURL=getLogs.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getContractEvents.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getContractEvents",
+    ()=>getContractEvents
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$getAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/getAbiItem.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getLogs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getLogs.js [app-client] (ecmascript)");
+;
+;
+;
+async function getContractEvents(client, parameters) {
+    const { abi, address, args, blockHash, eventName, fromBlock, toBlock, strict } = parameters;
+    const event = eventName ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$getAbiItem$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAbiItem"])({
+        abi,
+        name: eventName
+    }) : undefined;
+    const events = !event ? abi.filter((x)=>x.type === 'event') : undefined;
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getLogs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getLogs"], 'getLogs')({
+        address,
+        args,
+        blockHash,
+        event,
+        events,
+        fromBlock,
+        toBlock,
+        strict
+    });
+} //# sourceMappingURL=getContractEvents.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/eip712.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "Eip712DomainNotFoundError",
+    ()=>Eip712DomainNotFoundError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+class Eip712DomainNotFoundError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ address }){
+        super('No EIP-712 domain found on contract "'.concat(address, '".'), {
+            metaMessages: [
+                'Ensure that:',
+                '- The contract is deployed at the address "'.concat(address, '".'),
+                '- `eip712Domain()` function exists on the contract.',
+                '- `eip712Domain()` function matches signature to ERC-5267 specification.'
+            ],
+            name: 'Eip712DomainNotFoundError'
+        });
+    }
+} //# sourceMappingURL=eip712.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getEip712Domain.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getEip712Domain",
+    ()=>getEip712Domain
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$eip712$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/eip712.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/readContract.js [app-client] (ecmascript)");
+;
+;
+;
+async function getEip712Domain(client, parameters) {
+    const { address, factory, factoryData } = parameters;
+    try {
+        const [fields, name, version, chainId, verifyingContract, salt, extensions] = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["readContract"], 'readContract')({
+            abi,
+            address,
+            functionName: 'eip712Domain',
+            factory,
+            factoryData
+        });
+        return {
+            domain: {
+                name,
+                version,
+                chainId: Number(chainId),
+                verifyingContract,
+                salt
+            },
+            extensions,
+            fields
+        };
+    } catch (e) {
+        const error = e;
+        if (error.name === 'ContractFunctionExecutionError' && error.cause.name === 'ContractFunctionZeroDataError') {
+            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$eip712$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Eip712DomainNotFoundError"]({
+                address
+            });
+        }
+        throw error;
+    }
+}
+const abi = [
+    {
+        inputs: [],
+        name: 'eip712Domain',
+        outputs: [
+            {
+                name: 'fields',
+                type: 'bytes1'
+            },
+            {
+                name: 'name',
+                type: 'string'
+            },
+            {
+                name: 'version',
+                type: 'string'
+            },
+            {
+                name: 'chainId',
+                type: 'uint256'
+            },
+            {
+                name: 'verifyingContract',
+                type: 'address'
+            },
+            {
+                name: 'salt',
+                type: 'bytes32'
+            },
+            {
+                name: 'extensions',
+                type: 'uint256[]'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    }
+]; //# sourceMappingURL=getEip712Domain.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/formatters/feeHistory.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "formatFeeHistory",
+    ()=>formatFeeHistory
+]);
+function formatFeeHistory(feeHistory) {
+    var _feeHistory_reward;
+    return {
+        baseFeePerGas: feeHistory.baseFeePerGas.map((value)=>BigInt(value)),
+        gasUsedRatio: feeHistory.gasUsedRatio,
+        oldestBlock: BigInt(feeHistory.oldestBlock),
+        reward: (_feeHistory_reward = feeHistory.reward) === null || _feeHistory_reward === void 0 ? void 0 : _feeHistory_reward.map((reward)=>reward.map((value)=>BigInt(value)))
+    };
+} //# sourceMappingURL=feeHistory.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getFeeHistory.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getFeeHistory",
+    ()=>getFeeHistory
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$feeHistory$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/feeHistory.js [app-client] (ecmascript)");
+;
+;
+async function getFeeHistory(client, param) {
+    let { blockCount, blockNumber, blockTag = 'latest', rewardPercentiles } = param;
+    const blockNumberHex = typeof blockNumber === 'bigint' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(blockNumber) : undefined;
+    const feeHistory = await client.request({
+        method: 'eth_feeHistory',
+        params: [
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(blockCount),
+            blockNumberHex || blockTag,
+            rewardPercentiles
+        ]
+    }, {
+        dedupe: Boolean(blockNumberHex)
+    });
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$feeHistory$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatFeeHistory"])(feeHistory);
+} //# sourceMappingURL=getFeeHistory.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getFilterChanges.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getFilterChanges",
+    ()=>getFilterChanges
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$parseEventLogs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/parseEventLogs.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$log$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/log.js [app-client] (ecmascript)");
+;
+;
+async function getFilterChanges(_client, param) {
+    let { filter } = param;
+    const strict = 'strict' in filter && filter.strict;
+    const logs = await filter.request({
+        method: 'eth_getFilterChanges',
+        params: [
+            filter.id
+        ]
+    });
+    if (typeof logs[0] === 'string') return logs;
+    const formattedLogs = logs.map((log)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$log$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatLog"])(log));
+    if (!('abi' in filter) || !filter.abi) return formattedLogs;
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$parseEventLogs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseEventLogs"])({
+        abi: filter.abi,
+        logs: formattedLogs,
+        strict
+    });
+} //# sourceMappingURL=getFilterChanges.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getFilterLogs.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getFilterLogs",
+    ()=>getFilterLogs
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$parseEventLogs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/parseEventLogs.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$log$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/log.js [app-client] (ecmascript)");
+;
+;
+async function getFilterLogs(_client, param) {
+    let { filter } = param;
+    var _filter_strict;
+    const strict = (_filter_strict = filter.strict) !== null && _filter_strict !== void 0 ? _filter_strict : false;
+    const logs = await filter.request({
+        method: 'eth_getFilterLogs',
+        params: [
+            filter.id
+        ]
+    });
+    const formattedLogs = logs.map((log)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$log$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatLog"])(log));
+    if (!filter.abi) return formattedLogs;
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$parseEventLogs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseEventLogs"])({
+        abi: filter.abi,
+        logs: formattedLogs,
+        strict
+    });
+} //# sourceMappingURL=getFilterLogs.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/formatters/proof.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "formatProof",
+    ()=>formatProof
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/fromHex.js [app-client] (ecmascript)");
+;
+function formatStorageProof(storageProof) {
+    return storageProof.map((proof)=>({
+            ...proof,
+            value: BigInt(proof.value)
+        }));
+}
+function formatProof(proof) {
+    return {
+        ...proof,
+        balance: proof.balance ? BigInt(proof.balance) : undefined,
+        nonce: proof.nonce ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToNumber"])(proof.nonce) : undefined,
+        storageProof: proof.storageProof ? formatStorageProof(proof.storageProof) : undefined
+    };
+} //# sourceMappingURL=proof.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getProof.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getProof",
+    ()=>getProof
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$proof$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/proof.js [app-client] (ecmascript)");
+;
+;
+async function getProof(client, param) {
+    let { address, blockNumber, blockTag: blockTag_, storageKeys } = param;
+    const blockTag = blockTag_ !== null && blockTag_ !== void 0 ? blockTag_ : 'latest';
+    const blockNumberHex = blockNumber !== undefined ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(blockNumber) : undefined;
+    const proof = await client.request({
+        method: 'eth_getProof',
+        params: [
+            address,
+            storageKeys,
+            blockNumberHex || blockTag
+        ]
+    });
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$proof$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatProof"])(proof);
+} //# sourceMappingURL=getProof.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getStorageAt.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getStorageAt",
+    ()=>getStorageAt
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+;
+async function getStorageAt(client, param) {
+    let { address, blockNumber, blockTag = 'latest', slot } = param;
+    const blockNumberHex = blockNumber !== undefined ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(blockNumber) : undefined;
+    const data = await client.request({
+        method: 'eth_getStorageAt',
+        params: [
+            address,
+            slot,
+            blockNumberHex || blockTag
+        ]
+    });
+    return data;
+} //# sourceMappingURL=getStorageAt.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getTransaction.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getTransaction",
+    ()=>getTransaction
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/transaction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/transaction.js [app-client] (ecmascript)");
+;
+;
+;
+async function getTransaction(client, param) {
+    let { blockHash, blockNumber, blockTag: blockTag_, hash, index, sender, nonce } = param;
+    var _client_chain_formatters_transaction, _client_chain_formatters, _client_chain;
+    const blockTag = blockTag_ || 'latest';
+    const blockNumberHex = blockNumber !== undefined ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(blockNumber) : undefined;
+    let transaction = null;
+    if (hash) {
+        transaction = await client.request({
+            method: 'eth_getTransactionByHash',
+            params: [
+                hash
+            ]
+        }, {
+            dedupe: true
+        });
+    } else if (blockHash) {
+        transaction = await client.request({
+            method: 'eth_getTransactionByBlockHashAndIndex',
+            params: [
+                blockHash,
+                (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(index)
+            ]
+        }, {
+            dedupe: true
+        });
+    } else if ((blockNumberHex || blockTag) && typeof index === 'number') {
+        transaction = await client.request({
+            method: 'eth_getTransactionByBlockNumberAndIndex',
+            params: [
+                blockNumberHex || blockTag,
+                (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(index)
+            ]
+        }, {
+            dedupe: Boolean(blockNumberHex)
+        });
+    } else if (sender && typeof nonce === 'number') {
+        transaction = await client.request({
+            method: 'eth_getTransactionBySenderAndNonce',
+            params: [
+                sender,
+                (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(nonce)
+            ]
+        }, {
+            dedupe: true
+        });
+    }
+    if (!transaction) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TransactionNotFoundError"]({
+        blockHash,
+        blockNumber,
+        blockTag,
+        hash,
+        index
+    });
+    const format = ((_client_chain = client.chain) === null || _client_chain === void 0 ? void 0 : (_client_chain_formatters = _client_chain.formatters) === null || _client_chain_formatters === void 0 ? void 0 : (_client_chain_formatters_transaction = _client_chain_formatters.transaction) === null || _client_chain_formatters_transaction === void 0 ? void 0 : _client_chain_formatters_transaction.format) || __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatTransaction"];
+    return format(transaction, 'getTransaction');
+} //# sourceMappingURL=getTransaction.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getTransactionConfirmations.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getTransactionConfirmations",
+    ()=>getTransactionConfirmations
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlockNumber$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getBlockNumber.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getTransaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getTransaction.js [app-client] (ecmascript)");
+;
+;
+;
+async function getTransactionConfirmations(client, param) {
+    let { hash, transactionReceipt } = param;
+    const [blockNumber, transaction] = await Promise.all([
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlockNumber$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBlockNumber"], 'getBlockNumber')({}),
+        hash ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getTransaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getTransaction"], 'getTransaction')({
+            hash
+        }) : undefined
+    ]);
+    const transactionBlockNumber = (transactionReceipt === null || transactionReceipt === void 0 ? void 0 : transactionReceipt.blockNumber) || (transaction === null || transaction === void 0 ? void 0 : transaction.blockNumber);
+    if (!transactionBlockNumber) return 0n;
+    return blockNumber - transactionBlockNumber + 1n;
+} //# sourceMappingURL=getTransactionConfirmations.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/formatters/transactionReceipt.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "defineTransactionReceipt",
+    ()=>defineTransactionReceipt,
+    "formatTransactionReceipt",
+    ()=>formatTransactionReceipt,
+    "receiptStatuses",
+    ()=>receiptStatuses
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/fromHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$formatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/formatter.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$log$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/log.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/transaction.js [app-client] (ecmascript)");
+;
+;
+;
+;
+const receiptStatuses = {
+    '0x0': 'reverted',
+    '0x1': 'success'
+};
+function formatTransactionReceipt(transactionReceipt, _) {
+    const receipt = {
+        ...transactionReceipt,
+        blockNumber: transactionReceipt.blockNumber ? BigInt(transactionReceipt.blockNumber) : null,
+        contractAddress: transactionReceipt.contractAddress ? transactionReceipt.contractAddress : null,
+        cumulativeGasUsed: transactionReceipt.cumulativeGasUsed ? BigInt(transactionReceipt.cumulativeGasUsed) : null,
+        effectiveGasPrice: transactionReceipt.effectiveGasPrice ? BigInt(transactionReceipt.effectiveGasPrice) : null,
+        gasUsed: transactionReceipt.gasUsed ? BigInt(transactionReceipt.gasUsed) : null,
+        logs: transactionReceipt.logs ? transactionReceipt.logs.map((log)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$log$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatLog"])(log)) : null,
+        to: transactionReceipt.to ? transactionReceipt.to : null,
+        transactionIndex: transactionReceipt.transactionIndex ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToNumber"])(transactionReceipt.transactionIndex) : null,
+        status: transactionReceipt.status ? receiptStatuses[transactionReceipt.status] : null,
+        type: transactionReceipt.type ? __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["transactionType"][transactionReceipt.type] || transactionReceipt.type : null
+    };
+    if (transactionReceipt.blobGasPrice) receipt.blobGasPrice = BigInt(transactionReceipt.blobGasPrice);
+    if (transactionReceipt.blobGasUsed) receipt.blobGasUsed = BigInt(transactionReceipt.blobGasUsed);
+    return receipt;
+}
+const defineTransactionReceipt = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$formatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["defineFormatter"])('transactionReceipt', formatTransactionReceipt); //# sourceMappingURL=transactionReceipt.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/getTransactionReceipt.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getTransactionReceipt",
+    ()=>getTransactionReceipt
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/transaction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transactionReceipt$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/transactionReceipt.js [app-client] (ecmascript)");
+;
+;
+async function getTransactionReceipt(client, param) {
+    let { hash } = param;
+    var _client_chain_formatters_transactionReceipt, _client_chain_formatters, _client_chain;
+    const receipt = await client.request({
+        method: 'eth_getTransactionReceipt',
+        params: [
+            hash
+        ]
+    }, {
+        dedupe: true
+    });
+    if (!receipt) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TransactionReceiptNotFoundError"]({
+        hash
+    });
+    const format = ((_client_chain = client.chain) === null || _client_chain === void 0 ? void 0 : (_client_chain_formatters = _client_chain.formatters) === null || _client_chain_formatters === void 0 ? void 0 : (_client_chain_formatters_transactionReceipt = _client_chain_formatters.transactionReceipt) === null || _client_chain_formatters_transactionReceipt === void 0 ? void 0 : _client_chain_formatters_transactionReceipt.format) || __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transactionReceipt$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatTransactionReceipt"];
+    return format(receipt, 'getTransactionReceipt');
+} //# sourceMappingURL=getTransactionReceipt.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/simulateBlocks.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "simulateBlocks",
+    ()=>simulateBlocks
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$core$2f$BlockOverrides$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/ox/_esm/core/BlockOverrides.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/accounts/utils/parseAccount.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/contract.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/node.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeFunctionResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeFunctionResult.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeFunctionData.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/concat.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getContractError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/errors/getContractError.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getNodeError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/errors/getNodeError.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$block$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/block.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$log$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/log.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transactionRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/transactionRequest.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stateOverride$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/stateOverride.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$transaction$2f$assertRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/transaction/assertRequest.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+async function simulateBlocks(client, parameters) {
+    var _client_experimental_blockTag;
+    const { blockNumber, blockTag = (_client_experimental_blockTag = client.experimental_blockTag) !== null && _client_experimental_blockTag !== void 0 ? _client_experimental_blockTag : 'latest', blocks, returnFullTransactions, traceTransfers, validation } = parameters;
+    try {
+        const blockStateCalls = [];
+        for (const block of blocks){
+            const blockOverrides = block.blockOverrides ? __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$core$2f$BlockOverrides$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toRpc"](block.blockOverrides) : undefined;
+            const calls = block.calls.map((call_)=>{
+                const call = call_;
+                const account = call.account ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAccount"])(call.account) : undefined;
+                const data = call.abi ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeFunctionData"])(call) : call.data;
+                var _call_from;
+                const request = {
+                    ...call,
+                    account,
+                    data: call.dataSuffix ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["concat"])([
+                        data || '0x',
+                        call.dataSuffix
+                    ]) : data,
+                    from: (_call_from = call.from) !== null && _call_from !== void 0 ? _call_from : account === null || account === void 0 ? void 0 : account.address
+                };
+                (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$transaction$2f$assertRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["assertRequest"])(request);
+                return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transactionRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatTransactionRequest"])(request);
+            });
+            const stateOverrides = block.stateOverrides ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stateOverride$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["serializeStateOverride"])(block.stateOverrides) : undefined;
+            blockStateCalls.push({
+                blockOverrides,
+                calls,
+                stateOverrides
+            });
+        }
+        const blockNumberHex = typeof blockNumber === 'bigint' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(blockNumber) : undefined;
+        const block = blockNumberHex || blockTag;
+        const result = await client.request({
+            method: 'eth_simulateV1',
+            params: [
+                {
+                    blockStateCalls,
+                    returnFullTransactions,
+                    traceTransfers,
+                    validation
+                },
+                block
+            ]
+        });
+        return result.map((block, i)=>({
+                ...(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$block$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatBlock"])(block),
+                calls: block.calls.map((call, j)=>{
+                    var _call_error, _call_logs;
+                    const { abi, args, functionName, to } = blocks[i].calls[j];
+                    var _call_error_data;
+                    const data = (_call_error_data = (_call_error = call.error) === null || _call_error === void 0 ? void 0 : _call_error.data) !== null && _call_error_data !== void 0 ? _call_error_data : call.returnData;
+                    const gasUsed = BigInt(call.gasUsed);
+                    const logs = (_call_logs = call.logs) === null || _call_logs === void 0 ? void 0 : _call_logs.map((log)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$log$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatLog"])(log));
+                    const status = call.status === '0x1' ? 'success' : 'failure';
+                    const result = abi && status === 'success' && data !== '0x' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeFunctionResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["decodeFunctionResult"])({
+                        abi,
+                        data,
+                        functionName
+                    }) : null;
+                    const error = (()=>{
+                        var _call_error;
+                        if (status === 'success') return undefined;
+                        let error;
+                        if (((_call_error = call.error) === null || _call_error === void 0 ? void 0 : _call_error.data) === '0x') error = new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AbiDecodingZeroDataError"]();
+                        else if (call.error) error = new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RawContractError"](call.error);
+                        if (!error) return undefined;
+                        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getContractError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getContractError"])(error, {
+                            abi: abi !== null && abi !== void 0 ? abi : [],
+                            address: to !== null && to !== void 0 ? to : '0x',
+                            args,
+                            functionName: functionName !== null && functionName !== void 0 ? functionName : '<unknown>'
+                        });
+                    })();
+                    return {
+                        data,
+                        gasUsed,
+                        logs,
+                        status,
+                        ...status === 'success' ? {
+                            result
+                        } : {
+                            error
+                        }
+                    };
+                })
+            }));
+    } catch (e) {
+        const cause = e;
+        const error = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getNodeError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getNodeError"])(cause, {});
+        if (error instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$node$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UnknownNodeError"]) throw cause;
+        throw error;
+    }
+} //# sourceMappingURL=simulateBlocks.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/constants/address.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "entryPoint06Address",
+    ()=>entryPoint06Address,
+    "entryPoint07Address",
+    ()=>entryPoint07Address,
+    "entryPoint08Address",
+    ()=>entryPoint08Address,
+    "ethAddress",
+    ()=>ethAddress,
+    "zeroAddress",
+    ()=>zeroAddress
+]);
+const entryPoint06Address = '0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789';
+const entryPoint07Address = '0x0000000071727De22E5E9d8BAf0edAc6f37da032';
+const entryPoint08Address = '0x4337084D9E255Ff0702461CF8895CE9E3b5Ff108';
+const ethAddress = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
+const zeroAddress = '0x0000000000000000000000000000000000000000'; //# sourceMappingURL=address.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/simulateCalls.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "simulateCalls",
+    ()=>simulateCalls
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$core$2f$AbiConstructor$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/ox/_esm/core/AbiConstructor.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$core$2f$AbiFunction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/ox/_esm/core/AbiFunction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/accounts/utils/parseAccount.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/address.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$contracts$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/contracts.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeFunctionData.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/fromHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$createAccessList$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/createAccessList.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$simulateBlocks$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/simulateBlocks.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+const getBalanceCode = '0x6080604052348015600e575f80fd5b5061016d8061001c5f395ff3fe608060405234801561000f575f80fd5b5060043610610029575f3560e01c8063f8b2cb4f1461002d575b5f80fd5b610047600480360381019061004291906100db565b61005d565b604051610054919061011e565b60405180910390f35b5f8173ffffffffffffffffffffffffffffffffffffffff16319050919050565b5f80fd5b5f73ffffffffffffffffffffffffffffffffffffffff82169050919050565b5f6100aa82610081565b9050919050565b6100ba816100a0565b81146100c4575f80fd5b50565b5f813590506100d5816100b1565b92915050565b5f602082840312156100f0576100ef61007d565b5b5f6100fd848285016100c7565b91505092915050565b5f819050919050565b61011881610106565b82525050565b5f6020820190506101315f83018461010f565b9291505056fea26469706673582212203b9fe929fe995c7cf9887f0bdba8a36dd78e8b73f149b17d2d9ad7cd09d2dc6264736f6c634300081a0033';
+async function simulateCalls(client, parameters) {
+    const { blockNumber, blockTag, calls, stateOverrides, traceAssetChanges, traceTransfers, validation } = parameters;
+    const account = parameters.account ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAccount"])(parameters.account) : undefined;
+    if (traceAssetChanges && !account) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"]('`account` is required when `traceAssetChanges` is true');
+    // Derive bytecode to extract ETH balance via a contract call.
+    const getBalanceData = account ? __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$core$2f$AbiConstructor$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encode"](__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$core$2f$AbiConstructor$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["from"]('constructor(bytes, bytes)'), {
+        bytecode: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$contracts$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["deploylessCallViaBytecodeBytecode"],
+        args: [
+            getBalanceCode,
+            __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$core$2f$AbiFunction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeData"](__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$core$2f$AbiFunction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["from"]('function getBalance(address)'), [
+                account.address
+            ])
+        ]
+    }) : undefined;
+    // Fetch ERC20/721 addresses that were "touched" from the calls.
+    const assetAddresses = traceAssetChanges ? await Promise.all(parameters.calls.map(async (call)=>{
+        if (!call.data && !call.abi) return;
+        const { accessList } = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$createAccessList$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createAccessList"])(client, {
+            account: account.address,
+            ...call,
+            data: call.abi ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeFunctionData"])(call) : call.data
+        });
+        return accessList.map((param)=>{
+            let { address, storageKeys } = param;
+            return storageKeys.length > 0 ? address : null;
+        });
+    })).then((x)=>x.flat().filter(Boolean)) : [];
+    const blocks = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$simulateBlocks$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["simulateBlocks"])(client, {
+        blockNumber,
+        blockTag: blockTag,
+        blocks: [
+            ...traceAssetChanges ? [
+                // ETH pre balances
+                {
+                    calls: [
+                        {
+                            data: getBalanceData
+                        }
+                    ],
+                    stateOverrides
+                },
+                // Asset pre balances
+                {
+                    calls: assetAddresses.map((address, i)=>({
+                            abi: [
+                                __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$core$2f$AbiFunction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["from"]('function balanceOf(address) returns (uint256)')
+                            ],
+                            functionName: 'balanceOf',
+                            args: [
+                                account.address
+                            ],
+                            to: address,
+                            from: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["zeroAddress"],
+                            nonce: i
+                        })),
+                    stateOverrides: [
+                        {
+                            address: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["zeroAddress"],
+                            nonce: 0
+                        }
+                    ]
+                }
+            ] : [],
+            {
+                calls: [
+                    ...calls,
+                    {}
+                ].map((call)=>({
+                        ...call,
+                        from: account === null || account === void 0 ? void 0 : account.address
+                    })),
+                stateOverrides
+            },
+            ...traceAssetChanges ? [
+                // ETH post balances
+                {
+                    calls: [
+                        {
+                            data: getBalanceData
+                        }
+                    ]
+                },
+                // Asset post balances
+                {
+                    calls: assetAddresses.map((address, i)=>({
+                            abi: [
+                                __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$core$2f$AbiFunction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["from"]('function balanceOf(address) returns (uint256)')
+                            ],
+                            functionName: 'balanceOf',
+                            args: [
+                                account.address
+                            ],
+                            to: address,
+                            from: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["zeroAddress"],
+                            nonce: i
+                        })),
+                    stateOverrides: [
+                        {
+                            address: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["zeroAddress"],
+                            nonce: 0
+                        }
+                    ]
+                },
+                // Decimals
+                {
+                    calls: assetAddresses.map((address, i)=>({
+                            to: address,
+                            abi: [
+                                __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$core$2f$AbiFunction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["from"]('function decimals() returns (uint256)')
+                            ],
+                            functionName: 'decimals',
+                            from: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["zeroAddress"],
+                            nonce: i
+                        })),
+                    stateOverrides: [
+                        {
+                            address: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["zeroAddress"],
+                            nonce: 0
+                        }
+                    ]
+                },
+                // Token URI
+                {
+                    calls: assetAddresses.map((address, i)=>({
+                            to: address,
+                            abi: [
+                                __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$core$2f$AbiFunction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["from"]('function tokenURI(uint256) returns (string)')
+                            ],
+                            functionName: 'tokenURI',
+                            args: [
+                                0n
+                            ],
+                            from: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["zeroAddress"],
+                            nonce: i
+                        })),
+                    stateOverrides: [
+                        {
+                            address: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["zeroAddress"],
+                            nonce: 0
+                        }
+                    ]
+                },
+                // Symbols
+                {
+                    calls: assetAddresses.map((address, i)=>({
+                            to: address,
+                            abi: [
+                                __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$core$2f$AbiFunction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["from"]('function symbol() returns (string)')
+                            ],
+                            functionName: 'symbol',
+                            from: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["zeroAddress"],
+                            nonce: i
+                        })),
+                    stateOverrides: [
+                        {
+                            address: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["zeroAddress"],
+                            nonce: 0
+                        }
+                    ]
+                }
+            ] : []
+        ],
+        traceTransfers,
+        validation
+    });
+    const block_results = traceAssetChanges ? blocks[2] : blocks[0];
+    const [block_ethPre, block_assetsPre, , block_ethPost, block_assetsPost, block_decimals, block_tokenURI, block_symbols] = traceAssetChanges ? blocks : [];
+    // Extract call results from the simulation.
+    const { calls: block_calls, ...block } = block_results;
+    var _block_calls_slice;
+    const results = (_block_calls_slice = block_calls.slice(0, -1)) !== null && _block_calls_slice !== void 0 ? _block_calls_slice : [];
+    var _block_ethPre_calls;
+    // Extract pre-execution ETH and asset balances.
+    const ethPre = (_block_ethPre_calls = block_ethPre === null || block_ethPre === void 0 ? void 0 : block_ethPre.calls) !== null && _block_ethPre_calls !== void 0 ? _block_ethPre_calls : [];
+    var _block_assetsPre_calls;
+    const assetsPre = (_block_assetsPre_calls = block_assetsPre === null || block_assetsPre === void 0 ? void 0 : block_assetsPre.calls) !== null && _block_assetsPre_calls !== void 0 ? _block_assetsPre_calls : [];
+    const balancesPre = [
+        ...ethPre,
+        ...assetsPre
+    ].map((call)=>call.status === 'success' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBigInt"])(call.data) : null);
+    var _block_ethPost_calls;
+    // Extract post-execution ETH and asset balances.
+    const ethPost = (_block_ethPost_calls = block_ethPost === null || block_ethPost === void 0 ? void 0 : block_ethPost.calls) !== null && _block_ethPost_calls !== void 0 ? _block_ethPost_calls : [];
+    var _block_assetsPost_calls;
+    const assetsPost = (_block_assetsPost_calls = block_assetsPost === null || block_assetsPost === void 0 ? void 0 : block_assetsPost.calls) !== null && _block_assetsPost_calls !== void 0 ? _block_assetsPost_calls : [];
+    const balancesPost = [
+        ...ethPost,
+        ...assetsPost
+    ].map((call)=>call.status === 'success' ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBigInt"])(call.data) : null);
+    var _block_decimals_calls;
+    // Extract asset symbols & decimals.
+    const decimals = ((_block_decimals_calls = block_decimals === null || block_decimals === void 0 ? void 0 : block_decimals.calls) !== null && _block_decimals_calls !== void 0 ? _block_decimals_calls : []).map((x)=>x.status === 'success' ? x.result : null);
+    var _block_symbols_calls;
+    const symbols = ((_block_symbols_calls = block_symbols === null || block_symbols === void 0 ? void 0 : block_symbols.calls) !== null && _block_symbols_calls !== void 0 ? _block_symbols_calls : []).map((x)=>x.status === 'success' ? x.result : null);
+    var _block_tokenURI_calls;
+    const tokenURI = ((_block_tokenURI_calls = block_tokenURI === null || block_tokenURI === void 0 ? void 0 : block_tokenURI.calls) !== null && _block_tokenURI_calls !== void 0 ? _block_tokenURI_calls : []).map((x)=>x.status === 'success' ? x.result : null);
+    const changes = [];
+    for (const [i, balancePost] of balancesPost.entries()){
+        const balancePre = balancesPre[i];
+        if (typeof balancePost !== 'bigint') continue;
+        if (typeof balancePre !== 'bigint') continue;
+        const decimals_ = decimals[i - 1];
+        const symbol_ = symbols[i - 1];
+        const tokenURI_ = tokenURI[i - 1];
+        const token = (()=>{
+            if (i === 0) return {
+                address: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ethAddress"],
+                decimals: 18,
+                symbol: 'ETH'
+            };
+            return {
+                address: assetAddresses[i - 1],
+                decimals: tokenURI_ || decimals_ ? Number(decimals_ !== null && decimals_ !== void 0 ? decimals_ : 1) : undefined,
+                symbol: symbol_ !== null && symbol_ !== void 0 ? symbol_ : undefined
+            };
+        })();
+        if (changes.some((change)=>change.token.address === token.address)) continue;
+        changes.push({
+            token,
+            value: {
+                pre: balancePre,
+                post: balancePost,
+                diff: balancePost - balancePre
+            }
+        });
+    }
+    return {
+        assetChanges: changes,
+        block,
+        results
+    };
+} //# sourceMappingURL=simulateCalls.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/simulateContract.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "simulateContract",
+    ()=>simulateContract
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/accounts/utils/parseAccount.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeFunctionResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeFunctionResult.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeFunctionData.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getContractError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/errors/getContractError.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$call$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/call.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+async function simulateContract(client, parameters) {
+    const { abi, address, args, dataSuffix, functionName, ...callRequest } = parameters;
+    const account = callRequest.account ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAccount"])(callRequest.account) : client.account;
+    const calldata = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeFunctionData"])({
+        abi,
+        args,
+        functionName
+    });
+    try {
+        const { data } = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$call$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["call"], 'call')({
+            batch: false,
+            data: "".concat(calldata).concat(dataSuffix ? dataSuffix.replace('0x', '') : ''),
+            to: address,
+            ...callRequest,
+            account
+        });
+        const result = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeFunctionResult$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["decodeFunctionResult"])({
+            abi,
+            args,
+            functionName,
+            data: data || '0x'
+        });
+        const minimizedAbi = abi.filter((abiItem)=>'name' in abiItem && abiItem.name === parameters.functionName);
+        return {
+            result,
+            request: {
+                abi: minimizedAbi,
+                address,
+                args,
+                dataSuffix,
+                functionName,
+                ...callRequest,
+                account
+            }
+        };
+    } catch (error) {
+        throw (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$errors$2f$getContractError$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getContractError"])(error, {
+            abi,
+            address,
+            args,
+            docsPath: '/docs/contract/simulateContract',
+            functionName,
+            sender: account === null || account === void 0 ? void 0 : account.address
+        });
+    }
+} //# sourceMappingURL=simulateContract.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/uninstallFilter.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/**
+ * Destroys a [`Filter`](https://viem.sh/docs/glossary/types#filter).
+ *
+ * - Docs: https://viem.sh/docs/actions/public/uninstallFilter
+ * - JSON-RPC Methods: [`eth_uninstallFilter`](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_uninstallFilter)
+ *
+ * Destroys a Filter that was created from one of the following Actions:
+ * - [`createBlockFilter`](https://viem.sh/docs/actions/public/createBlockFilter)
+ * - [`createEventFilter`](https://viem.sh/docs/actions/public/createEventFilter)
+ * - [`createPendingTransactionFilter`](https://viem.sh/docs/actions/public/createPendingTransactionFilter)
+ *
+ * @param client - Client to use
+ * @param parameters - {@link UninstallFilterParameters}
+ * @returns A boolean indicating if the Filter was successfully uninstalled. {@link UninstallFilterReturnType}
+ *
+ * @example
+ * import { createPublicClient, http } from 'viem'
+ * import { mainnet } from 'viem/chains'
+ * import { createPendingTransactionFilter, uninstallFilter } from 'viem/public'
+ *
+ * const filter = await createPendingTransactionFilter(client)
+ * const uninstalled = await uninstallFilter(client, { filter })
+ * // true
+ */ __turbopack_context__.s([
+    "uninstallFilter",
+    ()=>uninstallFilter
+]);
+async function uninstallFilter(_client, param) {
+    let { filter } = param;
+    return filter.request({
+        method: 'eth_uninstallFilter',
+        params: [
+            filter.id
+        ]
+    });
+} //# sourceMappingURL=uninstallFilter.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/authorization/verifyAuthorization.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "verifyAuthorization",
+    ()=>verifyAuthorization
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$getAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/address/getAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddressEqual$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/address/isAddressEqual.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$authorization$2f$recoverAuthorizationAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/authorization/recoverAuthorizationAddress.js [app-client] (ecmascript)");
+;
+;
+;
+async function verifyAuthorization(param) {
+    let { address, authorization, signature } = param;
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddressEqual$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isAddressEqual"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$getAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAddress"])(address), await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$authorization$2f$recoverAuthorizationAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["recoverAuthorizationAddress"])({
+        authorization,
+        signature
+    }));
+} //# sourceMappingURL=verifyAuthorization.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/signature/serializeSignature.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "serializeSignature",
+    ()=>serializeSignature
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f40$noble$2f$curves$2f$esm$2f$secp256k1$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/@noble/curves/esm/secp256k1.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/fromHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toBytes.js [app-client] (ecmascript)");
+;
+;
+;
+function serializeSignature(param) {
+    let { r, s, to = 'hex', v, yParity } = param;
+    const yParity_ = (()=>{
+        if (yParity === 0 || yParity === 1) return yParity;
+        if (v && (v === 27n || v === 28n || v >= 35n)) return v % 2n === 0n ? 1 : 0;
+        throw new Error('Invalid `v` or `yParity` value');
+    })();
+    const signature = "0x".concat(new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f40$noble$2f$curves$2f$esm$2f$secp256k1$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["secp256k1"].Signature((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBigInt"])(r), (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBigInt"])(s)).toCompactHex()).concat(yParity_ === 0 ? '1b' : '1c');
+    if (to === 'hex') return signature;
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toBytes$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBytes"])(signature);
+} //# sourceMappingURL=serializeSignature.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/verifyHash.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "verifyErc1271",
+    ()=>verifyErc1271,
+    "verifyErc8010",
+    ()=>verifyErc8010,
+    "verifyHash",
+    ()=>verifyHash
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$erc6492$2f$SignatureErc6492$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__SignatureErc6492$3e$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/ox/_esm/erc6492/SignatureErc6492.js [app-client] (ecmascript) <export * as SignatureErc6492>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$erc8010$2f$SignatureErc8010$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__SignatureErc8010$3e$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/ox/_esm/erc8010/SignatureErc8010.js [app-client] (ecmascript) <export * as SignatureErc8010>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/abis.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$contracts$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/contracts.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/contract.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeDeployData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeDeployData.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeFunctionData.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$getAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/address/getAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddressEqual$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/address/isAddressEqual.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$authorization$2f$verifyAuthorization$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/authorization/verifyAuthorization.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/concat.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/isHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/fromHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$signature$2f$recoverAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/signature/recoverAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$signature$2f$serializeSignature$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/signature/serializeSignature.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$call$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/call.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getCode$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getCode.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/readContract.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+async function verifyHash(client, parameters) {
+    var _client_chain_contracts_multicall3, _client_chain_contracts, _client_chain;
+    var _parameters_universalSignatureVerifierAddress, _parameters_multicallAddress;
+    const { address, hash, erc6492VerifierAddress: verifierAddress = (()=>{
+        var _client_chain_contracts_erc6492Verifier, _client_chain_contracts, _client_chain;
+        return (_parameters_universalSignatureVerifierAddress = parameters.universalSignatureVerifierAddress) !== null && _parameters_universalSignatureVerifierAddress !== void 0 ? _parameters_universalSignatureVerifierAddress : (_client_chain = client.chain) === null || _client_chain === void 0 ? void 0 : (_client_chain_contracts = _client_chain.contracts) === null || _client_chain_contracts === void 0 ? void 0 : (_client_chain_contracts_erc6492Verifier = _client_chain_contracts.erc6492Verifier) === null || _client_chain_contracts_erc6492Verifier === void 0 ? void 0 : _client_chain_contracts_erc6492Verifier.address;
+    })(), multicallAddress = (_parameters_multicallAddress = parameters.multicallAddress) !== null && _parameters_multicallAddress !== void 0 ? _parameters_multicallAddress : (_client_chain = client.chain) === null || _client_chain === void 0 ? void 0 : (_client_chain_contracts = _client_chain.contracts) === null || _client_chain_contracts === void 0 ? void 0 : (_client_chain_contracts_multicall3 = _client_chain_contracts.multicall3) === null || _client_chain_contracts_multicall3 === void 0 ? void 0 : _client_chain_contracts_multicall3.address } = parameters;
+    const signature = (()=>{
+        const signature = parameters.signature;
+        if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$isHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isHex"])(signature)) return signature;
+        if (typeof signature === 'object' && 'r' in signature && 's' in signature) return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$signature$2f$serializeSignature$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["serializeSignature"])(signature);
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToHex"])(signature);
+    })();
+    try {
+        if (__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$erc8010$2f$SignatureErc8010$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__SignatureErc8010$3e$__["SignatureErc8010"].validate(signature)) return await verifyErc8010(client, {
+            ...parameters,
+            multicallAddress,
+            signature
+        });
+        return await verifyErc6492(client, {
+            ...parameters,
+            verifierAddress,
+            signature
+        });
+    } catch (error) {
+        // Fallback attempt to verify the signature via ECDSA recovery.
+        try {
+            const verified = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddressEqual$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isAddressEqual"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$getAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAddress"])(address), await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$signature$2f$recoverAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["recoverAddress"])({
+                hash,
+                signature
+            }));
+            if (verified) return true;
+        } catch (e) {}
+        if (error instanceof VerificationError) {
+            // if the execution fails, the signature was not valid and an internal method inside of the validator reverted
+            // this can happen for many reasons, for example if signer can not be recovered from the signature
+            // or if the signature has no valid format
+            return false;
+        }
+        throw error;
+    }
+}
+async function verifyErc8010(client, parameters) {
+    var _results_;
+    const { address, blockNumber, blockTag, hash, multicallAddress } = parameters;
+    const { authorization: authorization_ox, data: initData, signature, to } = __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$erc8010$2f$SignatureErc8010$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__SignatureErc8010$3e$__["SignatureErc8010"].unwrap(parameters.signature);
+    // Check if already delegated
+    const code = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getCode$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getCode"])(client, {
+        address,
+        blockNumber,
+        blockTag
+    });
+    // If already delegated, perform standard ERC-1271 verification.
+    if (code === (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["concatHex"])([
+        '0xef0100',
+        authorization_ox.address
+    ])) return await verifyErc1271(client, {
+        address,
+        blockNumber,
+        blockTag,
+        hash,
+        signature
+    });
+    const authorization = {
+        address: authorization_ox.address,
+        chainId: Number(authorization_ox.chainId),
+        nonce: Number(authorization_ox.nonce),
+        r: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(authorization_ox.r, {
+            size: 32
+        }),
+        s: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(authorization_ox.s, {
+            size: 32
+        }),
+        yParity: authorization_ox.yParity
+    };
+    const valid = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$authorization$2f$verifyAuthorization$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["verifyAuthorization"])({
+        address,
+        authorization
+    });
+    if (!valid) throw new VerificationError();
+    // Deployless verification.
+    const results = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["readContract"], 'readContract')({
+        ...multicallAddress ? {
+            address: multicallAddress
+        } : {
+            code: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$contracts$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["multicall3Bytecode"]
+        },
+        authorizationList: [
+            authorization
+        ],
+        abi: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["multicall3Abi"],
+        blockNumber,
+        blockTag: 'pending',
+        functionName: 'aggregate3',
+        args: [
+            [
+                ...initData ? [
+                    {
+                        allowFailure: true,
+                        target: to !== null && to !== void 0 ? to : address,
+                        callData: initData
+                    }
+                ] : [],
+                {
+                    allowFailure: true,
+                    target: address,
+                    callData: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeFunctionData"])({
+                        abi: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["erc1271Abi"],
+                        functionName: 'isValidSignature',
+                        args: [
+                            hash,
+                            signature
+                        ]
+                    })
+                }
+            ]
+        ]
+    });
+    const data = (_results_ = results[results.length - 1]) === null || _results_ === void 0 ? void 0 : _results_.returnData;
+    if (data === null || data === void 0 ? void 0 : data.startsWith('0x1626ba7e')) return true;
+    throw new VerificationError();
+}
+/** @internal */ // biome-ignore lint/correctness/noUnusedVariables: _
+async function verifyErc6492(client, parameters) {
+    const { address, factory, factoryData, hash, signature, verifierAddress, ...rest } = parameters;
+    const wrappedSignature = await (async ()=>{
+        // If no `factory` or `factoryData` is provided, it is assumed that the
+        // address is not a Smart Account, or the Smart Account is already deployed.
+        if (!factory && !factoryData) return signature;
+        // If the signature is already wrapped, return the signature.
+        if (__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$erc6492$2f$SignatureErc6492$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__SignatureErc6492$3e$__["SignatureErc6492"].validate(signature)) return signature;
+        // If the Smart Account is not deployed, wrap the signature with a 6492 wrapper
+        // to perform counterfactual validation.
+        return __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$ox$2f$_esm$2f$erc6492$2f$SignatureErc6492$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__SignatureErc6492$3e$__["SignatureErc6492"].wrap({
+            data: factoryData,
+            signature,
+            to: factory
+        });
+    })();
+    const args = verifierAddress ? {
+        to: verifierAddress,
+        data: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeFunctionData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeFunctionData"])({
+            abi: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["erc6492SignatureValidatorAbi"],
+            functionName: 'isValidSig',
+            args: [
+                address,
+                hash,
+                wrappedSignature
+            ]
+        }),
+        ...rest
+    } : {
+        data: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeDeployData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeDeployData"])({
+            abi: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["erc6492SignatureValidatorAbi"],
+            args: [
+                address,
+                hash,
+                wrappedSignature
+            ],
+            bytecode: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$contracts$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["erc6492SignatureValidatorByteCode"]
+        }),
+        ...rest
+    };
+    const { data } = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$call$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["call"], 'call')(args).catch((error)=>{
+        if (error instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CallExecutionError"]) throw new VerificationError();
+        throw error;
+    });
+    if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBool"])(data !== null && data !== void 0 ? data : '0x0')) return true;
+    throw new VerificationError();
+}
+async function verifyErc1271(client, parameters) {
+    const { address, blockNumber, blockTag, hash, signature } = parameters;
+    const result = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["readContract"], 'readContract')({
+        address,
+        abi: __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$abis$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["erc1271Abi"],
+        args: [
+            hash,
+            signature
+        ],
+        blockNumber,
+        blockTag,
+        functionName: 'isValidSignature'
+    }).catch((error)=>{
+        if (error instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$contract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ContractFunctionExecutionError"]) throw new VerificationError();
+        throw error;
+    });
+    if (result.startsWith('0x1626ba7e')) return true;
+    throw new VerificationError();
+}
+class VerificationError extends Error {
+} //# sourceMappingURL=verifyHash.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/constants/strings.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "presignMessagePrefix",
+    ()=>presignMessagePrefix
+]);
+const presignMessagePrefix = '\x19Ethereum Signed Message:\n'; //# sourceMappingURL=strings.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/signature/toPrefixedMessage.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "toPrefixedMessage",
+    ()=>toPrefixedMessage
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$strings$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/constants/strings.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/concat.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/size.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+;
+;
+;
+;
+function toPrefixedMessage(message_) {
+    const message = (()=>{
+        if (typeof message_ === 'string') return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringToHex"])(message_);
+        if (typeof message_.raw === 'string') return message_.raw;
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesToHex"])(message_.raw);
+    })();
+    const prefix = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringToHex"])("".concat(__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$constants$2f$strings$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["presignMessagePrefix"]).concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(message)));
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["concat"])([
+        prefix,
+        message
+    ]);
+} //# sourceMappingURL=toPrefixedMessage.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/signature/hashMessage.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "hashMessage",
+    ()=>hashMessage
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/keccak256.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$signature$2f$toPrefixedMessage$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/signature/toPrefixedMessage.js [app-client] (ecmascript)");
+;
+;
+function hashMessage(message, to_) {
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["keccak256"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$signature$2f$toPrefixedMessage$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toPrefixedMessage"])(message), to_);
+} //# sourceMappingURL=hashMessage.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/verifyMessage.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "verifyMessage",
+    ()=>verifyMessage
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$signature$2f$hashMessage$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/signature/hashMessage.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$verifyHash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/verifyHash.js [app-client] (ecmascript)");
+;
+;
+;
+async function verifyMessage(client, param) {
+    let { address, message, factory, factoryData, signature, ...callRequest } = param;
+    const hash = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$signature$2f$hashMessage$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hashMessage"])(message);
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$verifyHash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["verifyHash"], 'verifyHash')({
+        address,
+        factory: factory,
+        factoryData: factoryData,
+        hash,
+        signature,
+        ...callRequest
+    });
+} //# sourceMappingURL=verifyMessage.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/typedData.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "InvalidDomainError",
+    ()=>InvalidDomainError,
+    "InvalidPrimaryTypeError",
+    ()=>InvalidPrimaryTypeError,
+    "InvalidStructTypeError",
+    ()=>InvalidStructTypeError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/stringify.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+;
+class InvalidDomainError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ domain }){
+        super('Invalid domain "'.concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])(domain), '".'), {
+            metaMessages: [
+                'Must be a valid EIP-712 domain.'
+            ]
+        });
+    }
+}
+class InvalidPrimaryTypeError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ primaryType, types }){
+        super("Invalid primary type `".concat(primaryType, "` must be one of `").concat(JSON.stringify(Object.keys(types)), "`."), {
+            docsPath: '/api/glossary/Errors#typeddatainvalidprimarytypeerror',
+            metaMessages: [
+                'Check that the primary type is a key in `types`.'
+            ]
+        });
+    }
+}
+class InvalidStructTypeError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ type }){
+        super('Struct type "'.concat(type, '" is invalid.'), {
+            metaMessages: [
+                'Struct type must not be a Solidity type.'
+            ],
+            name: 'InvalidStructTypeError'
+        });
+    }
+} //# sourceMappingURL=typedData.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/typedData.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "domainSeparator",
+    ()=>domainSeparator,
+    "getTypesForEIP712Domain",
+    ()=>getTypesForEIP712Domain,
+    "serializeTypedData",
+    ()=>serializeTypedData,
+    "validateTypedData",
+    ()=>validateTypedData
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/address.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$typedData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/typedData.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/address/isAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/size.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$regex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/regex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$signature$2f$hashTypedData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/signature/hashTypedData.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/stringify.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+;
+function serializeTypedData(parameters) {
+    const { domain: domain_, message: message_, primaryType, types } = parameters;
+    const normalizeData = (struct, data_)=>{
+        const data = {
+            ...data_
+        };
+        for (const param of struct){
+            const { name, type } = param;
+            if (type === 'address') data[name] = data[name].toLowerCase();
+        }
+        return data;
+    };
+    const domain = (()=>{
+        if (!types.EIP712Domain) return {};
+        if (!domain_) return {};
+        return normalizeData(types.EIP712Domain, domain_);
+    })();
+    const message = (()=>{
+        if (primaryType === 'EIP712Domain') return undefined;
+        return normalizeData(types[primaryType], message_);
+    })();
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])({
+        domain,
+        message,
+        primaryType,
+        types
+    });
+}
+function validateTypedData(parameters) {
+    const { domain, message, primaryType, types } = parameters;
+    const validateData = (struct, data)=>{
+        for (const param of struct){
+            const { name, type } = param;
+            const value = data[name];
+            const integerMatch = type.match(__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$regex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["integerRegex"]);
+            if (integerMatch && (typeof value === 'number' || typeof value === 'bigint')) {
+                const [_type, base, size_] = integerMatch;
+                // If number cannot be cast to a sized hex value, it is out of range
+                // and will throw.
+                (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(value, {
+                    signed: base === 'int',
+                    size: Number.parseInt(size_, 10) / 8
+                });
+            }
+            if (type === 'address' && typeof value === 'string' && !(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isAddress"])(value)) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$address$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidAddressError"]({
+                address: value
+            });
+            const bytesMatch = type.match(__TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$regex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["bytesRegex"]);
+            if (bytesMatch) {
+                const [_type, size_] = bytesMatch;
+                if (size_ && (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(value) !== Number.parseInt(size_, 10)) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BytesSizeMismatchError"]({
+                    expectedSize: Number.parseInt(size_, 10),
+                    givenSize: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$size$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["size"])(value)
+                });
+            }
+            const struct = types[type];
+            if (struct) {
+                validateReference(type);
+                validateData(struct, value);
+            }
+        }
+    };
+    // Validate domain types.
+    if (types.EIP712Domain && domain) {
+        if (typeof domain !== 'object') throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$typedData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidDomainError"]({
+            domain
+        });
+        validateData(types.EIP712Domain, domain);
+    }
+    // Validate message types.
+    if (primaryType !== 'EIP712Domain') {
+        if (types[primaryType]) validateData(types[primaryType], message);
+        else throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$typedData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidPrimaryTypeError"]({
+            primaryType,
+            types
+        });
+    }
+}
+function getTypesForEIP712Domain(param) {
+    let { domain } = param;
+    return [
+        typeof (domain === null || domain === void 0 ? void 0 : domain.name) === 'string' && {
+            name: 'name',
+            type: 'string'
+        },
+        (domain === null || domain === void 0 ? void 0 : domain.version) && {
+            name: 'version',
+            type: 'string'
+        },
+        (typeof (domain === null || domain === void 0 ? void 0 : domain.chainId) === 'number' || typeof (domain === null || domain === void 0 ? void 0 : domain.chainId) === 'bigint') && {
+            name: 'chainId',
+            type: 'uint256'
+        },
+        (domain === null || domain === void 0 ? void 0 : domain.verifyingContract) && {
+            name: 'verifyingContract',
+            type: 'address'
+        },
+        (domain === null || domain === void 0 ? void 0 : domain.salt) && {
+            name: 'salt',
+            type: 'bytes32'
+        }
+    ].filter(Boolean);
+}
+function domainSeparator(param) {
+    let { domain } = param;
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$signature$2f$hashTypedData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hashDomain"])({
+        domain: domain,
+        types: {
+            EIP712Domain: getTypesForEIP712Domain({
+                domain
+            })
+        }
+    });
+}
+/** @internal */ function validateReference(type) {
+    // Struct type must not be a Solidity type.
+    if (type === 'address' || type === 'bool' || type === 'string' || type.startsWith('bytes') || type.startsWith('uint') || type.startsWith('int')) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$typedData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidStructTypeError"]({
+        type
+    });
+} //# sourceMappingURL=typedData.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/signature/hashTypedData.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+// Implementation forked and adapted from https://github.com/MetaMask/eth-sig-util/blob/main/src/sign-typed-data.ts
+__turbopack_context__.s([
+    "encodeType",
+    ()=>encodeType,
+    "hashDomain",
+    ()=>hashDomain,
+    "hashStruct",
+    ()=>hashStruct,
+    "hashTypedData",
+    ()=>hashTypedData
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeAbiParameters.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/data/concat.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/hash/keccak256.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$typedData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/typedData.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+function hashTypedData(parameters) {
+    const { domain = {}, message, primaryType } = parameters;
+    const types = {
+        EIP712Domain: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$typedData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getTypesForEIP712Domain"])({
+            domain
+        }),
+        ...parameters.types
+    };
+    // Need to do a runtime validation check on addresses, byte ranges, integer ranges, etc
+    // as we can't statically check this with TypeScript.
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$typedData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["validateTypedData"])({
+        domain,
+        message,
+        primaryType,
+        types
+    });
+    const parts = [
+        '0x1901'
+    ];
+    if (domain) parts.push(hashDomain({
+        domain,
+        types: types
+    }));
+    if (primaryType !== 'EIP712Domain') parts.push(hashStruct({
+        data: message,
+        primaryType,
+        types: types
+    }));
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["keccak256"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$data$2f$concat$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["concat"])(parts));
+}
+function hashDomain(param) {
+    let { domain, types } = param;
+    return hashStruct({
+        data: domain,
+        primaryType: 'EIP712Domain',
+        types: types
+    });
+}
+function hashStruct(param) {
+    let { data, primaryType, types } = param;
+    const encoded = encodeData({
+        data: data,
+        primaryType,
+        types: types
+    });
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["keccak256"])(encoded);
+}
+function encodeData(param) {
+    let { data, primaryType, types } = param;
+    const encodedTypes = [
+        {
+            type: 'bytes32'
+        }
+    ];
+    const encodedValues = [
+        hashType({
+            primaryType,
+            types
+        })
+    ];
+    for (const field of types[primaryType]){
+        const [type, value] = encodeField({
+            types,
+            name: field.name,
+            type: field.type,
+            value: data[field.name]
+        });
+        encodedTypes.push(type);
+        encodedValues.push(value);
+    }
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeAbiParameters"])(encodedTypes, encodedValues);
+}
+function hashType(param) {
+    let { primaryType, types } = param;
+    const encodedHashType = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toHex"])(encodeType({
+        primaryType,
+        types
+    }));
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["keccak256"])(encodedHashType);
+}
+function encodeType(param) {
+    let { primaryType, types } = param;
+    let result = '';
+    const unsortedDeps = findTypeDependencies({
+        primaryType,
+        types
+    });
+    unsortedDeps.delete(primaryType);
+    const deps = [
+        primaryType,
+        ...Array.from(unsortedDeps).sort()
+    ];
+    for (const type of deps){
+        result += "".concat(type, "(").concat(types[type].map((param)=>{
+            let { name, type: t } = param;
+            return "".concat(t, " ").concat(name);
+        }).join(','), ")");
+    }
+    return result;
+}
+function findTypeDependencies(param) {
+    let { primaryType: primaryType_, types } = param, results = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : new Set();
+    const match = primaryType_.match(/^\w*/u);
+    const primaryType = match === null || match === void 0 ? void 0 : match[0];
+    if (results.has(primaryType) || types[primaryType] === undefined) {
+        return results;
+    }
+    results.add(primaryType);
+    for (const field of types[primaryType]){
+        findTypeDependencies({
+            primaryType: field.type,
+            types
+        }, results);
+    }
+    return results;
+}
+function encodeField(param) {
+    let { types, name, type, value } = param;
+    if (types[type] !== undefined) {
+        return [
+            {
+                type: 'bytes32'
+            },
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["keccak256"])(encodeData({
+                data: value,
+                primaryType: type,
+                types
+            }))
+        ];
+    }
+    if (type === 'bytes') return [
+        {
+            type: 'bytes32'
+        },
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["keccak256"])(value)
+    ];
+    if (type === 'string') return [
+        {
+            type: 'bytes32'
+        },
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["keccak256"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toHex"])(value))
+    ];
+    if (type.lastIndexOf(']') === type.length - 1) {
+        const parsedType = type.slice(0, type.lastIndexOf('['));
+        const typeValuePairs = value.map((item)=>encodeField({
+                name,
+                type: parsedType,
+                types,
+                value: item
+            }));
+        return [
+            {
+                type: 'bytes32'
+            },
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$hash$2f$keccak256$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["keccak256"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeAbiParameters$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeAbiParameters"])(typeValuePairs.map((param)=>{
+                let [t] = param;
+                return t;
+            }), typeValuePairs.map((param)=>{
+                let [, v] = param;
+                return v;
+            })))
+        ];
+    }
+    return [
+        {
+            type
+        },
+        value
+    ];
+} //# sourceMappingURL=hashTypedData.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/verifyTypedData.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "verifyTypedData",
+    ()=>verifyTypedData
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$signature$2f$hashTypedData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/signature/hashTypedData.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$verifyHash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/verifyHash.js [app-client] (ecmascript)");
+;
+;
+;
+async function verifyTypedData(client, parameters) {
+    const { address, factory, factoryData, signature, message, primaryType, types, domain, ...callRequest } = parameters;
+    const hash = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$signature$2f$hashTypedData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hashTypedData"])({
+        message,
+        primaryType,
+        types,
+        domain
+    });
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$verifyHash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["verifyHash"], 'verifyHash')({
+        address,
+        factory: factory,
+        factoryData: factoryData,
+        hash,
+        signature,
+        ...callRequest
+    });
+} //# sourceMappingURL=verifyTypedData.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/observe.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/** @internal */ __turbopack_context__.s([
+    "cleanupCache",
+    ()=>cleanupCache,
+    "listenersCache",
+    ()=>listenersCache,
+    "observe",
+    ()=>observe
+]);
+const listenersCache = /*#__PURE__*/ new Map();
+const cleanupCache = /*#__PURE__*/ new Map();
+let callbackCount = 0;
+function observe(observerId, callbacks, fn) {
+    const callbackId = ++callbackCount;
+    const getListeners = ()=>listenersCache.get(observerId) || [];
+    const unsubscribe = ()=>{
+        const listeners = getListeners();
+        listenersCache.set(observerId, listeners.filter((cb)=>cb.id !== callbackId));
+    };
+    const unwatch = ()=>{
+        const listeners = getListeners();
+        if (!listeners.some((cb)=>cb.id === callbackId)) return;
+        const cleanup = cleanupCache.get(observerId);
+        if (listeners.length === 1 && cleanup) {
+            const p = cleanup();
+            if (p instanceof Promise) p.catch(()=>{});
+        }
+        unsubscribe();
+    };
+    const listeners = getListeners();
+    listenersCache.set(observerId, [
+        ...listeners,
+        {
+            id: callbackId,
+            fns: callbacks
+        }
+    ]);
+    if (listeners && listeners.length > 0) return unwatch;
+    const emit = {};
+    for(const key in callbacks){
+        emit[key] = function() {
+            for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+                args[_key] = arguments[_key];
+            }
+            var _listener_fns_key, _listener_fns;
+            const listeners = getListeners();
+            if (listeners.length === 0) return;
+            for (const listener of listeners)(_listener_fns_key = (_listener_fns = listener.fns)[key]) === null || _listener_fns_key === void 0 ? void 0 : _listener_fns_key.call(_listener_fns, ...args);
+        };
+    }
+    const cleanup = fn(emit);
+    if (typeof cleanup === 'function') cleanupCache.set(observerId, cleanup);
+    return unwatch;
+} //# sourceMappingURL=observe.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/wait.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "wait",
+    ()=>wait
+]);
+async function wait(time) {
+    return new Promise((res)=>setTimeout(res, time));
+} //# sourceMappingURL=wait.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/promise/withRetry.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "withRetry",
+    ()=>withRetry
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$wait$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/wait.js [app-client] (ecmascript)");
+;
+function withRetry(fn) {
+    let { delay: delay_ = 100, retryCount = 2, shouldRetry = ()=>true } = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    return new Promise((resolve, reject)=>{
+        const attemptRetry = async function() {
+            let { count = 0 } = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+            const retry = async (param)=>{
+                let { error } = param;
+                const delay = typeof delay_ === 'function' ? delay_({
+                    count,
+                    error
+                }) : delay_;
+                if (delay) await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$wait$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["wait"])(delay);
+                attemptRetry({
+                    count: count + 1
+                });
+            };
+            try {
+                const data = await fn();
+                resolve(data);
+            } catch (err) {
+                if (count < retryCount && await shouldRetry({
+                    count,
+                    error: err
+                })) return retry({
+                    error: err
+                });
+                reject(err);
+            }
+        };
+        attemptRetry();
+    });
+} //# sourceMappingURL=withRetry.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/poll.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "poll",
+    ()=>poll
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$wait$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/wait.js [app-client] (ecmascript)");
+;
+function poll(fn, param) {
+    let { emitOnBegin, initialWaitTime, interval } = param;
+    let active = true;
+    const unwatch = ()=>active = false;
+    const watch = async ()=>{
+        let data;
+        if (emitOnBegin) data = await fn({
+            unpoll: unwatch
+        });
+        var _ref;
+        const initialWait = (_ref = await (initialWaitTime === null || initialWaitTime === void 0 ? void 0 : initialWaitTime(data))) !== null && _ref !== void 0 ? _ref : interval;
+        await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$wait$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["wait"])(initialWait);
+        const poll = async ()=>{
+            if (!active) return;
+            await fn({
+                unpoll: unwatch
+            });
+            await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$wait$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["wait"])(interval);
+            poll();
+        };
+        poll();
+    };
+    watch();
+    return unwatch;
+} //# sourceMappingURL=poll.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/watchBlockNumber.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "watchBlockNumber",
+    ()=>watchBlockNumber
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/fromHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$observe$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/observe.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$poll$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/poll.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/stringify.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlockNumber$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getBlockNumber.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+function watchBlockNumber(client, param) {
+    let { emitOnBegin = false, emitMissed = false, onBlockNumber, onError, poll: poll_, pollingInterval = client.pollingInterval } = param;
+    const enablePolling = (()=>{
+        if (typeof poll_ !== 'undefined') return poll_;
+        if (client.transport.type === 'webSocket' || client.transport.type === 'ipc') return false;
+        if (client.transport.type === 'fallback' && (client.transport.transports[0].config.type === 'webSocket' || client.transport.transports[0].config.type === 'ipc')) return false;
+        return true;
+    })();
+    let prevBlockNumber;
+    const pollBlockNumber = ()=>{
+        const observerId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])([
+            'watchBlockNumber',
+            client.uid,
+            emitOnBegin,
+            emitMissed,
+            pollingInterval
+        ]);
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$observe$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["observe"])(observerId, {
+            onBlockNumber,
+            onError
+        }, (emit)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$poll$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["poll"])(async ()=>{
+                try {
+                    const blockNumber = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlockNumber$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBlockNumber"], 'getBlockNumber')({
+                        cacheTime: 0
+                    });
+                    if (prevBlockNumber !== undefined) {
+                        // If the current block number is the same as the previous,
+                        // we can skip.
+                        if (blockNumber === prevBlockNumber) return;
+                        // If we have missed out on some previous blocks, and the
+                        // `emitMissed` flag is truthy, let's emit those blocks.
+                        if (blockNumber - prevBlockNumber > 1 && emitMissed) {
+                            for(let i = prevBlockNumber + 1n; i < blockNumber; i++){
+                                emit.onBlockNumber(i, prevBlockNumber);
+                                prevBlockNumber = i;
+                            }
+                        }
+                    }
+                    // If the next block number is greater than the previous,
+                    // it is not in the past, and we can emit the new block number.
+                    if (prevBlockNumber === undefined || blockNumber > prevBlockNumber) {
+                        emit.onBlockNumber(blockNumber, prevBlockNumber);
+                        prevBlockNumber = blockNumber;
+                    }
+                } catch (err) {
+                    var _emit_onError;
+                    (_emit_onError = emit.onError) === null || _emit_onError === void 0 ? void 0 : _emit_onError.call(emit, err);
+                }
+            }, {
+                emitOnBegin,
+                interval: pollingInterval
+            }));
+    };
+    const subscribeBlockNumber = ()=>{
+        const observerId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])([
+            'watchBlockNumber',
+            client.uid,
+            emitOnBegin,
+            emitMissed
+        ]);
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$observe$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["observe"])(observerId, {
+            onBlockNumber,
+            onError
+        }, (emit)=>{
+            let active = true;
+            let unsubscribe = ()=>active = false;
+            (async ()=>{
+                try {
+                    const transport = (()=>{
+                        if (client.transport.type === 'fallback') {
+                            const transport = client.transport.transports.find((transport)=>transport.config.type === 'webSocket' || transport.config.type === 'ipc');
+                            if (!transport) return client.transport;
+                            return transport.value;
+                        }
+                        return client.transport;
+                    })();
+                    const { unsubscribe: unsubscribe_ } = await transport.subscribe({
+                        params: [
+                            'newHeads'
+                        ],
+                        onData (data) {
+                            var _data_result;
+                            if (!active) return;
+                            const blockNumber = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$fromHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hexToBigInt"])((_data_result = data.result) === null || _data_result === void 0 ? void 0 : _data_result.number);
+                            emit.onBlockNumber(blockNumber, prevBlockNumber);
+                            prevBlockNumber = blockNumber;
+                        },
+                        onError (error) {
+                            var _emit_onError;
+                            (_emit_onError = emit.onError) === null || _emit_onError === void 0 ? void 0 : _emit_onError.call(emit, error);
+                        }
+                    });
+                    unsubscribe = unsubscribe_;
+                    if (!active) unsubscribe();
+                } catch (err) {
+                    onError === null || onError === void 0 ? void 0 : onError(err);
+                }
+            })();
+            return ()=>unsubscribe();
+        });
+    };
+    return enablePolling ? pollBlockNumber() : subscribeBlockNumber();
+} //# sourceMappingURL=watchBlockNumber.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/waitForTransactionReceipt.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "waitForTransactionReceipt",
+    ()=>waitForTransactionReceipt
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$block$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/block.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/transaction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$observe$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/observe.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$withResolvers$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/promise/withResolvers.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$withRetry$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/promise/withRetry.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/stringify.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getBlock.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getTransaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getTransaction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getTransactionReceipt$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getTransactionReceipt.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$watchBlockNumber$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/watchBlockNumber.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+async function waitForTransactionReceipt(client, parameters) {
+    const { checkReplacement = true, confirmations = 1, hash, onReplaced, retryCount = 6, retryDelay = (param)=>{
+        let { count } = param;
+        return ~~(1 << count) * 200;
+    }, timeout = 180_000 } = parameters;
+    const observerId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])([
+        'waitForTransactionReceipt',
+        client.uid,
+        hash
+    ]);
+    const pollingInterval = (()=>{
+        var _client_chain;
+        if (parameters.pollingInterval) return parameters.pollingInterval;
+        if ((_client_chain = client.chain) === null || _client_chain === void 0 ? void 0 : _client_chain.experimental_preconfirmationTime) return client.chain.experimental_preconfirmationTime;
+        return client.pollingInterval;
+    })();
+    let transaction;
+    let replacedTransaction;
+    let receipt;
+    let retrying = false;
+    let _unobserve;
+    let _unwatch;
+    const { promise, resolve, reject } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$withResolvers$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["withResolvers"])();
+    const timer = timeout ? setTimeout(()=>{
+        _unwatch === null || _unwatch === void 0 ? void 0 : _unwatch();
+        _unobserve === null || _unobserve === void 0 ? void 0 : _unobserve();
+        reject(new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["WaitForTransactionReceiptTimeoutError"]({
+            hash
+        }));
+    }, timeout) : undefined;
+    _unobserve = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$observe$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["observe"])(observerId, {
+        onReplaced,
+        resolve,
+        reject
+    }, async (emit)=>{
+        receipt = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getTransactionReceipt$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getTransactionReceipt"], 'getTransactionReceipt')({
+            hash
+        }).catch(()=>undefined);
+        if (receipt && confirmations <= 1) {
+            clearTimeout(timer);
+            emit.resolve(receipt);
+            _unobserve === null || _unobserve === void 0 ? void 0 : _unobserve();
+            return;
+        }
+        _unwatch = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$watchBlockNumber$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["watchBlockNumber"], 'watchBlockNumber')({
+            emitMissed: true,
+            emitOnBegin: true,
+            poll: true,
+            pollingInterval,
+            async onBlockNumber (blockNumber_) {
+                const done = (fn)=>{
+                    clearTimeout(timer);
+                    _unwatch === null || _unwatch === void 0 ? void 0 : _unwatch();
+                    fn();
+                    _unobserve === null || _unobserve === void 0 ? void 0 : _unobserve();
+                };
+                let blockNumber = blockNumber_;
+                if (retrying) return;
+                try {
+                    // If we already have a valid receipt, let's check if we have enough
+                    // confirmations. If we do, then we can resolve.
+                    if (receipt) {
+                        if (confirmations > 1 && (!receipt.blockNumber || blockNumber - receipt.blockNumber + 1n < confirmations)) return;
+                        done(()=>emit.resolve(receipt));
+                        return;
+                    }
+                    // Get the transaction to check if it's been replaced.
+                    // We need to retry as some RPC Providers may be slow to sync
+                    // up mined transactions.
+                    if (checkReplacement && !transaction) {
+                        retrying = true;
+                        await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$withRetry$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["withRetry"])(async ()=>{
+                            transaction = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getTransaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getTransaction"], 'getTransaction')({
+                                hash
+                            });
+                            if (transaction.blockNumber) blockNumber = transaction.blockNumber;
+                        }, {
+                            delay: retryDelay,
+                            retryCount
+                        });
+                        retrying = false;
+                    }
+                    // Get the receipt to check if it's been processed.
+                    receipt = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getTransactionReceipt$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getTransactionReceipt"], 'getTransactionReceipt')({
+                        hash
+                    });
+                    // Check if we have enough confirmations. If not, continue polling.
+                    if (confirmations > 1 && (!receipt.blockNumber || blockNumber - receipt.blockNumber + 1n < confirmations)) return;
+                    done(()=>emit.resolve(receipt));
+                } catch (err) {
+                    // If the receipt is not found, the transaction will be pending.
+                    // We need to check if it has potentially been replaced.
+                    if (err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TransactionNotFoundError"] || err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TransactionReceiptNotFoundError"]) {
+                        if (!transaction) {
+                            retrying = false;
+                            return;
+                        }
+                        try {
+                            replacedTransaction = transaction;
+                            // Let's retrieve the transactions from the current block.
+                            // We need to retry as some RPC Providers may be slow to sync
+                            // up mined blocks.
+                            retrying = true;
+                            const block = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$withRetry$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["withRetry"])(()=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBlock"], 'getBlock')({
+                                    blockNumber,
+                                    includeTransactions: true
+                                }), {
+                                delay: retryDelay,
+                                retryCount,
+                                shouldRetry: (param)=>{
+                                    let { error } = param;
+                                    return error instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$block$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BlockNotFoundError"];
+                                }
+                            });
+                            retrying = false;
+                            const replacementTransaction = block.transactions.find((param)=>{
+                                let { from, nonce } = param;
+                                return from === replacedTransaction.from && nonce === replacedTransaction.nonce;
+                            });
+                            // If we couldn't find a replacement transaction, continue polling.
+                            if (!replacementTransaction) return;
+                            // If we found a replacement transaction, return it's receipt.
+                            receipt = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getTransactionReceipt$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getTransactionReceipt"], 'getTransactionReceipt')({
+                                hash: replacementTransaction.hash
+                            });
+                            // Check if we have enough confirmations. If not, continue polling.
+                            if (confirmations > 1 && (!receipt.blockNumber || blockNumber - receipt.blockNumber + 1n < confirmations)) return;
+                            let reason = 'replaced';
+                            if (replacementTransaction.to === replacedTransaction.to && replacementTransaction.value === replacedTransaction.value && replacementTransaction.input === replacedTransaction.input) {
+                                reason = 'repriced';
+                            } else if (replacementTransaction.from === replacementTransaction.to && replacementTransaction.value === 0n) {
+                                reason = 'cancelled';
+                            }
+                            done(()=>{
+                                var _emit_onReplaced;
+                                (_emit_onReplaced = emit.onReplaced) === null || _emit_onReplaced === void 0 ? void 0 : _emit_onReplaced.call(emit, {
+                                    reason,
+                                    replacedTransaction: replacedTransaction,
+                                    transaction: replacementTransaction,
+                                    transactionReceipt: receipt
+                                });
+                                emit.resolve(receipt);
+                            });
+                        } catch (err_) {
+                            done(()=>emit.reject(err_));
+                        }
+                    } else {
+                        done(()=>emit.reject(err));
+                    }
+                }
+            }
+        });
+    });
+    return promise;
+} //# sourceMappingURL=waitForTransactionReceipt.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/watchBlocks.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "watchBlocks",
+    ()=>watchBlocks
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$observe$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/observe.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$poll$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/poll.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/stringify.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getBlock.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+var _client_experimental_blockTag;
+function watchBlocks(client, param) {
+    let { blockTag = (_client_experimental_blockTag = client.experimental_blockTag) !== null && _client_experimental_blockTag !== void 0 ? _client_experimental_blockTag : 'latest', emitMissed = false, emitOnBegin = false, onBlock, onError, includeTransactions: includeTransactions_, poll: poll_, pollingInterval = client.pollingInterval } = param;
+    const enablePolling = (()=>{
+        if (typeof poll_ !== 'undefined') return poll_;
+        if (client.transport.type === 'webSocket' || client.transport.type === 'ipc') return false;
+        if (client.transport.type === 'fallback' && (client.transport.transports[0].config.type === 'webSocket' || client.transport.transports[0].config.type === 'ipc')) return false;
+        return true;
+    })();
+    const includeTransactions = includeTransactions_ !== null && includeTransactions_ !== void 0 ? includeTransactions_ : false;
+    let prevBlock;
+    const pollBlocks = ()=>{
+        const observerId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])([
+            'watchBlocks',
+            client.uid,
+            blockTag,
+            emitMissed,
+            emitOnBegin,
+            includeTransactions,
+            pollingInterval
+        ]);
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$observe$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["observe"])(observerId, {
+            onBlock,
+            onError
+        }, (emit)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$poll$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["poll"])(async ()=>{
+                try {
+                    const block = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBlock"], 'getBlock')({
+                        blockTag,
+                        includeTransactions
+                    });
+                    if (block.number !== null && (prevBlock === null || prevBlock === void 0 ? void 0 : prevBlock.number) != null) {
+                        // If the current block number is the same as the previous,
+                        // we can skip.
+                        if (block.number === prevBlock.number) return;
+                        // If we have missed out on some previous blocks, and the
+                        // `emitMissed` flag is truthy, let's emit those blocks.
+                        if (block.number - prevBlock.number > 1 && emitMissed) {
+                            for(let i = (prevBlock === null || prevBlock === void 0 ? void 0 : prevBlock.number) + 1n; i < block.number; i++){
+                                const block = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBlock"], 'getBlock')({
+                                    blockNumber: i,
+                                    includeTransactions
+                                });
+                                emit.onBlock(block, prevBlock);
+                                prevBlock = block;
+                            }
+                        }
+                    }
+                    if (// If no previous block exists, emit.
+                    (prevBlock === null || prevBlock === void 0 ? void 0 : prevBlock.number) == null || blockTag === 'pending' && (block === null || block === void 0 ? void 0 : block.number) == null || block.number !== null && block.number > prevBlock.number) {
+                        emit.onBlock(block, prevBlock);
+                        prevBlock = block;
+                    }
+                } catch (err) {
+                    var _emit_onError;
+                    (_emit_onError = emit.onError) === null || _emit_onError === void 0 ? void 0 : _emit_onError.call(emit, err);
+                }
+            }, {
+                emitOnBegin,
+                interval: pollingInterval
+            }));
+    };
+    const subscribeBlocks = ()=>{
+        let active = true;
+        let emitFetched = true;
+        let unsubscribe = ()=>active = false;
+        (async ()=>{
+            try {
+                if (emitOnBegin) {
+                    (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBlock"], 'getBlock')({
+                        blockTag,
+                        includeTransactions
+                    }).then((block)=>{
+                        if (!active) return;
+                        if (!emitFetched) return;
+                        onBlock(block, undefined);
+                        emitFetched = false;
+                    }).catch(onError);
+                }
+                const transport = (()=>{
+                    if (client.transport.type === 'fallback') {
+                        const transport = client.transport.transports.find((transport)=>transport.config.type === 'webSocket' || transport.config.type === 'ipc');
+                        if (!transport) return client.transport;
+                        return transport.value;
+                    }
+                    return client.transport;
+                })();
+                const { unsubscribe: unsubscribe_ } = await transport.subscribe({
+                    params: [
+                        'newHeads'
+                    ],
+                    async onData (data) {
+                        var _data_result;
+                        if (!active) return;
+                        const block = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBlock"], 'getBlock')({
+                            blockNumber: (_data_result = data.result) === null || _data_result === void 0 ? void 0 : _data_result.number,
+                            includeTransactions
+                        }).catch(()=>{});
+                        if (!active) return;
+                        onBlock(block, prevBlock);
+                        emitFetched = false;
+                        prevBlock = block;
+                    },
+                    onError (error) {
+                        onError === null || onError === void 0 ? void 0 : onError(error);
+                    }
+                });
+                unsubscribe = unsubscribe_;
+                if (!active) unsubscribe();
+            } catch (err) {
+                onError === null || onError === void 0 ? void 0 : onError(err);
+            }
+        })();
+        return ()=>unsubscribe();
+    };
+    return enablePolling ? pollBlocks() : subscribeBlocks();
+} //# sourceMappingURL=watchBlocks.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/watchContractEvent.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "watchContractEvent",
+    ()=>watchContractEvent
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/rpc.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeEventLog$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeEventLog.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeEventTopics$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeEventTopics.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$log$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/log.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$observe$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/observe.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$poll$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/poll.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/stringify.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$createContractEventFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/createContractEventFilter.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlockNumber$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getBlockNumber.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getContractEvents$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getContractEvents.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getFilterChanges$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getFilterChanges.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$uninstallFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/uninstallFilter.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+function watchContractEvent(client, parameters) {
+    const { abi, address, args, batch = true, eventName, fromBlock, onError, onLogs, poll: poll_, pollingInterval = client.pollingInterval, strict: strict_ } = parameters;
+    const enablePolling = (()=>{
+        if (typeof poll_ !== 'undefined') return poll_;
+        if (typeof fromBlock === 'bigint') return true;
+        if (client.transport.type === 'webSocket' || client.transport.type === 'ipc') return false;
+        if (client.transport.type === 'fallback' && (client.transport.transports[0].config.type === 'webSocket' || client.transport.transports[0].config.type === 'ipc')) return false;
+        return true;
+    })();
+    const pollContractEvent = ()=>{
+        const strict = strict_ !== null && strict_ !== void 0 ? strict_ : false;
+        const observerId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])([
+            'watchContractEvent',
+            address,
+            args,
+            batch,
+            client.uid,
+            eventName,
+            pollingInterval,
+            strict,
+            fromBlock
+        ]);
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$observe$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["observe"])(observerId, {
+            onLogs,
+            onError
+        }, (emit)=>{
+            let previousBlockNumber;
+            if (fromBlock !== undefined) previousBlockNumber = fromBlock - 1n;
+            let filter;
+            let initialized = false;
+            const unwatch = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$poll$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["poll"])(async ()=>{
+                if (!initialized) {
+                    try {
+                        filter = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$createContractEventFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createContractEventFilter"], 'createContractEventFilter')({
+                            abi,
+                            address,
+                            args: args,
+                            eventName: eventName,
+                            strict: strict,
+                            fromBlock
+                        });
+                    } catch (e) {}
+                    initialized = true;
+                    return;
+                }
+                try {
+                    let logs;
+                    if (filter) {
+                        logs = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getFilterChanges$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getFilterChanges"], 'getFilterChanges')({
+                            filter
+                        });
+                    } else {
+                        // If the filter doesn't exist, we will fall back to use `getLogs`.
+                        // The fall back exists because some RPC Providers do not support filters.
+                        // Fetch the block number to use for `getLogs`.
+                        const blockNumber = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlockNumber$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBlockNumber"], 'getBlockNumber')({});
+                        // If the block number has changed, we will need to fetch the logs.
+                        // If the block number doesn't exist, we are yet to reach the first poll interval,
+                        // so do not emit any logs.
+                        if (previousBlockNumber && previousBlockNumber < blockNumber) {
+                            logs = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getContractEvents$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getContractEvents"], 'getContractEvents')({
+                                abi,
+                                address,
+                                args,
+                                eventName,
+                                fromBlock: previousBlockNumber + 1n,
+                                toBlock: blockNumber,
+                                strict
+                            });
+                        } else {
+                            logs = [];
+                        }
+                        previousBlockNumber = blockNumber;
+                    }
+                    if (logs.length === 0) return;
+                    if (batch) emit.onLogs(logs);
+                    else for (const log of logs)emit.onLogs([
+                        log
+                    ]);
+                } catch (err) {
+                    var _emit_onError;
+                    // If a filter has been set and gets uninstalled, providers will throw an InvalidInput error.
+                    // Reinitialize the filter when this occurs
+                    if (filter && err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidInputRpcError"]) initialized = false;
+                    (_emit_onError = emit.onError) === null || _emit_onError === void 0 ? void 0 : _emit_onError.call(emit, err);
+                }
+            }, {
+                emitOnBegin: true,
+                interval: pollingInterval
+            });
+            return async ()=>{
+                if (filter) await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$uninstallFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["uninstallFilter"], 'uninstallFilter')({
+                    filter
+                });
+                unwatch();
+            };
+        });
+    };
+    const subscribeContractEvent = ()=>{
+        const strict = strict_ !== null && strict_ !== void 0 ? strict_ : false;
+        const observerId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])([
+            'watchContractEvent',
+            address,
+            args,
+            batch,
+            client.uid,
+            eventName,
+            pollingInterval,
+            strict
+        ]);
+        let active = true;
+        let unsubscribe = ()=>active = false;
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$observe$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["observe"])(observerId, {
+            onLogs,
+            onError
+        }, (emit)=>{
+            ;
+            (async ()=>{
+                try {
+                    const transport = (()=>{
+                        if (client.transport.type === 'fallback') {
+                            const transport = client.transport.transports.find((transport)=>transport.config.type === 'webSocket' || transport.config.type === 'ipc');
+                            if (!transport) return client.transport;
+                            return transport.value;
+                        }
+                        return client.transport;
+                    })();
+                    const topics = eventName ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeEventTopics$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeEventTopics"])({
+                        abi: abi,
+                        eventName: eventName,
+                        args
+                    }) : [];
+                    const { unsubscribe: unsubscribe_ } = await transport.subscribe({
+                        params: [
+                            'logs',
+                            {
+                                address,
+                                topics
+                            }
+                        ],
+                        onData (data) {
+                            if (!active) return;
+                            const log = data.result;
+                            try {
+                                const { eventName, args } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeEventLog$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["decodeEventLog"])({
+                                    abi: abi,
+                                    data: log.data,
+                                    topics: log.topics,
+                                    strict: strict_
+                                });
+                                const formatted = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$log$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatLog"])(log, {
+                                    args,
+                                    eventName: eventName
+                                });
+                                emit.onLogs([
+                                    formatted
+                                ]);
+                            } catch (err) {
+                                let eventName;
+                                let isUnnamed;
+                                if (err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DecodeLogDataMismatch"] || err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DecodeLogTopicsMismatch"]) {
+                                    var _err_abiItem_inputs;
+                                    // If strict mode is on, and log data/topics do not match event definition, skip.
+                                    if (strict_) return;
+                                    eventName = err.abiItem.name;
+                                    isUnnamed = (_err_abiItem_inputs = err.abiItem.inputs) === null || _err_abiItem_inputs === void 0 ? void 0 : _err_abiItem_inputs.some((x)=>!('name' in x && x.name));
+                                }
+                                // Set args to empty if there is an error decoding (e.g. indexed/non-indexed params mismatch).
+                                const formatted = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$log$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatLog"])(log, {
+                                    args: isUnnamed ? [] : {},
+                                    eventName
+                                });
+                                emit.onLogs([
+                                    formatted
+                                ]);
+                            }
+                        },
+                        onError (error) {
+                            var _emit_onError;
+                            (_emit_onError = emit.onError) === null || _emit_onError === void 0 ? void 0 : _emit_onError.call(emit, error);
+                        }
+                    });
+                    unsubscribe = unsubscribe_;
+                    if (!active) unsubscribe();
+                } catch (err) {
+                    onError === null || onError === void 0 ? void 0 : onError(err);
+                }
+            })();
+            return ()=>unsubscribe();
+        });
+    };
+    return enablePolling ? pollContractEvent() : subscribeContractEvent();
+} //# sourceMappingURL=watchContractEvent.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/watchEvent.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "watchEvent",
+    ()=>watchEvent
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/abi.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/rpc.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeEventLog$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/decodeEventLog.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeEventTopics$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/abi/encodeEventTopics.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$log$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/log.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$observe$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/observe.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$poll$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/poll.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/stringify.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$createEventFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/createEventFilter.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlockNumber$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getBlockNumber.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getFilterChanges$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getFilterChanges.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getLogs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getLogs.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$uninstallFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/uninstallFilter.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+function watchEvent(client, param) {
+    let { address, args, batch = true, event, events, fromBlock, onError, onLogs, poll: poll_, pollingInterval = client.pollingInterval, strict: strict_ } = param;
+    const enablePolling = (()=>{
+        if (typeof poll_ !== 'undefined') return poll_;
+        if (typeof fromBlock === 'bigint') return true;
+        if (client.transport.type === 'webSocket' || client.transport.type === 'ipc') return false;
+        if (client.transport.type === 'fallback' && (client.transport.transports[0].config.type === 'webSocket' || client.transport.transports[0].config.type === 'ipc')) return false;
+        return true;
+    })();
+    const strict = strict_ !== null && strict_ !== void 0 ? strict_ : false;
+    const pollEvent = ()=>{
+        const observerId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])([
+            'watchEvent',
+            address,
+            args,
+            batch,
+            client.uid,
+            event,
+            pollingInterval,
+            fromBlock
+        ]);
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$observe$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["observe"])(observerId, {
+            onLogs,
+            onError
+        }, (emit)=>{
+            let previousBlockNumber;
+            if (fromBlock !== undefined) previousBlockNumber = fromBlock - 1n;
+            let filter;
+            let initialized = false;
+            const unwatch = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$poll$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["poll"])(async ()=>{
+                if (!initialized) {
+                    try {
+                        filter = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$createEventFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createEventFilter"], 'createEventFilter')({
+                            address,
+                            args,
+                            event: event,
+                            events,
+                            strict,
+                            fromBlock
+                        });
+                    } catch (e) {}
+                    initialized = true;
+                    return;
+                }
+                try {
+                    let logs;
+                    if (filter) {
+                        logs = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getFilterChanges$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getFilterChanges"], 'getFilterChanges')({
+                            filter
+                        });
+                    } else {
+                        // If the filter doesn't exist, we will fall back to use `getLogs`.
+                        // The fall back exists because some RPC Providers do not support filters.
+                        // Fetch the block number to use for `getLogs`.
+                        const blockNumber = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlockNumber$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBlockNumber"], 'getBlockNumber')({});
+                        // If the block number has changed, we will need to fetch the logs.
+                        // If the block number doesn't exist, we are yet to reach the first poll interval,
+                        // so do not emit any logs.
+                        if (previousBlockNumber && previousBlockNumber !== blockNumber) {
+                            logs = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getLogs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getLogs"], 'getLogs')({
+                                address,
+                                args,
+                                event: event,
+                                events,
+                                fromBlock: previousBlockNumber + 1n,
+                                toBlock: blockNumber
+                            });
+                        } else {
+                            logs = [];
+                        }
+                        previousBlockNumber = blockNumber;
+                    }
+                    if (logs.length === 0) return;
+                    if (batch) emit.onLogs(logs);
+                    else for (const log of logs)emit.onLogs([
+                        log
+                    ]);
+                } catch (err) {
+                    var _emit_onError;
+                    // If a filter has been set and gets uninstalled, providers will throw an InvalidInput error.
+                    // Reinitialize the filter when this occurs
+                    if (filter && err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidInputRpcError"]) initialized = false;
+                    (_emit_onError = emit.onError) === null || _emit_onError === void 0 ? void 0 : _emit_onError.call(emit, err);
+                }
+            }, {
+                emitOnBegin: true,
+                interval: pollingInterval
+            });
+            return async ()=>{
+                if (filter) await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$uninstallFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["uninstallFilter"], 'uninstallFilter')({
+                    filter
+                });
+                unwatch();
+            };
+        });
+    };
+    const subscribeEvent = ()=>{
+        let active = true;
+        let unsubscribe = ()=>active = false;
+        (async ()=>{
+            try {
+                const transport = (()=>{
+                    if (client.transport.type === 'fallback') {
+                        const transport = client.transport.transports.find((transport)=>transport.config.type === 'webSocket' || transport.config.type === 'ipc');
+                        if (!transport) return client.transport;
+                        return transport.value;
+                    }
+                    return client.transport;
+                })();
+                const events_ = events !== null && events !== void 0 ? events : event ? [
+                    event
+                ] : undefined;
+                let topics = [];
+                if (events_) {
+                    const encoded = events_.flatMap((event)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$encodeEventTopics$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["encodeEventTopics"])({
+                            abi: [
+                                event
+                            ],
+                            eventName: event.name,
+                            args
+                        }));
+                    // TODO: Clean up type casting
+                    topics = [
+                        encoded
+                    ];
+                    if (event) topics = topics[0];
+                }
+                const { unsubscribe: unsubscribe_ } = await transport.subscribe({
+                    params: [
+                        'logs',
+                        {
+                            address,
+                            topics
+                        }
+                    ],
+                    onData (data) {
+                        if (!active) return;
+                        const log = data.result;
+                        try {
+                            const { eventName, args } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$abi$2f$decodeEventLog$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["decodeEventLog"])({
+                                abi: events_ !== null && events_ !== void 0 ? events_ : [],
+                                data: log.data,
+                                topics: log.topics,
+                                strict
+                            });
+                            const formatted = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$log$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatLog"])(log, {
+                                args,
+                                eventName
+                            });
+                            onLogs([
+                                formatted
+                            ]);
+                        } catch (err) {
+                            let eventName;
+                            let isUnnamed;
+                            if (err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DecodeLogDataMismatch"] || err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$abi$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DecodeLogTopicsMismatch"]) {
+                                var _err_abiItem_inputs;
+                                // If strict mode is on, and log data/topics do not match event definition, skip.
+                                if (strict_) return;
+                                eventName = err.abiItem.name;
+                                isUnnamed = (_err_abiItem_inputs = err.abiItem.inputs) === null || _err_abiItem_inputs === void 0 ? void 0 : _err_abiItem_inputs.some((x)=>!('name' in x && x.name));
+                            }
+                            // Set args to empty if there is an error decoding (e.g. indexed/non-indexed params mismatch).
+                            const formatted = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$log$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatLog"])(log, {
+                                args: isUnnamed ? [] : {},
+                                eventName
+                            });
+                            onLogs([
+                                formatted
+                            ]);
+                        }
+                    },
+                    onError (error) {
+                        onError === null || onError === void 0 ? void 0 : onError(error);
+                    }
+                });
+                unsubscribe = unsubscribe_;
+                if (!active) unsubscribe();
+            } catch (err) {
+                onError === null || onError === void 0 ? void 0 : onError(err);
+            }
+        })();
+        return ()=>unsubscribe();
+    };
+    return enablePolling ? pollEvent() : subscribeEvent();
+} //# sourceMappingURL=watchEvent.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/public/watchPendingTransactions.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "watchPendingTransactions",
+    ()=>watchPendingTransactions
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/getAction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$observe$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/observe.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$poll$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/poll.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/stringify.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$createPendingTransactionFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/createPendingTransactionFilter.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getFilterChanges$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getFilterChanges.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$uninstallFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/uninstallFilter.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+function watchPendingTransactions(client, param) {
+    let { batch = true, onError, onTransactions, poll: poll_, pollingInterval = client.pollingInterval } = param;
+    const enablePolling = typeof poll_ !== 'undefined' ? poll_ : client.transport.type !== 'webSocket' && client.transport.type !== 'ipc';
+    const pollPendingTransactions = ()=>{
+        const observerId = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])([
+            'watchPendingTransactions',
+            client.uid,
+            batch,
+            pollingInterval
+        ]);
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$observe$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["observe"])(observerId, {
+            onTransactions,
+            onError
+        }, (emit)=>{
+            let filter;
+            const unwatch = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$poll$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["poll"])(async ()=>{
+                try {
+                    if (!filter) {
+                        try {
+                            filter = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$createPendingTransactionFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createPendingTransactionFilter"], 'createPendingTransactionFilter')({});
+                            return;
+                        } catch (err) {
+                            unwatch();
+                            throw err;
+                        }
+                    }
+                    const hashes = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getFilterChanges$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getFilterChanges"], 'getFilterChanges')({
+                        filter
+                    });
+                    if (hashes.length === 0) return;
+                    if (batch) emit.onTransactions(hashes);
+                    else for (const hash of hashes)emit.onTransactions([
+                        hash
+                    ]);
+                } catch (err) {
+                    var _emit_onError;
+                    (_emit_onError = emit.onError) === null || _emit_onError === void 0 ? void 0 : _emit_onError.call(emit, err);
+                }
+            }, {
+                emitOnBegin: true,
+                interval: pollingInterval
+            });
+            return async ()=>{
+                if (filter) await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$getAction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAction"])(client, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$uninstallFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["uninstallFilter"], 'uninstallFilter')({
+                    filter
+                });
+                unwatch();
+            };
+        });
+    };
+    const subscribePendingTransactions = ()=>{
+        let active = true;
+        let unsubscribe = ()=>active = false;
+        (async ()=>{
+            try {
+                const { unsubscribe: unsubscribe_ } = await client.transport.subscribe({
+                    params: [
+                        'newPendingTransactions'
+                    ],
+                    onData (data) {
+                        if (!active) return;
+                        const transaction = data.result;
+                        onTransactions([
+                            transaction
+                        ]);
+                    },
+                    onError (error) {
+                        onError === null || onError === void 0 ? void 0 : onError(error);
+                    }
+                });
+                unsubscribe = unsubscribe_;
+                if (!active) unsubscribe();
+            } catch (err) {
+                onError === null || onError === void 0 ? void 0 : onError(err);
+            }
+        })();
+        return ()=>unsubscribe();
+    };
+    return enablePolling ? pollPendingTransactions() : subscribePendingTransactions();
+} //# sourceMappingURL=watchPendingTransactions.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/siwe/parseSiweMessage.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/**
+ * @description Parses EIP-4361 formatted message into message fields object.
+ *
+ * @see https://eips.ethereum.org/EIPS/eip-4361
+ *
+ * @returns EIP-4361 fields object
+ */ __turbopack_context__.s([
+    "parseSiweMessage",
+    ()=>parseSiweMessage
+]);
+function parseSiweMessage(message) {
+    var _message_match, _message_match1, _message_split_;
+    var _message_match_groups;
+    const { scheme, statement, ...prefix } = (_message_match_groups = (_message_match = message.match(prefixRegex)) === null || _message_match === void 0 ? void 0 : _message_match.groups) !== null && _message_match_groups !== void 0 ? _message_match_groups : {};
+    var _message_match_groups1;
+    const { chainId, expirationTime, issuedAt, notBefore, requestId, ...suffix } = (_message_match_groups1 = (_message_match1 = message.match(suffixRegex)) === null || _message_match1 === void 0 ? void 0 : _message_match1.groups) !== null && _message_match_groups1 !== void 0 ? _message_match_groups1 : {};
+    const resources = (_message_split_ = message.split('Resources:')[1]) === null || _message_split_ === void 0 ? void 0 : _message_split_.split('\n- ').slice(1);
+    return {
+        ...prefix,
+        ...suffix,
+        ...chainId ? {
+            chainId: Number(chainId)
+        } : {},
+        ...expirationTime ? {
+            expirationTime: new Date(expirationTime)
+        } : {},
+        ...issuedAt ? {
+            issuedAt: new Date(issuedAt)
+        } : {},
+        ...notBefore ? {
+            notBefore: new Date(notBefore)
+        } : {},
+        ...requestId ? {
+            requestId
+        } : {},
+        ...resources ? {
+            resources
+        } : {},
+        ...scheme ? {
+            scheme
+        } : {},
+        ...statement ? {
+            statement
+        } : {}
+    };
+}
+// https://regexr.com/80gdj
+const prefixRegex = RegExp("^(?:(?<scheme>[a-zA-Z][a-zA-Z0-9+-.]*):\\/\\/)?(?<domain>[a-zA-Z0-9+-.]*(?::[0-9]{1,5})?) (?:wants you to sign in with your Ethereum account:\\n)(?<address>0x[a-fA-F0-9]{40})\\n\\n(?:(?<statement>.*)\\n\\n)?");
+// https://regexr.com/80gf9
+const suffixRegex = RegExp("(?:URI: (?<uri>.+))\\n(?:Version: (?<version>.+))\\n(?:Chain ID: (?<chainId>\\d+))\\n(?:Nonce: (?<nonce>[a-zA-Z0-9]+))\\n(?:Issued At: (?<issuedAt>.+))(?:\\nExpiration Time: (?<expirationTime>.+))?(?:\\nNot Before: (?<notBefore>.+))?(?:\\nRequest ID: (?<requestId>.+))?"); //# sourceMappingURL=parseSiweMessage.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/siwe/validateSiweMessage.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "validateSiweMessage",
+    ()=>validateSiweMessage
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/address/isAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddressEqual$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/address/isAddressEqual.js [app-client] (ecmascript)");
+;
+;
+function validateSiweMessage(parameters) {
+    const { address, domain, message, nonce, scheme, time = new Date() } = parameters;
+    if (domain && message.domain !== domain) return false;
+    if (nonce && message.nonce !== nonce) return false;
+    if (scheme && message.scheme !== scheme) return false;
+    if (message.expirationTime && time >= message.expirationTime) return false;
+    if (message.notBefore && time < message.notBefore) return false;
+    try {
+        if (!message.address) return false;
+        if (!(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isAddress"])(message.address, {
+            strict: false
+        })) return false;
+        if (address && !(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$address$2f$isAddressEqual$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["isAddressEqual"])(message.address, address)) return false;
+    } catch (e) {
+        return false;
+    }
+    return true;
+} //# sourceMappingURL=validateSiweMessage.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/siwe/verifySiweMessage.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "verifySiweMessage",
+    ()=>verifySiweMessage
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$signature$2f$hashMessage$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/signature/hashMessage.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$siwe$2f$parseSiweMessage$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/siwe/parseSiweMessage.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$siwe$2f$validateSiweMessage$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/siwe/validateSiweMessage.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$verifyHash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/verifyHash.js [app-client] (ecmascript)");
+;
+;
+;
+;
+async function verifySiweMessage(client, parameters) {
+    const { address, domain, message, nonce, scheme, signature, time = new Date(), ...callRequest } = parameters;
+    const parsed = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$siwe$2f$parseSiweMessage$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseSiweMessage"])(message);
+    if (!parsed.address) return false;
+    const isValid = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$siwe$2f$validateSiweMessage$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["validateSiweMessage"])({
+        address,
+        domain,
+        message: parsed,
+        nonce,
+        scheme,
+        time
+    });
+    if (!isValid) return false;
+    const hash = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$signature$2f$hashMessage$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["hashMessage"])(message);
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$verifyHash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["verifyHash"])(client, {
+        address: parsed.address,
+        hash,
+        signature,
+        ...callRequest
+    });
+} //# sourceMappingURL=verifySiweMessage.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/wallet/sendRawTransaction.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/**
+ * Sends a **signed** transaction to the network
+ *
+ * - Docs: https://viem.sh/docs/actions/wallet/sendRawTransaction
+ * - JSON-RPC Method: [`eth_sendRawTransaction`](https://ethereum.github.io/execution-apis/api-documentation/)
+ *
+ * @param client - Client to use
+ * @param parameters - {@link SendRawTransactionParameters}
+ * @returns The transaction hash. {@link SendRawTransactionReturnType}
+ *
+ * @example
+ * import { createWalletClient, custom } from 'viem'
+ * import { mainnet } from 'viem/chains'
+ * import { sendRawTransaction } from 'viem/wallet'
+ *
+ * const client = createWalletClient({
+ *   chain: mainnet,
+ *   transport: custom(window.ethereum),
+ * })
+ *
+ * const hash = await sendRawTransaction(client, {
+ *   serializedTransaction: '0x02f850018203118080825208808080c080a04012522854168b27e5dc3d5839bab5e6b39e1a0ffd343901ce1622e3d64b48f1a04e00902ae0502c4728cbf12156290df99c3ed7de85b1dbfe20b5c36931733a33'
+ * })
+ */ __turbopack_context__.s([
+    "sendRawTransaction",
+    ()=>sendRawTransaction
+]);
+async function sendRawTransaction(client, param) {
+    let { serializedTransaction } = param;
+    return client.request({
+        method: 'eth_sendRawTransaction',
+        params: [
+            serializedTransaction
+        ]
+    }, {
+        retryCount: 0
+    });
+} //# sourceMappingURL=sendRawTransaction.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/wallet/sendRawTransactionSync.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "sendRawTransactionSync",
+    ()=>sendRawTransactionSync
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/transaction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transactionReceipt$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/formatters/transactionReceipt.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+;
+;
+;
+async function sendRawTransactionSync(client, param) {
+    let { serializedTransaction, throwOnReceiptRevert, timeout } = param;
+    var _client_chain_formatters_transactionReceipt, _client_chain_formatters, _client_chain;
+    const receipt = await client.request({
+        method: 'eth_sendRawTransactionSync',
+        params: timeout ? [
+            serializedTransaction,
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["numberToHex"])(timeout)
+        ] : [
+            serializedTransaction
+        ]
+    }, {
+        retryCount: 0
+    });
+    const format = ((_client_chain = client.chain) === null || _client_chain === void 0 ? void 0 : (_client_chain_formatters = _client_chain.formatters) === null || _client_chain_formatters === void 0 ? void 0 : (_client_chain_formatters_transactionReceipt = _client_chain_formatters.transactionReceipt) === null || _client_chain_formatters_transactionReceipt === void 0 ? void 0 : _client_chain_formatters_transactionReceipt.format) || __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$formatters$2f$transactionReceipt$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["formatTransactionReceipt"];
+    const formatted = format(receipt);
+    if (formatted.status === 'reverted' && throwOnReceiptRevert) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TransactionReceiptRevertedError"]({
+        receipt: formatted
+    });
+    return formatted;
+} //# sourceMappingURL=sendRawTransactionSync.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/clients/decorators/public.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "publicActions",
+    ()=>publicActions
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$ens$2f$getEnsAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/ens/getEnsAddress.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$ens$2f$getEnsAvatar$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/ens/getEnsAvatar.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$ens$2f$getEnsName$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/ens/getEnsName.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$ens$2f$getEnsResolver$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/ens/getEnsResolver.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$ens$2f$getEnsText$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/ens/getEnsText.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$call$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/call.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$createAccessList$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/createAccessList.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$createBlockFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/createBlockFilter.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$createContractEventFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/createContractEventFilter.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$createEventFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/createEventFilter.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$createPendingTransactionFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/createPendingTransactionFilter.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$estimateContractGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/estimateContractGas.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$estimateFeesPerGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/estimateFeesPerGas.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$estimateGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/estimateGas.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$estimateMaxPriorityFeePerGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/estimateMaxPriorityFeePerGas.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$fillTransaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/fillTransaction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBalance$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getBalance.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlobBaseFee$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getBlobBaseFee.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getBlock.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlockNumber$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getBlockNumber.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlockTransactionCount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getBlockTransactionCount.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getChainId$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getChainId.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getCode$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getCode.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getContractEvents$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getContractEvents.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getEip712Domain$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getEip712Domain.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getFeeHistory$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getFeeHistory.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getFilterChanges$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getFilterChanges.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getFilterLogs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getFilterLogs.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getGasPrice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getGasPrice.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getLogs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getLogs.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getProof$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getProof.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getStorageAt$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getStorageAt.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getTransaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getTransaction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getTransactionConfirmations$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getTransactionConfirmations.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getTransactionCount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getTransactionCount.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getTransactionReceipt$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/getTransactionReceipt.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$multicall$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/multicall.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/readContract.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$simulateBlocks$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/simulateBlocks.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$simulateCalls$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/simulateCalls.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$simulateContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/simulateContract.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$uninstallFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/uninstallFilter.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$verifyHash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/verifyHash.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$verifyMessage$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/verifyMessage.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$verifyTypedData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/verifyTypedData.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$waitForTransactionReceipt$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/waitForTransactionReceipt.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$watchBlockNumber$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/watchBlockNumber.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$watchBlocks$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/watchBlocks.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$watchContractEvent$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/watchContractEvent.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$watchEvent$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/watchEvent.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$watchPendingTransactions$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/public/watchPendingTransactions.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$siwe$2f$verifySiweMessage$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/siwe/verifySiweMessage.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$wallet$2f$prepareTransactionRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/wallet/prepareTransactionRequest.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$wallet$2f$sendRawTransaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/wallet/sendRawTransaction.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$wallet$2f$sendRawTransactionSync$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/actions/wallet/sendRawTransactionSync.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+function publicActions(client) {
+    return {
+        call: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$call$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["call"])(client, args),
+        createAccessList: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$createAccessList$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createAccessList"])(client, args),
+        createBlockFilter: ()=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$createBlockFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createBlockFilter"])(client),
+        createContractEventFilter: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$createContractEventFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createContractEventFilter"])(client, args),
+        createEventFilter: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$createEventFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createEventFilter"])(client, args),
+        createPendingTransactionFilter: ()=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$createPendingTransactionFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createPendingTransactionFilter"])(client),
+        estimateContractGas: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$estimateContractGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["estimateContractGas"])(client, args),
+        estimateGas: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$estimateGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["estimateGas"])(client, args),
+        getBalance: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBalance$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBalance"])(client, args),
+        getBlobBaseFee: ()=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlobBaseFee$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBlobBaseFee"])(client),
+        getBlock: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBlock"])(client, args),
+        getBlockNumber: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlockNumber$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBlockNumber"])(client, args),
+        getBlockTransactionCount: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getBlockTransactionCount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getBlockTransactionCount"])(client, args),
+        getBytecode: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getCode$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getCode"])(client, args),
+        getChainId: ()=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getChainId$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getChainId"])(client),
+        getCode: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getCode$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getCode"])(client, args),
+        getContractEvents: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getContractEvents$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getContractEvents"])(client, args),
+        getEip712Domain: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getEip712Domain$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getEip712Domain"])(client, args),
+        getEnsAddress: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$ens$2f$getEnsAddress$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getEnsAddress"])(client, args),
+        getEnsAvatar: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$ens$2f$getEnsAvatar$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getEnsAvatar"])(client, args),
+        getEnsName: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$ens$2f$getEnsName$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getEnsName"])(client, args),
+        getEnsResolver: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$ens$2f$getEnsResolver$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getEnsResolver"])(client, args),
+        getEnsText: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$ens$2f$getEnsText$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getEnsText"])(client, args),
+        getFeeHistory: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getFeeHistory$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getFeeHistory"])(client, args),
+        estimateFeesPerGas: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$estimateFeesPerGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["estimateFeesPerGas"])(client, args),
+        getFilterChanges: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getFilterChanges$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getFilterChanges"])(client, args),
+        getFilterLogs: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getFilterLogs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getFilterLogs"])(client, args),
+        getGasPrice: ()=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getGasPrice$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getGasPrice"])(client),
+        getLogs: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getLogs$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getLogs"])(client, args),
+        getProof: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getProof$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getProof"])(client, args),
+        estimateMaxPriorityFeePerGas: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$estimateMaxPriorityFeePerGas$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["estimateMaxPriorityFeePerGas"])(client, args),
+        fillTransaction: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$fillTransaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["fillTransaction"])(client, args),
+        getStorageAt: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getStorageAt$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getStorageAt"])(client, args),
+        getTransaction: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getTransaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getTransaction"])(client, args),
+        getTransactionConfirmations: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getTransactionConfirmations$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getTransactionConfirmations"])(client, args),
+        getTransactionCount: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getTransactionCount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getTransactionCount"])(client, args),
+        getTransactionReceipt: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$getTransactionReceipt$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getTransactionReceipt"])(client, args),
+        multicall: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$multicall$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["multicall"])(client, args),
+        prepareTransactionRequest: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$wallet$2f$prepareTransactionRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["prepareTransactionRequest"])(client, args),
+        readContract: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$readContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["readContract"])(client, args),
+        sendRawTransaction: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$wallet$2f$sendRawTransaction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["sendRawTransaction"])(client, args),
+        sendRawTransactionSync: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$wallet$2f$sendRawTransactionSync$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["sendRawTransactionSync"])(client, args),
+        simulate: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$simulateBlocks$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["simulateBlocks"])(client, args),
+        simulateBlocks: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$simulateBlocks$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["simulateBlocks"])(client, args),
+        simulateCalls: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$simulateCalls$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["simulateCalls"])(client, args),
+        simulateContract: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$simulateContract$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["simulateContract"])(client, args),
+        verifyHash: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$verifyHash$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["verifyHash"])(client, args),
+        verifyMessage: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$verifyMessage$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["verifyMessage"])(client, args),
+        verifySiweMessage: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$siwe$2f$verifySiweMessage$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["verifySiweMessage"])(client, args),
+        verifyTypedData: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$verifyTypedData$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["verifyTypedData"])(client, args),
+        uninstallFilter: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$uninstallFilter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["uninstallFilter"])(client, args),
+        waitForTransactionReceipt: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$waitForTransactionReceipt$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["waitForTransactionReceipt"])(client, args),
+        watchBlocks: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$watchBlocks$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["watchBlocks"])(client, args),
+        watchBlockNumber: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$watchBlockNumber$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["watchBlockNumber"])(client, args),
+        watchContractEvent: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$watchContractEvent$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["watchContractEvent"])(client, args),
+        watchEvent: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$watchEvent$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["watchEvent"])(client, args),
+        watchPendingTransactions: (args)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$actions$2f$public$2f$watchPendingTransactions$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["watchPendingTransactions"])(client, args)
+    };
+} //# sourceMappingURL=public.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/account.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "AccountNotFoundError",
+    ()=>AccountNotFoundError,
+    "AccountTypeNotSupportedError",
+    ()=>AccountTypeNotSupportedError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+class AccountNotFoundError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ docsPath } = {}){
+        super([
+            'Could not find an Account to execute with this Action.',
+            'Please provide an Account with the `account` argument on the Action, or by supplying an `account` to the Client.'
+        ].join('\n'), {
+            docsPath,
+            docsSlug: 'account',
+            name: 'AccountNotFoundError'
+        });
+    }
+}
+class AccountTypeNotSupportedError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor({ docsPath, metaMessages, type }){
+        super('Account type "'.concat(type, '" is not supported.'), {
+            docsPath,
+            metaMessages,
+            name: 'AccountTypeNotSupportedError'
+        });
+    }
+} //# sourceMappingURL=account.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/actions/wallet/signMessage.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "signMessage",
+    ()=>signMessage
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/accounts/utils/parseAccount.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$account$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/account.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+;
+;
+;
+async function signMessage(client, param) {
+    let { account: account_ = client.account, message } = param;
+    if (!account_) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$account$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AccountNotFoundError"]({
+        docsPath: '/docs/actions/wallet/signMessage'
+    });
+    const account = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAccount"])(account_);
+    if (account.signMessage) return account.signMessage({
+        message
+    });
+    const message_ = (()=>{
+        if (typeof message === 'string') return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringToHex"])(message);
+        if (message.raw instanceof Uint8Array) return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toHex"])(message.raw);
+        return message.raw;
+    })();
+    return client.request({
+        method: 'personal_sign',
+        params: [
+            message_,
+            account.address
+        ]
+    }, {
+        retryCount: 0
+    });
+} //# sourceMappingURL=signMessage.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/uid.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "uid",
+    ()=>uid
+]);
+const size = 256;
+let index = size;
+let buffer;
+function uid() {
+    let length = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 11;
+    if (!buffer || index + length > size * 2) {
+        buffer = '';
+        index = 0;
+        for(let i = 0; i < size; i++){
+            buffer += (256 + Math.random() * 256 | 0).toString(16).substring(1);
+        }
+    }
+    return buffer.substring(index, index++ + length);
+} //# sourceMappingURL=uid.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/clients/createClient.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "createClient",
+    ()=>createClient,
+    "rpcSchema",
+    ()=>rpcSchema
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/accounts/utils/parseAccount.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$uid$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/uid.js [app-client] (ecmascript)");
+;
+;
+function createClient(parameters) {
+    const { batch, chain, ccipRead, key = 'base', name = 'Base Client', type = 'base' } = parameters;
+    var _parameters_experimental_blockTag;
+    const experimental_blockTag = (_parameters_experimental_blockTag = parameters.experimental_blockTag) !== null && _parameters_experimental_blockTag !== void 0 ? _parameters_experimental_blockTag : typeof (chain === null || chain === void 0 ? void 0 : chain.experimental_preconfirmationTime) === 'number' ? 'pending' : undefined;
+    var _chain_blockTime;
+    const blockTime = (_chain_blockTime = chain === null || chain === void 0 ? void 0 : chain.blockTime) !== null && _chain_blockTime !== void 0 ? _chain_blockTime : 12_000;
+    const defaultPollingInterval = Math.min(Math.max(Math.floor(blockTime / 2), 500), 4_000);
+    var _parameters_pollingInterval;
+    const pollingInterval = (_parameters_pollingInterval = parameters.pollingInterval) !== null && _parameters_pollingInterval !== void 0 ? _parameters_pollingInterval : defaultPollingInterval;
+    var _parameters_cacheTime;
+    const cacheTime = (_parameters_cacheTime = parameters.cacheTime) !== null && _parameters_cacheTime !== void 0 ? _parameters_cacheTime : pollingInterval;
+    const account = parameters.account ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$accounts$2f$utils$2f$parseAccount$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseAccount"])(parameters.account) : undefined;
+    const { config, request, value } = parameters.transport({
+        account,
+        chain,
+        pollingInterval
+    });
+    const transport = {
+        ...config,
+        ...value
+    };
+    const client = {
+        account,
+        batch,
+        cacheTime,
+        ccipRead,
+        chain,
+        key,
+        name,
+        pollingInterval,
+        request,
+        transport,
+        type,
+        uid: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$uid$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["uid"])(),
+        ...experimental_blockTag ? {
+            experimental_blockTag
+        } : {}
+    };
+    function extend(base) {
+        return (extendFn)=>{
+            const extended = extendFn(base);
+            for(const key in client)delete extended[key];
+            const combined = {
+                ...base,
+                ...extended
+            };
+            return Object.assign(combined, {
+                extend: extend(combined)
+            });
+        };
+    }
+    return Object.assign(client, {
+        extend: extend(client)
+    });
+}
+function rpcSchema() {
+    return null;
+} //# sourceMappingURL=createClient.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/promise/withDedupe.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "promiseCache",
+    ()=>promiseCache,
+    "withDedupe",
+    ()=>withDedupe
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$lru$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/lru.js [app-client] (ecmascript)");
+;
+const promiseCache = /*#__PURE__*/ new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$lru$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LruMap"](8192);
+function withDedupe(fn, param) {
+    let { enabled = true, id } = param;
+    if (!enabled || !id) return fn();
+    if (promiseCache.get(id)) return promiseCache.get(id);
+    const promise = fn().finally(()=>promiseCache.delete(id));
+    promiseCache.set(id, promise);
+    return promise;
+} //# sourceMappingURL=withDedupe.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/buildRequest.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "buildRequest",
+    ()=>buildRequest,
+    "shouldRetry",
+    ()=>shouldRetry
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$request$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/request.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/rpc.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/encoding/toHex.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$withDedupe$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/promise/withDedupe.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$withRetry$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/promise/withRetry.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/stringify.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+;
+;
+function buildRequest(request) {
+    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    return async function(args) {
+        let overrideOptions = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+        var _methods_exclude;
+        const { dedupe = false, methods, retryDelay = 150, retryCount = 3, uid } = {
+            ...options,
+            ...overrideOptions
+        };
+        const { method } = args;
+        if (methods === null || methods === void 0 ? void 0 : (_methods_exclude = methods.exclude) === null || _methods_exclude === void 0 ? void 0 : _methods_exclude.includes(method)) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MethodNotSupportedRpcError"](new Error('method not supported'), {
+            method
+        });
+        if ((methods === null || methods === void 0 ? void 0 : methods.include) && !methods.include.includes(method)) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MethodNotSupportedRpcError"](new Error('method not supported'), {
+            method
+        });
+        const requestId = dedupe ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$encoding$2f$toHex$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringToHex"])("".concat(uid, ".").concat((0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])(args))) : undefined;
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$withDedupe$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["withDedupe"])(()=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$withRetry$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["withRetry"])(async ()=>{
+                try {
+                    return await request(args);
+                } catch (err_) {
+                    const err = err_;
+                    switch(err.code){
+                        // -32700
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ParseRpcError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ParseRpcError"](err);
+                        // -32600
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidRequestRpcError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidRequestRpcError"](err);
+                        // -32601
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MethodNotFoundRpcError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MethodNotFoundRpcError"](err, {
+                                method: args.method
+                            });
+                        // -32602
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidParamsRpcError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidParamsRpcError"](err);
+                        // -32603
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InternalRpcError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InternalRpcError"](err);
+                        // -32000
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidInputRpcError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InvalidInputRpcError"](err);
+                        // -32001
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ResourceNotFoundRpcError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ResourceNotFoundRpcError"](err);
+                        // -32002
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ResourceUnavailableRpcError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ResourceUnavailableRpcError"](err);
+                        // -32003
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TransactionRejectedRpcError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TransactionRejectedRpcError"](err);
+                        // -32004
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MethodNotSupportedRpcError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MethodNotSupportedRpcError"](err, {
+                                method: args.method
+                            });
+                        // -32005
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LimitExceededRpcError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LimitExceededRpcError"](err);
+                        // -32006
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["JsonRpcVersionUnsupportedError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["JsonRpcVersionUnsupportedError"](err);
+                        // 4001
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UserRejectedRequestError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UserRejectedRequestError"](err);
+                        // 4100
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UnauthorizedProviderError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UnauthorizedProviderError"](err);
+                        // 4200
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UnsupportedProviderMethodError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UnsupportedProviderMethodError"](err);
+                        // 4900
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ProviderDisconnectedError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ProviderDisconnectedError"](err);
+                        // 4901
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ChainDisconnectedError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ChainDisconnectedError"](err);
+                        // 4902
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SwitchChainError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SwitchChainError"](err);
+                        // 5700
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UnsupportedNonOptionalCapabilityError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UnsupportedNonOptionalCapabilityError"](err);
+                        // 5710
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UnsupportedChainIdError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UnsupportedChainIdError"](err);
+                        // 5720
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DuplicateIdError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DuplicateIdError"](err);
+                        // 5730
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UnknownBundleIdError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UnknownBundleIdError"](err);
+                        // 5740
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BundleTooLargeError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BundleTooLargeError"](err);
+                        // 5750
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AtomicReadyWalletRejectedUpgradeError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AtomicReadyWalletRejectedUpgradeError"](err);
+                        // 5760
+                        case __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AtomicityNotSupportedError"].code:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AtomicityNotSupportedError"](err);
+                        // CAIP-25: User Rejected Error
+                        // https://docs.walletconnect.com/2.0/specs/clients/sign/error-codes#rejected-caip-25
+                        case 5000:
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UserRejectedRequestError"](err);
+                        default:
+                            if (err_ instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"]) throw err_;
+                            throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UnknownRpcError"](err);
+                    }
+                }
+            }, {
+                delay: (param)=>{
+                    let { count, error } = param;
+                    // If we find a Retry-After header, let's retry after the given time.
+                    if (error && error instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$request$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["HttpRequestError"]) {
+                        var _error_headers;
+                        const retryAfter = error === null || error === void 0 ? void 0 : (_error_headers = error.headers) === null || _error_headers === void 0 ? void 0 : _error_headers.get('Retry-After');
+                        if (retryAfter === null || retryAfter === void 0 ? void 0 : retryAfter.match(/\d/)) return Number.parseInt(retryAfter, 10) * 1000;
+                    }
+                    // Otherwise, let's retry with an exponential backoff.
+                    return ~~(1 << count) * retryDelay;
+                },
+                retryCount,
+                shouldRetry: (param)=>{
+                    let { error } = param;
+                    return shouldRetry(error);
+                }
+            }), {
+            enabled: dedupe,
+            id: requestId
+        });
+    };
+}
+function shouldRetry(error) {
+    if ('code' in error && typeof error.code === 'number') {
+        if (error.code === -1) return true; // Unknown error
+        if (error.code === __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LimitExceededRpcError"].code) return true;
+        if (error.code === __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$rpc$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["InternalRpcError"].code) return true;
+        return false;
+    }
+    if (error instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$request$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["HttpRequestError"] && error.status) {
+        // Forbidden
+        if (error.status === 403) return true;
+        // Request Timeout
+        if (error.status === 408) return true;
+        // Request Entity Too Large
+        if (error.status === 413) return true;
+        // Too Many Requests
+        if (error.status === 429) return true;
+        // Internal Server Error
+        if (error.status === 500) return true;
+        // Bad Gateway
+        if (error.status === 502) return true;
+        // Service Unavailable
+        if (error.status === 503) return true;
+        // Gateway Timeout
+        if (error.status === 504) return true;
+        return false;
+    }
+    return true;
+} //# sourceMappingURL=buildRequest.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/clients/transports/createTransport.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "createTransport",
+    ()=>createTransport
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$buildRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/buildRequest.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$uid$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/uid.js [app-client] (ecmascript)");
+;
+;
+function createTransport(param, value) {
+    let { key, methods, name, request, retryCount = 3, retryDelay = 150, timeout, type } = param;
+    const uid = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$uid$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["uid"])();
+    return {
+        config: {
+            key,
+            methods,
+            name,
+            request,
+            retryCount,
+            retryDelay,
+            timeout,
+            type
+        },
+        request: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$buildRequest$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["buildRequest"])(request, {
+            methods,
+            retryCount,
+            retryDelay,
+            uid
+        }),
+        value
+    };
+} //# sourceMappingURL=createTransport.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/clients/transports/custom.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "custom",
+    ()=>custom
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$clients$2f$transports$2f$createTransport$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/clients/transports/createTransport.js [app-client] (ecmascript)");
+;
+function custom(provider) {
+    let config = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    const { key = 'custom', methods, name = 'Custom Provider', retryDelay } = config;
+    return (param)=>{
+        let { retryCount: defaultRetryCount } = param;
+        var _config_retryCount;
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$clients$2f$transports$2f$createTransport$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createTransport"])({
+            key,
+            methods,
+            name,
+            request: provider.request.bind(provider),
+            retryCount: (_config_retryCount = config.retryCount) !== null && _config_retryCount !== void 0 ? _config_retryCount : defaultRetryCount,
+            retryDelay,
+            type: 'custom'
+        });
+    };
+} //# sourceMappingURL=custom.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/errors/transport.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "UrlRequiredError",
+    ()=>UrlRequiredError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/base.js [app-client] (ecmascript)");
+;
+class UrlRequiredError extends __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$base$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BaseError"] {
+    constructor(){
+        super('No URL was provided to the Transport. Please provide a valid RPC URL to the Transport.', {
+            docsPath: '/docs/clients/intro',
+            name: 'UrlRequiredError'
+        });
+    }
+} //# sourceMappingURL=transport.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/promise/withTimeout.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "withTimeout",
+    ()=>withTimeout
+]);
+function withTimeout(fn, param) {
+    let { errorInstance = new Error('timed out'), timeout, signal } = param;
+    return new Promise((resolve, reject)=>{
+        ;
+        (async ()=>{
+            let timeoutId;
+            try {
+                const controller = new AbortController();
+                if (timeout > 0) {
+                    timeoutId = setTimeout(()=>{
+                        if (signal) {
+                            controller.abort();
+                        } else {
+                            reject(errorInstance);
+                        }
+                    }, timeout); // need to cast because bun globals.d.ts overrides @types/node
+                }
+                resolve(await fn({
+                    signal: (controller === null || controller === void 0 ? void 0 : controller.signal) || null
+                }));
+            } catch (err) {
+                if ((err === null || err === void 0 ? void 0 : err.name) === 'AbortError') reject(errorInstance);
+                reject(err);
+            } finally{
+                clearTimeout(timeoutId);
+            }
+        })();
+    });
+} //# sourceMappingURL=withTimeout.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/rpc/id.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "idCache",
+    ()=>idCache
+]);
+function createIdStore() {
+    return {
+        current: 0,
+        take () {
+            return this.current++;
+        },
+        reset () {
+            this.current = 0;
+        }
+    };
+}
+const idCache = /*#__PURE__*/ createIdStore(); //# sourceMappingURL=id.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/utils/rpc/http.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getHttpRpcClient",
+    ()=>getHttpRpcClient
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$request$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/request.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$withTimeout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/promise/withTimeout.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/stringify.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$rpc$2f$id$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/rpc/id.js [app-client] (ecmascript)");
+;
+;
+;
+;
+function getHttpRpcClient(url) {
+    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    return {
+        async request (params) {
+            var _options_fetchFn, _options_timeout;
+            const { body, fetchFn = (_options_fetchFn = options.fetchFn) !== null && _options_fetchFn !== void 0 ? _options_fetchFn : fetch, onRequest = options.onRequest, onResponse = options.onResponse, timeout = (_options_timeout = options.timeout) !== null && _options_timeout !== void 0 ? _options_timeout : 10_000 } = params;
+            var _options_fetchOptions, _params_fetchOptions;
+            const fetchOptions = {
+                ...(_options_fetchOptions = options.fetchOptions) !== null && _options_fetchOptions !== void 0 ? _options_fetchOptions : {},
+                ...(_params_fetchOptions = params.fetchOptions) !== null && _params_fetchOptions !== void 0 ? _params_fetchOptions : {}
+            };
+            const { headers, method, signal: signal_ } = fetchOptions;
+            try {
+                var _response_headers_get;
+                const response = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$withTimeout$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["withTimeout"])(async (param)=>{
+                    let { signal } = param;
+                    var _body_id;
+                    const init = {
+                        ...fetchOptions,
+                        body: Array.isArray(body) ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])(body.map((body)=>{
+                            var _body_id;
+                            return {
+                                jsonrpc: '2.0',
+                                id: (_body_id = body.id) !== null && _body_id !== void 0 ? _body_id : __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$rpc$2f$id$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["idCache"].take(),
+                                ...body
+                            };
+                        })) : (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])({
+                            jsonrpc: '2.0',
+                            id: (_body_id = body.id) !== null && _body_id !== void 0 ? _body_id : __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$rpc$2f$id$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["idCache"].take(),
+                            ...body
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            ...headers
+                        },
+                        method: method || 'POST',
+                        signal: signal_ || (timeout > 0 ? signal : null)
+                    };
+                    const request = new Request(url, init);
+                    var _ref;
+                    const args = (_ref = await (onRequest === null || onRequest === void 0 ? void 0 : onRequest(request, init))) !== null && _ref !== void 0 ? _ref : {
+                        ...init,
+                        url
+                    };
+                    var _args_url;
+                    const response = await fetchFn((_args_url = args.url) !== null && _args_url !== void 0 ? _args_url : url, args);
+                    return response;
+                }, {
+                    errorInstance: new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$request$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TimeoutError"]({
+                        body,
+                        url
+                    }),
+                    timeout,
+                    signal: true
+                });
+                if (onResponse) await onResponse(response);
+                let data;
+                if ((_response_headers_get = response.headers.get('Content-Type')) === null || _response_headers_get === void 0 ? void 0 : _response_headers_get.startsWith('application/json')) data = await response.json();
+                else {
+                    data = await response.text();
+                    try {
+                        data = JSON.parse(data || '{}');
+                    } catch (err) {
+                        if (response.ok) throw err;
+                        data = {
+                            error: data
+                        };
+                    }
+                }
+                if (!response.ok) {
+                    throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$request$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["HttpRequestError"]({
+                        body,
+                        details: (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$stringify$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["stringify"])(data.error) || response.statusText,
+                        headers: response.headers,
+                        status: response.status,
+                        url
+                    });
+                }
+                return data;
+            } catch (err) {
+                if (err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$request$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["HttpRequestError"]) throw err;
+                if (err instanceof __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$request$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TimeoutError"]) throw err;
+                throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$request$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["HttpRequestError"]({
+                    body,
+                    cause: err,
+                    url
+                });
+            }
+        }
+    };
+} //# sourceMappingURL=http.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/clients/transports/http.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "http",
+    ()=>http
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$request$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/request.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transport$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/errors/transport.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$createBatchScheduler$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/promise/createBatchScheduler.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$rpc$2f$http$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/rpc/http.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$clients$2f$transports$2f$createTransport$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/clients/transports/createTransport.js [app-client] (ecmascript)");
+;
+;
+;
+;
+;
+function http(/** URL of the JSON-RPC API. Defaults to the chain's public RPC URL. */ url) {
+    let config = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    const { batch, fetchFn, fetchOptions, key = 'http', methods, name = 'HTTP JSON-RPC', onFetchRequest, onFetchResponse, retryDelay, raw } = config;
+    return (param)=>{
+        let { chain, retryCount: retryCount_, timeout: timeout_ } = param;
+        const { batchSize = 1000, wait = 0 } = typeof batch === 'object' ? batch : {};
+        var _config_retryCount;
+        const retryCount = (_config_retryCount = config.retryCount) !== null && _config_retryCount !== void 0 ? _config_retryCount : retryCount_;
+        var _ref;
+        const timeout = (_ref = timeout_ !== null && timeout_ !== void 0 ? timeout_ : config.timeout) !== null && _ref !== void 0 ? _ref : 10_000;
+        const url_ = url || (chain === null || chain === void 0 ? void 0 : chain.rpcUrls.default.http[0]);
+        if (!url_) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$transport$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["UrlRequiredError"]();
+        const rpcClient = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$rpc$2f$http$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getHttpRpcClient"])(url_, {
+            fetchFn,
+            fetchOptions,
+            onRequest: onFetchRequest,
+            onResponse: onFetchResponse,
+            timeout
+        });
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$clients$2f$transports$2f$createTransport$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createTransport"])({
+            key,
+            methods,
+            name,
+            async request (param) {
+                let { method, params } = param;
+                const body = {
+                    method,
+                    params
+                };
+                const { schedule } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$promise$2f$createBatchScheduler$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createBatchScheduler"])({
+                    id: url_,
+                    wait,
+                    shouldSplitBatch (requests) {
+                        return requests.length > batchSize;
+                    },
+                    fn: (body)=>rpcClient.request({
+                            body
+                        }),
+                    sort: (a, b)=>a.id - b.id
+                });
+                const fn = async (body)=>batch ? schedule(body) : [
+                        await rpcClient.request({
+                            body
+                        })
+                    ];
+                const [{ error, result }] = await fn(body);
+                if (raw) return {
+                    error,
+                    result
+                };
+                if (error) throw new __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$errors$2f$request$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RpcRequestError"]({
+                    body,
+                    error,
+                    url: url_
+                });
+                return result;
+            },
+            retryCount,
+            retryDelay,
+            timeout,
+            type: 'http'
+        }, {
+            fetchOptions,
+            url: url_
+        });
+    };
+} //# sourceMappingURL=http.js.map
+}),
+"[project]/giftpicker/node_modules/viem/_esm/chains/definitions/sepolia.js [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "sepolia",
+    ()=>sepolia
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$chain$2f$defineChain$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/giftpicker/node_modules/viem/_esm/utils/chain/defineChain.js [app-client] (ecmascript)");
+;
+const sepolia = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$giftpicker$2f$node_modules$2f$viem$2f$_esm$2f$utils$2f$chain$2f$defineChain$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["defineChain"])({
+    id: 11_155_111,
+    name: 'Sepolia',
+    nativeCurrency: {
+        name: 'Sepolia Ether',
+        symbol: 'ETH',
+        decimals: 18
+    },
+    rpcUrls: {
+        default: {
+            http: [
+                'https://11155111.rpc.thirdweb.com'
+            ]
+        }
+    },
+    blockExplorers: {
+        default: {
+            name: 'Etherscan',
+            url: 'https://sepolia.etherscan.io',
+            apiUrl: 'https://api-sepolia.etherscan.io/api'
+        }
+    },
+    contracts: {
+        multicall3: {
+            address: '0xca11bde05977b3631167028862be2a173976ca11',
+            blockCreated: 751532
+        },
+        ensUniversalResolver: {
+            address: '0xeeeeeeee14d718c2b47d9923deab1335e144eeee',
+            blockCreated: 8_928_790
+        }
+    },
+    testnet: true
+}); //# sourceMappingURL=sepolia.js.map
+}),
+]);
+
+//# sourceMappingURL=50ead_viem__esm_3ef29bd4._.js.map

@@ -1,0 +1,31 @@
+{
+  "pages": {
+    "/page": [
+      "static/chunks/50ead_next_dist_83d4b917._.js",
+      "static/chunks/giftpicker_app_favicon_ico_mjs_31e5681b._.js",
+      "static/chunks/[root-of-the-server]__261d66e5._.css",
+      "static/chunks/50ead_9baecb4a._.js",
+      "static/chunks/50ead_@wagmi_core_dist_esm_c46ce22d._.js",
+      "static/chunks/50ead_@tanstack_query-core_build_modern_8a794c9a._.js",
+      "static/chunks/50ead_@rainbow-me_rainbowkit_dist_d2cab0cb._.js",
+      "static/chunks/50ead_viem__esm_3ef29bd4._.js",
+      "static/chunks/50ead_@noble_curves_esm_12f5f0ee._.js",
+      "static/chunks/50ead_ox__esm_3a0a1d91._.js",
+      "static/chunks/50ead_c4b8ef67._.js",
+      "static/chunks/giftpicker_a9227750._.js",
+      "static/chunks/giftpicker_app_layout_tsx_98c317f0._.js",
+      "static/chunks/50ead_next_dist_client_components_builtin_global-error_2c6362f9.js",
+      "static/chunks/giftpicker_c511779f._.js",
+      "static/chunks/giftpicker_app_page_tsx_2c6362f9._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_5b840c3c._.js",
+      "static/chunks/50ead_next_dist_compiled_react-dom_10d17020._.js",
+      "static/chunks/50ead_next_dist_compiled_next-devtools_index_925d3819.js",
+      "static/chunks/50ead_next_dist_compiled_a288feb0._.js",
+      "static/chunks/50ead_next_dist_client_4866e43f._.js",
+      "static/chunks/50ead_next_dist_82978165._.js",
+      "static/chunks/50ead_@swc_helpers_cjs_e78962d1._.js",
+      "static/chunks/giftpicker_a0ff3932._.js",
+      "static/chunks/turbopack-giftpicker_70dc1dda._.js"
+    ]
+  }
+}

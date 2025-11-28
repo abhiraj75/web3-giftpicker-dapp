@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"file":"turbopack:///[project]/giftpicker/node_modules/viem/_esm/chains/index.js","sourceRoot":"","sources":["../../chains/index.ts"],"sourcesContent":[],"names":[],"mappings":"AACA,gEAAgE","debugId":null}}]
+}
